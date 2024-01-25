@@ -27,6 +27,21 @@
         section {
             margin-top: 20px;
         }
+        .person {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .person img {
+            /* width: 100%; */
+            max-height: 200px;
+            object-fit: cover; /* Make sure the whole image is visible without stretching */
+            margin-bottom: 10px;
+        }
+        .person p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -43,15 +58,44 @@
         <a href="./shelter_all_adopters.html">Potential Adopters</a>
     </nav>
 
-    <section id="dashboard">
-        <h2>Dashboard Overview</h2>
+    <section id="all_people">
+        <h2>All Your Potential Adopters</h2>
         <!-- Add content for the dashboard overview -->
-        <ul>
-            <li>Shelter Profile</li>
-            <li>Add New Pet Profile</li>
-            <li>All Pet Profiles</li>
-            <li>Potential Adopters</li>
-        </ul>
+        <!-- need photo, name, breed, animal type, gender,fixed/notfixed availability -->
+        <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
+
+         <!-- Probably make a for loop with Flask and Database -->
+        <!-- person Example 1 -->
+         <div class="person">
+            <img src="./samples/mr_beast.jpeg" alt="person 1">
+            <p><strong>Name:</strong> Mr. Beast</p>
+            <p><strong>Interested In:</strong> None</p>
+            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+            <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
+        </div>
+
+        <!-- person Example 2 -->
+        <div class="person">
+            <img src="./samples/donald_trump.jpg" alt="person 2">
+            <p><strong>Name:</strong> Donald Trump</p>
+            <p><strong>Interested In:</strong> Whiskers</p>
+            <p><strong>Breed:</strong> Siamese</p>
+            <p><strong>Animal Type:</strong> Cat</p>
+            <p><strong>Gender:</strong> Female</p>
+            <p><strong>Preference:</strong> Not Fixed</p>
+            <p><strong>Availability:</strong> Pending</p>
+            <p><strong>Disposition:</strong> Good with children</p>
+            <p><strong>View:</strong> Private</p>
+        </div>
+
+        <!-- person Example 3 -->
+        <div class="person">
+            <img src="./samples/taylor_swift.jpg" alt="person 3">
+            <p><strong>Name:</strong> Talor Swift</p>
+            <p><strong>Interested In:</strong> Rocky</p>
+            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+            <p><strong>Disposition:</strong> Animal must be leashed at all times</p>
+        </div>
         
     </section>
 
