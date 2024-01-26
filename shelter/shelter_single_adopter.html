@@ -31,6 +31,20 @@
             width: auto;
             height: 50vh;
         }
+        .person button {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .message-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .not-interested-button {
+            background-color: #FF0000;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -57,9 +71,21 @@
             <p><strong>Interested In:</strong> None</p>
             <p><strong>Preference:</strong> Dog, Male, Fixed</p>
             <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
+            <button class="message-button" onclick="sendMessage()">Message</button>
+            <button class="not-interested-button" onclick="notInterested()">Not Interested</button>
         </div>
-        
     </section>
 
+    <script>
+        function sendMessage() {
+            // Add logic for sending a message
+            alert("Sending a message!");
+        }
+
+        function notInterested() {
+            // Add logic for marking as not interested
+            alert("Marked as Not Interested");
+        }
+    </script>
 </body>
 </html>
