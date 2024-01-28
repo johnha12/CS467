@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+
+    <title>Browse and Swipe Page</title>
+
+    <!-- Temporary styling for webpage -->
+    <style>
+        head {
+            background-color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        body {
+            background-color: #c7c4c4;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            
+        }
+
+        img {
+            max-width: auto;
+            height: auto;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: auto;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            margin: 10px;
+            cursor: pointer;
+
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #popout {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        #Pass {
+            background-color: red;
+            color: white;
+        }
+
+        #Love {
+            background-color: green;
+            color: white;
+        }
+
+        #Info {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Love or Pass to find you new best friend</h1>
+
+    <h2>
+        <label for="filterInput">Filter Pets:</label>
+        <select id="filterInput">
+            <option value="dog">Dogs</option>
+            <option value="cat">Cats</option>
+            <option value="other">Other</option>
+        </select>
+    </h2>
+
+    <img id="image"
+        src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
+    
+    <form action="/openWindow" method="post">
+        <button id="Info" type="submit">More Info</button>
+    </form>
+    
+    <div class="modal" id = "popout">
+        <div class = "modal-inner">
+            <h1>Pet Info is here</h1>
+            <p>This is info about the pet.</p>
+            <button id="closeWindow">Close Window</button>
+        </div>
+    </div>
+
+    <div class="button-container">
+        
+        <form action="{{ url_for('passPet') }}"" method="post">
+            <button type= "submit" id="Pass">Pass</button>
+        </form>
+        <form action="{{ url_for('lovePet') }}"" method="post">
+            <button type= "submit" id="Love">Love</button>
+        </form>
+        
+    </div>
+
+
+
+</body>
+
+</html>
