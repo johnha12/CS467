@@ -1,0 +1,58 @@
+{% extends "simple_layout.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+{% block header %} {{ header }} {% endblock header %}
+
+{% block content %}
+<form action="" method ="post"> 
+    {{ form.csrf_token }}
+    <div> 
+        {{ form.firstName.label }} <br />
+        {{ form.firstName(size=30) }}
+    </div>
+    <div> 
+        {{ form.lastName.label }} <br />
+        {{ form.lastName(size=30) }}
+    </div>
+    <div> 
+        {{ form.email.label }} <br />
+        {{ form.email(size=30) }}
+    </div>
+    <div> 
+        {{ form.phone.label }} <br />
+        {{ form.phone(size=30) }}
+    </div>
+    <div> 
+        {{ form.housingType.label }} <br />
+        {{ form.housingType }}
+    </div>
+    <div> 
+        {{ form.pets.label }} <br />
+        {{ form.pets }}
+    </div>
+    <div> 
+        {{ form.kids.label }} <br />
+        {{ form.kids }}
+    </div>
+    <div> 
+        {{ form.insurance.label }} <br />
+        {{ form.insurance }}
+    </div>
+    <div> 
+        {{ form.petHistory.label }} <br />
+        {{ form.petHistory }}
+    </div>
+    <div> 
+        {{ form.goalPet.label }} <br />
+        {{ form.goalPet }}
+    </div>
+    <div> 
+        {{ form.income.label }} <br />
+        {{ form.income(size=30) }}
+    </div>
+    <div> 
+        {{ form.submit() }} 
+    </div>
+</form>
+
+{% endblock content %}

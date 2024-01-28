@@ -1,0 +1,16 @@
+{% extends "simple_layout.html" %}
+
+{% block title %} {{title}} {% endblock title %}
+{% block header %} {{header}} {% endblock header %}
+
+{% block content %}
+<p> hello 
+    {{result["firstName"]}}
+</p>
+
+<p> 
+    You are looking for: 
+    {{result["goalPet"]}}
+</p>
+
+{% endblock content %}
