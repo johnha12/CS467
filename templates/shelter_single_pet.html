@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        section {
+            margin-top: 20px;
+        }
+        .pet img {
+            width: auto;
+            height: 50vh;
+        }
+        .pet input,
+        .pet select {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            /* display: inline-block; */
+        }
+        .pet button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            /* display: inline-block; */
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .checkbox-group label {
+            flex: 0 0 50%; /* 50% width for each checkbox */
+            margin-bottom: 8px;
+            /* display: inline-block; */
+            width: 50vh;
+        }
+        .checkbox-group {
+            margin-bottom: 16px;
+            width: 50vh;
+        }
+        .checkbox-group input {
+            vertical-align: middle;
+            display: inline-block;
+            width: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shelter Name</h1>
+        <p>Welcome to Your Pet Adoption Page</p>
+    </header>
+
+    <nav>
+        <a href="./shelter.html">Dashboard</a>
+        <a href="./shelter_profile.html">Shelter Profile</a>
+        <a href="./shelter_add_pet.html">Add New Pet Profile</a>
+        <a href="./shelter_all_pets.html">All Pet Profiles</a>
+        <a href="./shelter_all_adopters.html">Potential Adopters</a>
+    </nav>
+
+    <!-- I don't remember if using <br>'s is good practice' -->
+
+    <section id="pet_profile">
+        <h2>[Name of Pet]'s Profile!</h2>
+        <div class="pet">
+            <img src="./samples/Belle1.jpg" alt="Pet 1">
+            <br>
+            
+            <label for="petName">Name:</label>
+            <br>
+            <input type="text" id="petName" name="petName" value="Sparky">
+
+            <br>
+            <label for="breed">Breed:</label>
+            <br>
+            <input type="text" id="breed" name="breed" value="Labrador Retriever">
+
+            <br>
+            <label for="animalType">Animal Type:</label>
+            <br>
+            <select id="animalType" name="animalType">
+                <option value="dog" selected>Dog</option>
+                <option value="cat">Cat</option>
+                <option value="other">Other</option>
+            </select>
+
+            <br>
+            <label for="gender">Gender:</label>
+            <br>
+            <select id="gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <br>
+            <label for="fixed">Fixed/Not Fixed:</label>
+            <br>
+            <select id="fixed" name="fixed">
+                <option value="fixed">Fixed</option>
+                <option value="not_fixed">Not Fixed</option>
+            </select>
+
+            <br>
+            <label for="availability">Availability:</label>
+            <br>
+            <select id="availability" name="availability">
+                <option value="not_available">Not Available</option>
+                <option value="available">Available</option>
+                <option value="pending">Pending</option>
+                <option value="adopted">Adopted</option>
+            </select>
+
+            <br>
+            <label>Disposition:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="goodWithOtherAnimals" value="Good with other animals">Good with other animals</label>
+                <label><input type="checkbox" name="goodWithChildren" value="Good with children">Good with children</label>
+                <label><input type="checkbox" name="leashedAtAllTimes" value="Animal must be leashed at all times">Animal must be leashed at all times</label>
+            </div>
+
+            <label for="view">View:</label>
+            <br>
+            <select id="view" name="view">
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select>
+
+            <button type="submit">Save Changes</button>
+        </div>
+    </section>
+</body>
+</html>

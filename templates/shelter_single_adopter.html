@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        section {
+            margin-top: 20px;
+        }
+        .person img {
+            width: auto;
+            height: 50vh;
+        }
+        .person button {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .message-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .not-interested-button {
+            background-color: #FF0000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shelter Name</h1>
+        <p>Welcome to Your Pet Adoption Page</p>
+    </header>
+
+    <nav>
+        <a href="./shelter.html">Dashboard</a>
+        <a href="./shelter_profile.html">Shelter Profile</a>
+        <a href="./shelter_add_pet.html">Add New Pet Profile</a>
+        <a href="./shelter_all_pets.html">All Pet Profiles</a> <!--  Need to make viewable or not-->
+        <a href="./shelter_all_adopters.html">Potential Adopters</a>
+    </nav>
+
+    <section id="adopter">
+        <h2>[Name of Adopter]</h2>
+        <div class="person">
+            <a href="./shelter_single_adopter.html">
+                <img src="./samples/mr_beast.jpeg" alt="person 1">
+            </a>
+            <p><strong>Name:</strong> Mr. Beast</p>
+            <p><strong>Interested In:</strong> None</p>
+            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+            <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
+            <button class="message-button" onclick="sendMessage()">Message</button>
+            <button class="not-interested-button" onclick="notInterested()">Not Interested</button>
+        </div>
+    </section>
+
+    <script>
+        function sendMessage() {
+            // Add logic for sending a message
+            alert("Sending a message!");
+        }
+
+        function notInterested() {
+            // Add logic for marking as not interested
+            alert("Marked as Not Interested");
+        }
+    </script>
+</body>
+</html>

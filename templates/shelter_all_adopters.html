@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        section {
+            margin-top: 20px;
+        }
+        .person {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .person img {
+            /* width: 100%; */
+            max-height: 200px;
+            object-fit: cover; /* Make sure the whole image is visible without stretching */
+            margin-bottom: 10px;
+        }
+        .person p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shelter Name</h1>
+        <p>Welcome to Your Pet Adoption Page</p>
+    </header>
+
+    <nav>
+        <a href="./shelter.html">Dashboard</a>
+        <a href="./shelter_profile.html">Shelter Profile</a>
+        <a href="./shelter_add_pet.html">Add New Pet Profile</a>
+        <a href="./shelter_all_pets.html">All Pet Profiles</a> <!--  Need to make viewable or not-->
+        <a href="./shelter_all_adopters.html">Potential Adopters</a>
+    </nav>
+
+    <section id="all_people">
+        <h2>All Your Potential Adopters</h2>
+        <!-- Add content for the dashboard overview -->
+        <!-- need photo, name, breed, animal type, gender,fixed/notfixed availability -->
+        <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
+
+         <!-- Probably make a for loop with Flask and Database -->
+        <!-- person Example 1 -->
+         <div class="person">
+            <a href="./shelter_single_adopter.html">
+                <img src="./samples/mr_beast.jpeg" alt="person 1">
+            </a>
+            <p><strong>Name:</strong> Mr. Beast</p>
+            <p><strong>Interested In:</strong> None</p>
+            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+            <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
+        </div>
+
+        <!-- person Example 2 -->
+        <div class="person">
+            <a href="./shelter_single_adopter.html">
+                <img src="./samples/donald_trump.jpg" alt="person 2">
+            </a>
+            <p><strong>Name:</strong> Donald Trump</p>
+            <p><strong>Interested In:</strong> Whiskers</p>
+            <p><strong>Preference:</strong> Not Fixed</p>
+            <p><strong>Disposition:</strong> Good with children</p>
+        </div>
+
+        <!-- person Example 3 -->
+        <div class="person">
+            <a href="./shelter_single_adopter.html">
+                <img src="./samples/taylor_swift.jpg" alt="person 3">
+            </a>
+            <p><strong>Name:</strong> Talor Swift</p>
+            <p><strong>Interested In:</strong> Rocky</p>
+            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+            <p><strong>Disposition:</strong> Animal must be leashed at all times</p>
+        </div>
+        
+    </section>
+
+</body>
+</html>

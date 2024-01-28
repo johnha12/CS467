@@ -1,0 +1,30 @@
+.login-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+.form {
+position: relative;
+z-index: 1;
+background: #FFFFFF;
+max-width: 360px;
+margin: 0 auto 100px;
+padding: 45px;
+text-align: center;
+}
+
+header.masthead {
+padding-top: 10.5rem;
+padding-bottom: 6rem;
+text-align: center;
+color: #000000;
+background-repeat: no-repeat;
+background-attachment: scroll;
+background-position: center center;
+background-size: cover;
+}
+
+.carousel-inner {
+padding-top: 10.5rem;
+padding-bottom: 6rem;
+}
