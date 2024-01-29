@@ -23,6 +23,34 @@ def welcome():
 def shelter_add_pet():
     return render_template('shelter_add_pet.html')
 
+@app.route('/shelter_all_adopters')
+def shelter_all_adopters():
+    return render_template('shelter_all_adopters.html')
+
+@app.route('/shelter_all_pets')
+def shelter_all_pets():
+    return render_template('shelter_all_pets.html')
+
+@app.route('/shelter_profile')
+def shelter_profile():
+    return render_template('shelter_profile.html')
+
+@app.route('/shelter_signup')
+def shelter_signup():
+    return render_template('shelter_signup.html')
+
+@app.route('/shelter_single_adopter')
+def shelter_single_adopter():
+    return render_template('shelter_single_adopter.html')
+
+@app.route('/shelter_single_pet')
+def shelter_single_pet():
+    return render_template('shelter_single_pet.html')
+
+@app.route('/shelter')
+def shelter():
+    return render_template('shelter.html')
+
 @app.route('/likeDislike')
 def swipe():
     return render_template('likeDislike.html')
