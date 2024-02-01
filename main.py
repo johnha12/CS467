@@ -31,9 +31,18 @@ def shelter_all_adopters():
 def shelter_all_pets():
     return render_template('shelter_all_pets.html')
 
+# Hardcoded shelter information
+shelter_info = {
+    'name': 'Your Shelter Name',
+    'description': 'Description of your shelter',
+    # Need to figure out how to add photos
+    'address': 'Address of your shelter',
+    'link': 'some link',
+}
+
 @app.route('/shelter_profile')
 def shelter_profile():
-    return render_template('shelter_profile.html')
+    return render_template('shelter_profile.html', shelter_info=shelter_info)
 
 @app.route('/shelter_signup')
 def shelter_signup():
