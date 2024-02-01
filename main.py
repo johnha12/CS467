@@ -40,7 +40,7 @@ shelter_info = {
     'link': 'some link',
 }
 
-@app.route('/shelter_profile')
+@app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
     return render_template('shelter_profile.html', shelter_info=shelter_info)
 
