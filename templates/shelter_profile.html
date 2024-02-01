@@ -27,11 +27,23 @@
         section {
             margin-top: 20px;
         }
+        .edit_btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .edit_link {
+        color: white;
+        text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>shelter_info.name</h1>
+        <h1>Shelter Name</h1>
         <p>Welcome to Your Pet Adoption Page</p>
     </header>
 
@@ -46,17 +58,18 @@
     <section id="shelter_profile">
         <h2>Your profile</h2>
         <p>Click on any of the following to make an edit</p>
-        <!-- Add content for the dashboard overview -->
-        <h3><a href = "#">Name</a></h3>
+        <!-- Content of page -->
+        <h3>Name</h3>
         <p>{{ shelter_info.name }}</p>
-        <h3><a href = "#">About</a></h3>
+        <h3>About</h3>
         <p>{{ shelter_info.description }}</p>
-        <h3><a href = "#">Pictures</a></h3>
+        <h3>Pictures</h3>
         <p>Current photos (NOT IMPLEMENTED YET)</p>
-        <h3><a href = "#">Address</a></h3>
+        <h3>Address</h3>
         <p>{{ shelter_info.address }}</p>
-        <h3><a href = "#">Other/Website link</a></h3>
-        <a href = "#">{{ shelter_info.link }}</a>
+        <h3>Other/Website link</h3>
+        <p><a href="{{ shelter_info.link }}">{{ shelter_info.link }}</a></p>
+        <button class="edit_btn"><a class="edit_link" href="/edit_shelter_profile">Edit Profile Information</a></button>
     </section>
 
 </body>
