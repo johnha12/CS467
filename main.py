@@ -44,6 +44,11 @@ shelter_info = {
 def shelter_profile():
     return render_template('shelter_profile.html', shelter_info=shelter_info)
 
+@app.route('/shelter_profile_edit')
+def shelter_profile_edit():
+    # Only accessible from shelter profile button
+    return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
+
 @app.route('/shelter_signup')
 def shelter_signup():
     return render_template('shelter_signup.html')
