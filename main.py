@@ -47,7 +47,17 @@ def shelter_profile():
 @app.route('/shelter_profile_edit')
 def shelter_profile_edit():
     # Only accessible from shelter profile button
-    return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
+    if request.method == 'GET':
+        return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
+    elif request.method == 'POST':
+        new_name = request.form['new_name']
+        new_description = request.form['new_description']
+        new_address = request.form['new_address']
+        new_link = request.form['new_link']
+        
+        # Now need to process data and redirect
+
+        return redirect('shelter_profile.html')
 
 @app.route('/shelter_signup')
 def shelter_signup():
