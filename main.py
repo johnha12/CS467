@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 
 
 app = Flask(__name__)
@@ -23,6 +23,25 @@ def welcome():
 def shelter_add_pet():
     return render_template('shelter_add_pet.html')
 
+# Adding pet function
+@app.route('/add_pet', methods=['POST'])
+def add_pet():
+    if request.method == 'POST':
+        # Retrieve form data
+        pet_name = request.form['petName']
+        breed = request.form['breed']
+        animal_type = request.form['animalType']
+        gender = request.form['gender']
+        fixed = request.form['fixed']
+        availability = request.form['availability']
+        good_with_other_animals = request.form.get('goodWithOtherAnimals', False)
+        good_with_children = request.form.get('goodWithChildren', False)
+        animal_must_be_leashed = request.form.get('animalMustBeLeashedAtAllTimes', False)
+        # Process the form data (you can perform database operations here)
+
+        # Redirect to a different page after processing the form data
+        return redirect('/shelter_add_pet')
+
 @app.route('/shelter_all_adopters')
 def shelter_all_adopters():
     return render_template('shelter_all_adopters.html')
@@ -31,7 +50,7 @@ def shelter_all_adopters():
 def shelter_all_pets():
     return render_template('shelter_all_pets.html')
 
-# Hardcoded shelter information
+# Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
 shelter_info = {
     'name': 'Your Shelter Name',
     'description': 'Description of your shelter',
@@ -44,7 +63,7 @@ shelter_info = {
 def shelter_profile():
     return render_template('shelter_profile.html', shelter_info=shelter_info)
 
-@app.route('/shelter_profile_edit')
+@app.route('/shelter_profile_edit', methods=['GET', 'POST'])
 def shelter_profile_edit():
     # Only accessible from shelter profile button
     if request.method == 'GET':
@@ -54,10 +73,20 @@ def shelter_profile_edit():
         new_description = request.form['new_description']
         new_address = request.form['new_address']
         new_link = request.form['new_link']
+
+        # Hard coded for now.
+        if shelter_info['name'] != '':
+            shelter_info['name'] = new_name
+        if shelter_info['description'] != '':
+            shelter_info['description'] = new_description
+        if shelter_info['address'] != '':
+            shelter_info['address'] = new_address
+        if shelter_info['link'] != '':
+            shelter_info['link'] = new_link
         
         # Now need to process data and redirect
 
-        return redirect('shelter_profile.html')
+        return redirect('shelter_profile')
 
 @app.route('/shelter_signup')
 def shelter_signup():
