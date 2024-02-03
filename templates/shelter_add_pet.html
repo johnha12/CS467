@@ -77,9 +77,9 @@
         <a href="./shelter_all_adopters">Potential Adopters</a>
     </nav>
 
-    <section id="dashboard">
+    <section id="new_pet">
         <h2>Add New Pet</h2>
-        <form>
+        <form action="add_pet" method="post" onsubmit="return showConfirmation()">
             <label for="petName">Pet Name:</label>
             <input type="text" id="petName" name="petName" required>
 
@@ -113,7 +113,6 @@
                 <option value="adopted">Adopted</option>
             </select>
 
-            <!-- Need to incorporate checkboxes -->
             <!-- Checkbox Group -->
             <div class="checkbox-group">
                 <input type="checkbox" id="goodWithOtherAnimals" name="goodWithOtherAnimals" value="Good with other animals">
@@ -139,6 +138,17 @@
 
             <button type="submit">Add Pet</button>
         </form>
+
+        <script>
+            function showConfirmation() {
+                // Get the value of the pet's name input field
+                var petName = document.getElementById('petName').value;
+                // Show an alert with the pet's name
+                alert('Pet added: ' + petName);
+                // Prevent the form from submitting
+                return true;
+            }
+        </script>
         
     </section>
 
