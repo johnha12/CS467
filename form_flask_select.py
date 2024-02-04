@@ -1,14 +1,18 @@
 from flask_wtf import FlaskForm
 
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, PasswordField, ValidationError
+from wtforms.validators import InputRequired, Length, EqualTo
 
 class simpleForm(FlaskForm):
-    firstName=StringField("First Name")
-    lastName=StringField("Last Name")
-    email=StringField("Email Adress")
-    phone=StringField("Phone Number")
+    firstName=StringField("First Name", validators=[InputRequired(), Length(min=2, max=30)])
+    lastName=StringField("Last Name", validators=[InputRequired(), Length(min=2, max=30)])
+    email=StringField("Email Adress", validators=[InputRequired(), Length(min=5, max=30)])
+    phone=StringField("Phone Number", validators=[InputRequired(), Length(min=10, max=12)])
 
-    #first select field
+    password= PasswordField("Account Password (Must be 6-16 characters)", validators=[InputRequired(), Length(min=6, max=16)])
+    checkPassword = PasswordField("Confirm password", validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
+    #Password validation error message still not displaying with password mismatch
+
     housingType = SelectField(u'Type of house', 
         choices=[('apartment', 'Apartment or Condo'), ('smallYard', 'Home with small yard'), ('largeYard', 'Home with large yard')])
     
@@ -29,5 +33,14 @@ class simpleForm(FlaskForm):
 
     income = StringField("OPTIONAL Income")
 
-    submit = SubmitField("Enter")
+    submit = SubmitField("Create Account")
+
+
+
+class loginForm(FlaskForm):
+    email=StringField("Email Adress", validators=[InputRequired(), Length(min=5, max=30)])
+    
+    password= PasswordField("Password", validators=[InputRequired(), Length(min=6, max=16)])
+    
+    submit = SubmitField("Login to Account")
 
