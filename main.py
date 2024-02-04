@@ -46,9 +46,46 @@ def add_pet():
 def shelter_all_adopters():
     return render_template('shelter_all_adopters.html')
 
+# Hardcoded variables for now
+pets = [
+    {
+        'name': 'Sparky',
+        'breed': 'Labrador Retriever',
+        'animal_type': 'Dog',
+        'gender': 'Male',
+        'fixed_status': 'Fixed',
+        'availability': 'Available',
+        'disposition': 'Good with other animals, Good with children',
+        'view_status': 'Public',
+        'image': 'Belle1.jpg'  # Assuming this is the filename of the pet image
+    },
+    {
+        'name': 'Whiskers',
+        'breed': 'Siamese',
+        'animal_type': 'Cat',
+        'gender': 'Female',
+        'fixed_status': 'Not Fixed',
+        'availability': 'Pending',
+        'disposition': 'Good with children',
+        'view_status': 'Private',
+        'image': 'Belle2.jpg'  # Assuming this is the filename of the pet image
+    },
+    {
+        'name': 'Rocky',
+        'breed': 'Mixed Breed',
+        'animal_type': 'Dog',
+        'gender': 'Male',
+        'fixed_status': 'Fixed',
+        'availability': 'Adopted',
+        'disposition': 'Animal must be leashed at all times',
+        'view_status': 'Public',
+        'image': 'Belle3.jpg'  # Assuming this is the filename of the pet image
+    }
+]
+
 @app.route('/shelter_all_pets')
 def shelter_all_pets():
-    return render_template('shelter_all_pets.html')
+    return render_template('shelter_all_pets.html', pets=pets)
 
 # Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
 shelter_info = {
@@ -74,14 +111,14 @@ def shelter_profile_edit():
         new_address = request.form['new_address']
         new_link = request.form['new_link']
 
-        # Hard coded for now.
-        if shelter_info['name'] != '':
+        # Check if the form fields are not empty before updating shelter_info
+        if new_name:
             shelter_info['name'] = new_name
-        if shelter_info['description'] != '':
+        if new_description:
             shelter_info['description'] = new_description
-        if shelter_info['address'] != '':
+        if new_address:
             shelter_info['address'] = new_address
-        if shelter_info['link'] != '':
+        if new_link:
             shelter_info['link'] = new_link
         
         # Now need to process data and redirect
