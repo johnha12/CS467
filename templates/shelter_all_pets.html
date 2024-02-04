@@ -65,50 +65,24 @@
         <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
 
          <!-- Probably make a for loop with Flask and Database -->
-        <!-- Pet Example 1 -->
-         <div class="pet">
-            <a href="./shelter_single_pet">
-                <img src="../static/img/Belle1.jpg" alt="Pet 1">
-            </a>            
-            <p><strong>Name:</strong> Sparky</p>
-            <p><strong>Breed:</strong> Labrador Retriever</p>
-            <p><strong>Animal Type:</strong> Dog</p>
-            <p><strong>Gender:</strong> Male</p>
-            <p><strong>Fixed/Not Fixed:</strong> Fixed</p>
-            <p><strong>Availability:</strong> Available</p>
-            <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
-            <p><strong>View:</strong> Public</p>
-        </div>
-
-        <!-- Pet Example 2 -->
+        <!-- Begin populating pets -->
+        
+        {% for pet in pets %}
         <div class="pet">
             <a href="./shelter_single_pet">
-                <img src="../static/img/Belle2.jpg" alt="Pet 2">
+                <img src="../static/img/{{ pet.image }}" alt="{{ pet.name }}">
             </a>
-            <p><strong>Name:</strong> Whiskers</p>
-            <p><strong>Breed:</strong> Siamese</p>
-            <p><strong>Animal Type:</strong> Cat</p>
-            <p><strong>Gender:</strong> Female</p>
-            <p><strong>Fixed/Not Fixed:</strong> Not Fixed</p>
-            <p><strong>Availability:</strong> Pending</p>
-            <p><strong>Disposition:</strong> Good with children</p>
-            <p><strong>View:</strong> Private</p>
+            <p><strong>Name:</strong> {{ pet.name }}</p>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Animal Type:</strong> {{ pet.animal_type }}</p>
+            <p><strong>Gender:</strong> {{ pet.gender }}</p>
+            <p><strong>Fixed/Not Fixed:</strong> {{ pet.fixed_status }}</p>
+            <p><strong>Availability:</strong> {{ pet.availability }}</p>
+            <p><strong>Disposition:</strong> {{ pet.disposition }}</p>
+            <p><strong>View:</strong> {{ pet.view_status }}</p>
         </div>
-
-        <!-- Pet Example 3 -->
-        <div class="pet">
-            <a href="./shelter_single_pet">
-                <img src="../static/img/Belle3.jpg" alt="Pet 3">
-            </a>
-            <p><strong>Name:</strong> Rocky</p>
-            <p><strong>Breed:</strong> Mixed Breed</p>
-            <p><strong>Animal Type:</strong> Dog</p>
-            <p><strong>Gender:</strong> Male</p>
-            <p><strong>Fixed/Not Fixed:</strong> Fixed</p>
-            <p><strong>Availability:</strong> Adopted</p>
-            <p><strong>Disposition:</strong> Animal must be leashed at all times</p>
-            <p><strong>View:</strong> Public</p>
-        </div>
+        {% endfor %}
+        
         
     </section>
 
