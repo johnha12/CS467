@@ -5,24 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="login-page">
         <div class="form">
-          <form class="register-form">
+          <form class="register-form" id="register-form">
             <input type="text" placeholder="name"/>
             <input type="password" placeholder="password"/>
             <input type="text" placeholder="email address"/>
             <button>create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
           </form>
+
           <form class="login-form">
             <input type="text" placeholder="username"/>
             <input type="password" placeholder="password"/>
             <button>login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <p class="message">Not registered? <a id="create-account" href="#">Create an account</a></p>
           </form>
         </div>
       </div>
+
+      <video autoplay muted loop id="myVideo">
+        <source src="/static/vid/bg dog vid.mp4" type="video/mp4">
+      </video>
+
+      <script>
+        $('.message a').click(function(){
+          $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
+        });
+      </script>
 </body>
 </html>
