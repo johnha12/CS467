@@ -3,13 +3,19 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-# Images list for current swipe functionality - Evan Riffle
-images = ['pet-01.jpg',
-          'pet-02.jpg',
-          'pet-03.jpg'
-          ]
+# Pet Info list for current swipe functionality - Evan Riffle
+# Temporary for testing until database is set up
+pet_id = 0
 
-current_image_index = 0
+pet_type = 'all'
+
+pet_info = {'name': ['Gary', 'Jesus', 'Bark Johnson','Susan'],
+           'breed': ['Parakeet','Dog', 'Spaniel', 'Tabby'],
+           'age': ['1 year','2 years','4 years','10 years'],
+           'color': ['Blue','Orange','Brown','Brown'],
+           'image': ['pet-00.jpg','pet-01.jpg','pet-02.jpg','pet-03.jpg'],
+           'personality': ['Loud', 'Stinky', 'Lazy','Generally Disapproving'],
+           'type': ['other','dog','dog','cat']}
 
 @app.route('/')
 def home():
@@ -143,32 +149,29 @@ def shelter():
 
 @app.route('/likeDislike')
 def swipe():
-    return render_template('likeDislike.html')
-
-@app.route('/moreInfo')
-def more_info():
-    return render_template('moreInfo.html')
+    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
 
 # Love Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/lovePet', methods=['POST'])
 def lovePet():
-    global current_image_index
-
-    current_image_index = (current_image_index + 1) % len(images)
-    return render_template('likeDislike.html', image = images[current_image_index])
+    global pet_id
+    pet_id = (pet_id + 1) % len(pet_info['image'])
+    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
 
 # Pass Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/passPet', methods=['POST'])
 def passPet():
-    global current_image_index
+    global pet_id
+    pet_id = (pet_id + 1) % len(pet_info['image'])
+    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
 
-    current_image_index = (current_image_index + 1) % len(images)
-    return render_template('likeDislike.html', image = images[current_image_index])
-
-# Open window function for moreIno functionality - Evan Riffle
-@app.route('/openWindow', methods=['POST'])
-def openWindow():
-    return render_template('moreInfo.html')
+#Still having issues getting filter to work currently. Needs more work this next week.
+@app.route('/filter', methods=['POST'])
+def filter():
+    selected_pet_type = request.form.get('filterInput')
+    global pet_type
+    pet_type = selected_pet_type
+    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)

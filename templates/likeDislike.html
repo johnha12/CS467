@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    
+
     <meta charset="UTF-8">
     <meta name="viewport">
 
@@ -15,29 +17,75 @@
         header {
             text-align: center;
             padding: 20px;
-            background-color: #333;
+            background-color: #c7c7c4;
             color: #fff;
         }
+
+        .navbar ul {
+            list-style-type: none;
+            background-color: rgb(41, 41, 41);
+            overflow: hidden;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .navbar a {
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+        }
+
+        .navbar a:hover {
+            background-color: #646464;
+        }
+
+        .navbar li {
+            float: left;
+        }
+
         body {
             background-color: #c7c4c4;
             text-align: center;
+            align-items: center;
+            justify-content: center;
             font-family: 'Arial', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
             
         }
 
         img {
-            max-width: auto;
+            align-content: center;
+            max-width: 300px;
             height: auto;
             margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .pet-container {
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            align-content: center;
         }
 
         button {
+            display: inline-block;
+            text-align: center;
             padding: auto;
             width: 50px;
             height: 50px;
             text-align: center;
             margin: 10px;
             cursor: pointer;
+            
 
         }
         .button-container {
@@ -45,29 +93,23 @@
             justify-content: space-between;
         }
 
-        #popout {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 200px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-        }
 
         #Pass {
             background-color: red;
             color: white;
         }
 
+        #Pass :hover {
+            background-color: rgb(177, 89, 89);
+        }
+
         #Love {
             background-color: green;
             color: white;
+        }
+
+        #Love :hover {
+            background-color: lightgreen;
         }
 
         #Info {
@@ -77,40 +119,54 @@
     </style>
 </head>
 
+<header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="home.html">Browse</a></li>
+            <li><a href="home.html">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
     <h1>Love or Pass to find you new best friend</h1>
 
     <h2>
-        <label for="filterInput">Filter Pets:</label>
-        <select id="filterInput">
-            <option value="dog">Dogs</option>
-            <option value="cat">Cats</option>
-            <option value="other">Other</option>
-        </select>
+        <form action="/filter" method="post">
+            <label for="filterInput">Filter Pets:</label>
+            <select id="filterInput">
+                <option value="all">All Pets</option>
+                <option value="dog">Dogs</option>
+                <option value="cat">Cats</option>
+                <option value="other">Other</option>
+            </select>
+            <input type="submit" value = "Submit">
+        </form>
     </h2>
+    <div class="pet-container">
+        <img id="image"
+            src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
+    
+        <div id="petProfile">
+            <h2>{{ pet_info['name'][pet_id] }}</h2>
+            <p>Pet Breed: {{ pet_info['breed'][pet_id] }}</p>
+            <p>Age: {{ pet_info['age'][pet_id] }}</p>
+            <p>Color: {{ pet_info['color'][pet_id] }}</p>
+            <p>Personality: {{ pet_info['personality'][pet_id] }}</p>
 
-    <img id="image"
-        src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
-    
-    <form action="/openWindow" method="post">
-        <button id="Info" type="submit">More Info</button>
-    </form>
-    
-    <div class="modal" id = "popout">
-        <div class = "modal-inner">
-            <h1>Pet Info is here</h1>
-            <p>This is info about the pet.</p>
-            <button id="closeWindow">Close Window</button>
         </div>
     </div>
+
+    
 
     <div class="button-container">
         
         <form action="{{ url_for('passPet') }}"" method="post">
-            <button type= "submit" id="Pass">Pass</button>
+            <button type= "submit" class= "button" id="Pass">Pass</button>
         </form>
         <form action="{{ url_for('lovePet') }}"" method="post">
-            <button type= "submit" id="Love">Love</button>
+            <button type= "submit" class= "button" id="Love">Love</button>
         </form>
         
     </div>
