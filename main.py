@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect
-
+from form_flask_select import simpleForm
+from flask_wtf import Form
+#from wtforms.fields.html5 import URLField
+from wtforms.validators import InputRequired
 
 app = Flask(__name__)
 
@@ -20,6 +23,23 @@ pet_info = {'name': ['Gary', 'Jesus', 'Bark Johnson','Susan'],
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    # Check if the user exists and the password is correct
+    for user in users:
+        if user['email'] == email and user['password'] == password:
+            # Redirect based on the account type
+            if user['account_type'] == 'user':
+                return jsonify({'redirect_url': '/welcome'})  # Redirect to user dashboard
+            elif user['account_type'] == 'shelter':
+                return jsonify({'redirect_url': '/shelter'})  # Redirect to shelter dashboard
+
+    # If login fails, return an error message and the home page URL
+    return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
 
 @app.route('/welcome')
 def welcome():
@@ -172,6 +192,34 @@ def filter():
     global pet_type
     pet_type = selected_pet_type
     return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
+
+#   Secret key is needed for flask
+app.config["SECRET_KEY"]='why_a_dog?'
+# Define an empty list to store user information
+users = []
+users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
+
+@app.route('/simple_form', methods=['POST', 'GET'])
+def simple_form():
+
+    form = simpleForm()
+
+    if form.validate_on_submit() and request.method == 'POST':
+
+        # Can add that only take unquie email
+
+        # Extract email and password from the form submission
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Append the email and password to the users list
+        users.append({'email': email, 'password': password, 'account_type': 'user'})
+        
+        # Redirect to a success page or display a success message
+        result = request.form
+        return render_template('simple_form_select_handler.html', title="Simple Form Handler", header="Simple Form Handler", result=result, users = users)
+
+    return render_template('simple_form_select.html', title = "Simple Form", header="Simple New User Form", form=form)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
