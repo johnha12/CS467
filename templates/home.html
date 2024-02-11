@@ -9,21 +9,27 @@
 </head>
 <body>
     <div class="login-page">
+        <!-- I made changes below -->
         <div class="form">
-          <form class="register-form" id="register-form">
-            <input type="text" placeholder="name"/>
+          <form class="register-form" id="register-form">Account Type
+            <!-- <input type="text" placeholder="name"/>
             <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <button>create</button>
+            <input type="text" placeholder="email address"/> -->
+            <select id="account-type">
+              <option value="user">User</option>
+              <option value="shelter">Shelter</option>
+            </select>
+            <button id="create-btn">Create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
           </form>
 
-          <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button>login</button>
+          <form class="login-form" id="login-form" method="POST" action="/login">
+            <input type="text" name="email" id="email" placeholder="Email"/>
+            <input type="password" name="password" id="password" placeholder="Password"/>
+            <button type="submit">Login</button>
             <p class="message">Not registered? <a id="create-account" href="#">Create an account</a></p>
           </form>
+        
         </div>
       </div>
 
@@ -35,6 +41,37 @@
         $('.message a').click(function(){
           $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
         });
+
+
+        // Add an event listener to the create button
+        $('#create-btn').click(function(event) {
+          event.preventDefault(); // Prevent default form submission
+          
+          // Get the selected value from the dropdown
+          var accountType = $('#account-type').val();
+
+          // Redirect based on the selected value
+          if (accountType === 'user') {
+            window.location.href = '/simple_form';
+          } else if (accountType === 'shelter') {
+            window.location.href = '/shelter_registration_page'; // Replace with your actual shelter registration page URL
+          }
+        });
+
+        $('#login-form').submit(function(event) {
+          event.preventDefault(); // Prevent default form submission
+          
+          // Get the email and password values
+          var email = $('#email').val();
+          var password = $('#password').val();
+
+          // Send the data to the server for authentication
+          $.post('/login', {email: email, password: password}, function(response) {
+            // Redirect based on the server response
+            window.location.href = response.redirect_url; // Assuming the server sends back a redirect URL
+          });
+        });
+
       </script>
 </body>
 </html>
