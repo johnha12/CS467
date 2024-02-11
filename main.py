@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify
+import database
 
 from form_flask_select import simpleForm
 from flask_wtf import Form
@@ -9,17 +10,14 @@ app = Flask(__name__)
 
 # Pet Info list for current swipe functionality - Evan Riffle
 # Temporary for testing until database is set up
+connection = database.connect()
+database.create_tables(connection)
+
 pet_id = 0
 
 pet_type = 'all'
 
-pet_info = {'name': ['Gary', 'Jesus', 'Bark Johnson','Susan'],
-           'breed': ['Parakeet','Dog', 'Spaniel', 'Tabby'],
-           'age': ['1 year','2 years','4 years','10 years'],
-           'color': ['Blue','Orange','Brown','Brown'],
-           'image': ['pet-00.jpg','pet-01.jpg','pet-02.jpg','pet-03.jpg'],
-           'personality': ['Loud', 'Stinky', 'Lazy','Generally Disapproving'],
-           'type': ['other','dog','dog','cat']}
+pet_info = database.get_all_pets(connection)
 
 @app.route('/')
 def home():
@@ -170,21 +168,21 @@ def shelter():
 
 @app.route('/likeDislike')
 def swipe():
-    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
+    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
 
 # Love Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/lovePet', methods=['POST'])
 def lovePet():
     global pet_id
-    pet_id = (pet_id + 1) % len(pet_info['image'])
-    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
+    pet_id = (pet_id + 1) % len(pet_info)
+    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
 
 # Pass Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/passPet', methods=['POST'])
 def passPet():
     global pet_id
-    pet_id = (pet_id + 1) % len(pet_info['image'])
-    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
+    pet_id = (pet_id + 1) % len(pet_info)
+    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
 
 #Still having issues getting filter to work currently. Needs more work this next week.
 @app.route('/filter', methods=['POST'])
@@ -192,7 +190,7 @@ def filter():
     selected_pet_type = request.form.get('filterInput')
     global pet_type
     pet_type = selected_pet_type
-    return render_template('likeDislike.html', image = pet_info['image'][pet_id], pet_info = pet_info, pet_id = pet_id)
+    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
 
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'

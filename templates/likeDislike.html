@@ -149,11 +149,11 @@
             src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
     
         <div id="petProfile">
-            <h2>{{ pet_info['name'][pet_id] }}</h2>
-            <p>Pet Breed: {{ pet_info['breed'][pet_id] }}</p>
-            <p>Age: {{ pet_info['age'][pet_id] }}</p>
-            <p>Color: {{ pet_info['color'][pet_id] }}</p>
-            <p>Personality: {{ pet_info['personality'][pet_id] }}</p>
+            <h2>{{ pet_info[pet_id][2] }}</h2>
+            <p>Pet Breed: {{ pet_info[pet_id][3] }}</p>
+            <p>Age: {{ pet_info[pet_id][8] }}</p>
+            <p>Color: {{ pet_info[pet_id][5] }}</p>
+            <p>Personality: {{ pet_info[pet_id][6] }}</p>
 
         </div>
     </div>
