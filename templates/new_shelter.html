@@ -1,0 +1,80 @@
+{% extends "simple_layout.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+{% block header %} {{ header }} {% endblock header %}
+
+{% block content %}
+<form action="" method ="post"> 
+    {{ form.csrf_token }}
+    <div> 
+        {{ form.shelter_name.label }} <br />
+        {%if form.shelter_name.errors%}
+        {{form.shelter_name(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.shelter_name.errors%}
+                <span>error</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_name(class="form-control form-control-lg")}}
+        {%endif%}
+    </div>
+    <div> 
+        {{ form.shelter_address.label }} <br />
+        {%if form.shelter_address.errors%}
+        {{form.shelter_address(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.shelter_address.errors%}
+                <span>error</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_address(class="form-control form-control-lg")}}
+        {%endif%}
+    <div> 
+        {{ form.shelter_email.label }} <br />
+        {%if form.shelter_email.errors%}
+        {{form.shelter_email(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.shelter_email.errors%}
+                <span>You must enter an email address (@)</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_name(class="form-control form-control-lg")}}
+        {%endif%}
+    </div>
+    <div> 
+        {{ form.shelter_phone.label }} <br />
+        {%if form.shelter_phone.errors%}
+        {{form.shelter_phone(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.shelter_phone.errors%}
+                <span>You must enter a phone number</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_name(class="form-control form-control-lg")}}
+        {%endif%}
+    </div>
+    <div> 
+        {{ form.password.label }} <br />
+        {%if form.password.errors%}
+        {{form.password(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.password.errors%}
+                <span>reenter password</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_name(class="form-control form-control-lg")}}
+        {%endif%}
+    </div>
+    <div> 
+        {{ form.checkPassword.label }} <br />
+        {%if form.checkPassword.errors%}
+        {{form.checkPassword(class="form-control form-control-lg is-invalid")}}
+            {%for error in form.checkPassword.errors%}
+                <span>password check must match password</span>
+            {%endfor%}
+            {% else %}
+            {{form.shelter_name(class="form-control form-control-lg")}}
+        {%endif%}
+    </div>
+    </div>
+    <div> 
+        {{ form.submit() }} 
+    </div>
+</form>
+
+{% endblock content %}

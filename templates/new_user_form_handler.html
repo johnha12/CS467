@@ -1,0 +1,26 @@
+{% extends "simple_layout.html" %}
+
+{% block title %} {{title}} {% endblock title %}
+{% block header %} {{header}} {% endblock header %}
+
+{% block content %}
+<p> hello 
+    {{result["first_name"]}}
+    {{result["last_name"]}}
+</p>
+
+<p> your contact info is: 
+    {{result["email"]}}
+    {{result["phone"]}}
+</p>
+
+<p> 
+    You are looking for: 
+    {{result["seeking"]}}
+</p>
+
+
+<p><a href="/">Go Login</a></p>
+
+
+{% endblock content %}
