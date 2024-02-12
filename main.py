@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, jsonify
 import database
 
 from form_flask_select import simpleForm
+from form_new_shelter import newShelterForm
+from form_new_user  import newUserForm
 from flask_wtf import Form
 #from wtforms.fields.html5 import URLField
 from wtforms.validators import InputRequired
@@ -198,10 +200,10 @@ app.config["SECRET_KEY"]='why_a_dog?'
 users = []
 users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
 
-@app.route('/simple_form', methods=['POST', 'GET'])
-def simple_form():
+@app.route('/new_user_form', methods=['POST', 'GET'])
+def new_user_form():
 
-    form = simpleForm()
+    form = newUserForm()
 
     if form.validate_on_submit() and request.method == 'POST':
 
@@ -216,9 +218,19 @@ def simple_form():
         
         # Redirect to a success page or display a success message
         result = request.form
-        return render_template('simple_form_select_handler.html', title="Simple Form Handler", header="Simple Form Handler", result=result, users = users)
+        return render_template('new_user_form_handler.html', title="New User Form Handler", header="New User Form Handler", result=result)
+    return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
 
-    return render_template('simple_form_select.html', title = "Simple Form", header="Simple New User Form", form=form)
+
+# testing route for new shelter form
+@app.route('/new_shelter_form', methods=['POST', 'GET'])
+def new_shelter_form():
+    form = newShelterForm()
+    if  form.validate_on_submit():
+        result = request.form
+        return render_template('new_shelter_handler.html', title="New Shelter Form Handler", header="New Shelter Form Handler", result=result)
+    return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
