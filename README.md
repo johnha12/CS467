@@ -1,8 +1,10 @@
 # CS467
-Capstone things
+# Capstone Things
 
-Installing dependancies
+## Installing Dependencies
 
-Need to run following commands on terminal:
-pip install Flask
-pip install email_validator
+To get started with the project, you'll need to install the necessary dependencies. Follow these steps:
+
+### 1. pip install Flask
+### 1. pip install email_validator
+
