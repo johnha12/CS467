@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Matches</title>
+    <!-- Basic testing Style -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+        }
+        .pet-img {
+            text-align: center;
+        }
+        .pet-img img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .pet-info {
+            text-align: left;
+        }
+        .pet-info p {
+            margin: 10px 0;
+        }
+        .edit_btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: gold;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>User Profile Matches</h1>
+</header>
+
+ <!-- Hard coded matches will need to be updated -->
+ <body>
+    <div class="container">
+        <h1>My Matches</h1>
+        <div class="match">
+            <img src="/static/pet-00.jpg" alt="Pet Picture">
+            <div class="match-info">
+                <div class="pet-name">John Doe</div>
+                <div class="pet-info">a Bird</div>
+            </div>
+            <button>Message Shelter</button> <!-- how do we want to do this? -->
+        </div>
+        <div class="match">
+            <img src="/static/pet-01.jpg" alt="Pet Picture">
+            <div class="match-info">
+                <div class="pet-name">Jane Smith</div>
+                <div class="pet-info">A dog</div>
+            </div>
+            <button>Message Shelter</button>
+        </div>
+        <!-- More matches can be added here -->
+    </div>
+
+
+<p><a href="/welcome">Go View Pets!</a></p>
+<br>
+<p><a href="/">Go Back to Login Page</a></p>
+
+</body>
+</html>
