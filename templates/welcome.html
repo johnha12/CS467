@@ -5,8 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome!</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        let multipleCardCarousel = document.querySelector("#carousel-2");
+
+
+        if (window.matchMedia("(min-width: 768px)").matches) {
+          let carousel = new bootstrap.Carousel(multipleCardCarousel, {
+              interval: false, // Disable automatic sliding
+              wrap: false, // Prevent wrapping at the end
+          });
+
+
+          let carouselWidth = document.querySelector("#news-carousel-inner").scrollWidth;
+          let cardWidth = document.querySelector(".news-carousel-item").offsetWidth;
+          let scrollPosition = 0;
+
+
+          document.querySelector("#carousel-2 #news-control-next").addEventListener("click", function () {
+              if (scrollPosition < carouselWidth - cardWidth * 4) {
+                  scrollPosition += cardWidth;
+                  document.querySelector("#carousel-2 #news-carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
+              }
+          });
+
+
+          document.querySelector("#carousel-2 #news-control-prev").addEventListener("click", function () {
+              if (scrollPosition > 0) {
+                  scrollPosition -= cardWidth;
+                  document.querySelector("#carousel-2 #news-carousel-inner").scroll({ left: scrollPosition, behavior: 'smooth' });
+              }
+          });
+        } else {
+          multipleCardCarousel.classList.add("slide");
+        }
+      });
+    </script>
 </head>
 <body class="bg-secondary bg-gradient">
     <!-- Navigation-->
@@ -15,7 +51,8 @@
             <a class="navbar-brand" href="#page-top"></a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#carouselIndicators">Featured Pet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#carousel-1">Featured Pet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#carousel-2">News</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 </ul>
             </div>
@@ -27,12 +64,12 @@
         <div class="container">
             <div class="masthead-subheading">Welcome!</div>
             <div class="masthead-heading text-uppercase">This is a Dating App for Pet Adoption</div>
-            <a class="btn btn-primary btn-xl text-uppercase" href="likeDislike">Get Started</a>
+            <a class="btn btn-primary btn-xl text-uppercase" href="...">Get Started</a>
         </div>
     </header>
 
     <!-- Carousel-->
-    <div id="carouselIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+    <div id="carousel-1" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
       <ol class="carousel-indicators">
         <li type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-label="Slide 1"></li>
         <li type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></li>
@@ -44,32 +81,59 @@
           <img src="/static/img/Belle1.jpg" class="d-block mx-auto">
         </div>
         <div class="carousel-item">
-          <img src="/static/pet-01.jpg" class="d-block mx-auto">
+          <img src="/static/img/featured 1.jpg" class="d-block mx-auto">
         </div>
         <div class="carousel-item">
-          <img src="/static/pet-02.jpg" class="d-block mx-auto">
+          <img src="/static/img/featured 2.jpg" class="d-block mx-auto">
         </div>
       </div>
 
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
+      <button class="carousel-control-prev" type="button" data-bs-target="#carousel-1" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
 
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carousel-1" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
 
-      <!-- About-->
-      <section class="page-section" id="about">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-heading text-uppercase">About</h2>
-                <h3 class="section-subheading text-muted">This section tells you more about the web app</h3>
+    <!-- News Carousel-->
+    <div class="container mt-5">
+      <div id="carousel-2" class="news-carousel">
+        <div class="carousel-inner" id="news-carousel-inner">
+          {% for article in article_list %}
+            <div class="news-carousel-item {% if loop.index == 1 %}active{% endif %}">
+              <div class="news-card">
+                <h4 class="card-title">{{ article.title }}</h4>
+                <p class="card-text">{{ article.description }}</p>
+                <a href="{{ article.link }}" class="btn btn-primary">MORE</a>
+              </div>
             </div>
+          {% endfor %}
         </div>
+  
+        <button class="carousel-control-prev" id="news-control-prev" type="button" data-bs-target="#carousel-2" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+  
+        <button class="carousel-control-next" id="news-control-next" type="button" data-bs-target="#carousel-2" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- About-->
+    <section class="page-section" id="about">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">About</h2>
+          <h3 class="section-subheading text-muted">This section tells you more about the web app</h3>
+        </div>
+      </div>
     </section>
 </body>
 </html>

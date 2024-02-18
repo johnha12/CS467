@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
-import database
-
+import database, requests
+from bs4 import BeautifulSoup
 from form_flask_select import simpleForm
 from form_new_shelter import newShelterForm
 from form_new_user  import newUserForm
@@ -21,9 +21,41 @@ pet_type = 'all'
 
 pet_info = database.get_all_pets(connection)
 
+###########################################
+# news scraper
+
+url = 'https://www.humanesociety.org/news'
+
+def getdata(url):
+    r = requests.get(url)
+    return r.text
+
+htmldata = getdata(url)
+soup = BeautifulSoup(htmldata, 'html.parser')
+
+class Article:
+    def __init__(self, title, description, link):
+        self.title = title
+        self.description = description
+        self.link = link
+articles = []
+
+# find all article titles, which are under anchors for this site
+anchor = soup.find_all('a', attrs={'hreflang':'en'})
+# fidn all article descriptions
+summary = soup.find_all('div', attrs={'class':'field--name-body'})
+for (entry, attr) in enumerate(anchor):
+    articles.append(Article(
+        attr.contents[0], 
+        summary[entry].contents[1].contents[0],
+        'https://www.humanesociety.org'+attr['href']))
+    
+###########################################
+
+
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html' )
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -44,7 +76,7 @@ def login():
 
 @app.route('/welcome')
 def welcome():
-    return render_template('welcome.html')
+    return render_template('welcome.html', article_list=articles)
 
 @app.route('/shelter_add_pet')
 def shelter_add_pet():
@@ -116,16 +148,21 @@ def shelter_all_pets():
 
 # Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
 shelter_info = {
-    'name': 'Your Shelter Name',
+    'name': 'Oregon Humane Society',
     'description': 'Description of your shelter',
     # Need to figure out how to add photos
-    'address': 'Address of your shelter',
-    'link': 'some link',
+    'address': '1067 NE Columbia Blvd, Portland, OR 97211',
+    'link': 'https://www.oregonhumane.org',
 }
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
-    return render_template('shelter_profile.html', shelter_info=shelter_info)
+    # remove spaces from address to insert into google maps api
+    def remove_spaces(addr):
+        return addr.replace(' ','')
+    stripped_addr = remove_spaces(shelter_info['address'])
+
+    return render_template('shelter_profile.html', shelter_info=shelter_info, maps_api_address=stripped_addr) 
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
 def shelter_profile_edit():

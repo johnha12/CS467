@@ -68,6 +68,17 @@
         <p>Current photos (NOT IMPLEMENTED YET)</p>
         <h3>Address</h3>
         <p>{{ shelter_info.address }}</p>
+        <iframe
+            width="600"
+            height="450"
+            style="border:0"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA7nPxo7gjd4TZYSRfNRrpY36i0R526u1w
+                &q={{ maps_api_address }}">
+        </iframe>
+
         <h3>Other/Website link</h3>
         <p><a href="{{ shelter_info.link }}">{{ shelter_info.link }}</a></p>
         <button class="edit_btn"><a class="edit_link" href="/shelter_profile_edit">Edit Profile Information</a></button>
