@@ -22,7 +22,7 @@ admin(admin_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, FOREIGN KE
 CREATE_PETS_TABLE = """CREATE TABLE IF NOT EXISTS
 pets(pet_id INTEGER PRIMARY KEY AUTOINCREMENT, shelter_id INTEGER, pet_name TEXT, pet_species TEXT, pet_breed TEXT,
 pet_color TEXT, pet_likes TEXT, pet_dislikes TEXT, pet_age integer, pet_facts TEXT, pet_health TEXT, pet_photo TEXT, pet_good_with TEXT,
-pet_bad_with TEXT, pet_size TEXT, matches_id INTEGER, FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id), FOREIGN KEY(matches_id) REFERENCES matches(matches_id))"""
+pet_bad_with TEXT, pet_size TEXT,adoption_status TEXT, matches_id INTEGER, FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id), FOREIGN KEY(matches_id) REFERENCES matches(matches_id))"""
 
 GET_ALL_PROFILES = "SELECT * FROM profiles"
 
@@ -47,8 +47,8 @@ ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name, shelter_addre
 
 ADD_NEW_ADMIN = "INSERT INTO admin (profile_id) VALUES (?);"
 
-ADD_NEW_PET = """INSERT INTO pets (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, matches_id) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
+ADD_NEW_PET = """INSERT INTO pets (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, adoption_status, matches_id) 
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
 GET_PET_IMAGE = """SELECT pet_photo FROM pets WHERE pet_id = (?)"""
 
@@ -143,9 +143,9 @@ def remove_admin(connection, admin_id):
 
 
 # insert new pet into table
-def add_pet(connection, shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes,pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, matches_id):
+def add_pet(connection, shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes,pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, adoption_status, matches_id):
     with connection:
-        return connection.execute(ADD_NEW_PET, (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, matches_id))
+        return connection.execute(ADD_NEW_PET, (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size,adoption_status, matches_id))
 
 
 def get_all_pets(connection):
