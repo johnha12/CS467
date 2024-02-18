@@ -6,11 +6,10 @@ from wtforms.validators import InputRequired, Length, EqualTo, Email
 class newUserForm(FlaskForm):
     first_name=StringField("First Name", validators=[InputRequired(), Length(min=2, max=30)])
     last_name=StringField("Last Name", validators=[InputRequired(), Length(min=2, max=30)])
-    email=StringField("Email Adress", validators=[InputRequired(), Email()])
+    email=StringField("Email Address", validators=[InputRequired(), Email()])
     phone=StringField("Phone Number", validators=[InputRequired(), Length(min=10, max=12)])
     password= PasswordField("Account Password (Must be 6-16 characters)", validators=[InputRequired(), Length(min=6, max=16)])
     passwordCheck = PasswordField("Confirm password", validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
-    #Password validation error message still not displaying with password mismatch
     house_type = SelectField(u'Type of house', 
         choices=[('apartment', 'Apartment or Condo'), ('smallYard', 'Home with small yard'), ('largeYard', 'Home with large yard')])
     current_pets = SelectField(u'Any current pets?', choices=[('yes', 'Yes, at least one other pet'), ('no', 'No other pets')])      
