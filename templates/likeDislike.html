@@ -137,7 +137,7 @@
     <h2>
         <form action="/filter" method="post">
             <label for="filterInput">Filter Pets:</label>
-            <select id="filterInput">
+            <select id="filterInput" name="pet_type">
                 <option value="all">All Pets</option>
                 <option value="dog">Dogs</option>
                 <option value="cat">Cats</option>
@@ -148,7 +148,7 @@
     </h2>
     <div class="pet-container">
         <a href="/likeDislike_profile">
-            <img id="image" src="{{url_for('static', filename=image)}}" alt="Image PlaceHolder">
+            <img id="image" src="{{image_url}}" alt="Image PlaceHolder">
         </a>
     
         <div id="petProfile">

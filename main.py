@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import database, requests
+import boto3
 from bs4 import BeautifulSoup
 from form_flask_select import simpleForm
 from form_new_shelter import newShelterForm
@@ -207,33 +208,61 @@ def shelter():
 
 @app.route('/likeDislike')
 def swipe():
-    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+    s3 = boto3.client('s3')
+    global pet_id
+    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
 
 # Love Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/lovePet', methods=['POST'])
 def lovePet():
+
+    s3 = boto3.client('s3')
+    global pet_type
     global pet_id
-    pet_id = (pet_id + 1) % len(pet_info)
-    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+
+    if pet_type != 'all':
+        while True:
+            pet_id = (pet_id + 1) % len(pet_info)
+            if pet_info[pet_id][3] == pet_type:
+                break
+    else:
+        pet_id = (pet_id + 1) % len(pet_info)
+        
+    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
 
 # Pass Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/passPet', methods=['POST'])
 def passPet():
+    s3 = boto3.client('s3')
+    global pet_type
     global pet_id
-    pet_id = (pet_id + 1) % len(pet_info)
-    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+    if pet_type != 'all':
+        while True:
+            pet_id = (pet_id + 1) % len(pet_info)
+            if pet_info[pet_id][3] == pet_type:
+                break
+    else:
+        pet_id = (pet_id + 1) % len(pet_info)
+
+    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
 
 #Still having issues getting filter to work currently. Needs more work this next week.
 @app.route('/filter', methods=['POST'])
 def filter():
-    selected_pet_type = request.form.get('filterInput')
+    s3 = boto3.client('s3')
+    selected_pet_type = request.form['pet_type']
     global pet_type
     pet_type = selected_pet_type
-    return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+
+    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
 
 @app.route('/likeDislike_profile')
 def likeDislike_profile():
-    return render_template('likeDislike_profile.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
 
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'
