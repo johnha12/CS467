@@ -4,23 +4,25 @@
 {% block header %} {{header}} {% endblock header %}
 
 {% block content %}
-<p> hello 
-    {{result["first_name"]}}
-    {{result["last_name"]}}
-</p>
+<div class="container">
+    <h1>User Profile</h1>
+    <div class="profile-img">
+        <img src="/static/blank-profile.png" alt="User Avatar"> <!--  Default user img? If we want users to have profile pics -->
+    </div>
+    <div class="profile-info">
+        <p><strong>First Name:</strong> {{result["first_name"]}} </p>
+        <p><strong>Last Name:</strong> {{result["last_name"]}} </p>
+        <p><strong>Email:</strong> {{result["email"]}} </p>
+        <p><strong>Phone:</strong> {{result["phone"]}} </p>
+        <p><strong>You are looking for: </strong> {{result["seeking"]}} </p>
+    </div>
+    <button class="edit_btn"><a class="edit_link" href="">Edit Profile Information</a></button><!--  not functional yet -->
+</div>
 
-<p> your contact info is: 
-    {{result["email"]}}
-    {{result["phone"]}}
-</p>
 
-<p> 
-    You are looking for: 
-    {{result["seeking"]}}
-</p>
-
-
-<p><a href="/">Go Login</a></p>
+<p><a href="/welcome">Go View Pets!</a></p>
+<br>
+<p><a href="/">Go Back to Login Page</a></p>
 
 
 {% endblock content %}
