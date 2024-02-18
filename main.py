@@ -301,6 +301,10 @@ def new_shelter_form():
         return render_template('new_shelter_handler.html', title="New Shelter Form Handler", header="New Shelter Form Handler", result=result)
     return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
-
+# route for user to view matches
+@app.route('/user_matches')
+def userMatch():
+    return render_template('user_matches.html')
+    
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
