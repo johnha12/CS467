@@ -9,6 +9,8 @@
 
     <title>Browse and Swipe Page</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+
     <!-- Temporary styling for webpage -->
     <style>
         head {
@@ -145,8 +147,9 @@
         </form>
     </h2>
     <div class="pet-container">
-        <img id="image"
-            src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
+        <a href="/likeDislike_profile">
+            <img id="image" src="{{url_for('static', filename=image)}}" alt="Image PlaceHolder">
+        </a>
     
         <div id="petProfile">
             <h2>{{ pet_info[pet_id][2] }}</h2>
