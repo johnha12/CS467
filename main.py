@@ -231,6 +231,10 @@ def filter():
     pet_type = selected_pet_type
     return render_template('likeDislike.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
 
+@app.route('/likeDislike_profile')
+def likeDislike_profile():
+    return render_template('likeDislike_profile.html', image = pet_info[pet_id][11], pet_info = pet_info, pet_id = pet_id)
+
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'
 # Define an empty list to store user information
