@@ -62,16 +62,9 @@
         {%endif%}
     </div>
     <div> 
-        {{ form.checkPassword.label }} <br />
-        {%if form.checkPassword.errors%}
-        {{form.checkPassword(class="form-control form-control-lg is-invalid")}}
-            {%for error in form.checkPassword.errors%}
-                <span>password check must match password</span>
-            {%endfor%}
-            {% else %}
-            {{form.shelter_name(class="form-control form-control-lg")}}
-        {%endif%}
-    </div>
+        <label for="password">Password</label> <br />
+        <input type="password" id="password" name="password" pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{6,}" title="Password must contain at least one uppercase letter, one number, one special character, and be at least 6 characters long" required>
+        <small>Password must contain at least one uppercase letter, one number, one special character, and be at least 6 characters long.</small>
     </div>
     <div> 
         {{ form.submit() }} 
