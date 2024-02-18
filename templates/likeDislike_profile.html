@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pet_info.name }} Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+
+<style>
+    #image:hover {
+        border: none;
+    }
+</style>
+
+<body>
+    <header>
+        <h1>{{ pet_info.name }} Profile</h1>
+    </header>
+    <div class="pet-container">
+        <img id="image"
+            src="{{url_for('static', filename=image) }}" alt="Image PlaceHolder"> 
+    
+        <div id="petProfile">
+            <h2>{{ pet_info[pet_id][2] }}</h2>
+            <p>Pet Breed: {{ pet_info[pet_id][3] }}</p>
+            <p>Age: {{ pet_info[pet_id][8] }}</p>
+            <p>Color: {{ pet_info[pet_id][5] }}</p>
+            <p>Personality: {{ pet_info[pet_id][6] }}</p>
+
+        </div>
+    </div>
+
+    
+
+    <div class="button-container">
+        <button onclick="goBack()" class="button" id="GoBack">Go Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
