@@ -1,0 +1,50 @@
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+nav {
+    margin-top: 20px;
+    background-color: #f0e68c; /* Darker peach for navigation */
+    padding: 10px;
+}
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+nav a:hover {
+    color: #fff; /* White text color on hover */
+    background-color: #000000; /* Dark background color on hover */
+    border-radius: 5px; /* Rounded corners on hover */
+    padding: 5px 10px; /* Increase padding on hover */
+}
+body {
+    background-color: #FFE5B4; /* Light blue background */
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    
+}
+form {
+    max-width: 400px;
+    margin: auto;
+    background-color: #cfe8d5;
+    padding: 20px; /* Add padding */
+    border-radius: 10px; /* Add rounded edges */
+    border: 2px solid #68b684; /* Add border */
+}
+section {
+    margin-top: 20px;
+}
+yes_button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+#image:hover {
+    border: 2px solid black;
+}
