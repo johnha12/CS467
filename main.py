@@ -307,6 +307,16 @@ def new_shelter_form():
 @app.route('/user_matches')
 def userMatch():
     return render_template('user_matches.html')
+
+# route for user to view matches
+@app.route('/user_profile')
+def user_profile():
+    return render_template('user_profile.html')
+
+# route for user to view matches
+@app.route('/user_liked_pets')
+def user_liked_pets():
+    return render_template('user_liked_pets.html')
     
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
