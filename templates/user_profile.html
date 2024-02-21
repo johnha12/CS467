@@ -37,19 +37,15 @@
             cursor: pointer;
         }
         .edit_link {
-            color: white;
-            text-decoration: none;
-        }
-        .match-photo { 
-            width: 25%;
-            height: 25%;
+        color: white;
+        text-decoration: none;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>User Name</h1>
-        <p>Welcome to Your Match Page</p>
+        <p>Welcome to Your Pet Adoption Page</p>
     </header>
 
     <nav>
@@ -60,32 +56,25 @@
         <a href="./">Sign Out</a>
     </nav>
 
- <!-- Hard coded matches will need to be updated -->
- <body>
-    <div class="container">
-        <h1>My Matches</h1>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
+    <section id="user_profile">
+        <h2>Your profile</h2>
+        <p>Click on any of the following to make an edit</p>
+        <!-- Content of page -->
+        <div class="container">
+            <h1>User Profile</h1>
+            <div class="profile-img">
+                <img src="/static/blank-profile.png" alt="User Avatar"> <!--  Default user img? If we want users to have profile pics -->
             </div>
-            <div class="match-info">
-                <div class="pet-name">John Doe</div>
-                <div class="pet-info">a Bird</div>
+            <div class="profile-info">
+                <p><strong>First Name:</strong> Jon </p>
+                <p><strong>Last Name:</strong> Doe  </p>
+                <p><strong>Email:</strong> JonDoe@email,com </p>
+                <p><strong>Phone:</strong> 007 </p>
+                <p><strong>You are looking for: </strong> a deer </p>
             </div>
-            <button>Message Shelter</button> <!-- how do we want to do this? -->
+            <button class="edit_btn"><a class="edit_link" href="">Edit Profile Information</a></button><!--  not functional yet -->
         </div>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
-            </div>
-            <div class="match-info">
-                <div class="pet-name">Jane Smith</div>
-                <div class="pet-info">A dog</div>
-            </div>
-            <button>Message Shelter</button>
-        </div>
-        <!-- More matches can be added here -->
-    </div>
+    </section>
 
 </body>
 </html>

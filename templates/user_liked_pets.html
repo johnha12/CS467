@@ -37,19 +37,15 @@
             cursor: pointer;
         }
         .edit_link {
-            color: white;
-            text-decoration: none;
-        }
-        .match-photo { 
-            width: 25%;
-            height: 25%;
+        color: white;
+        text-decoration: none;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>User Name</h1>
-        <p>Welcome to Your Match Page</p>
+        <p>Welcome to Your Liked Pet Page</p>
     </header>
 
     <nav>
@@ -60,32 +56,33 @@
         <a href="./">Sign Out</a>
     </nav>
 
- <!-- Hard coded matches will need to be updated -->
- <body>
-    <div class="container">
-        <h1>My Matches</h1>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
-            </div>
-            <div class="match-info">
-                <div class="pet-name">John Doe</div>
-                <div class="pet-info">a Bird</div>
-            </div>
-            <button>Message Shelter</button> <!-- how do we want to do this? -->
+    <section id="liked_pets">
+        <h2>Liked Pets</h2>
+        <!-- Add content for the dashboard overview -->
+        <!-- need photo, name, breed, animal type, gender,fixed/notfixed availability -->
+        <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
+
+         <!-- Probably make a for loop with Flask and Database -->
+        <!-- Begin populating pets -->
+        
+        {% for pet in pets %}
+        <div class="pet">
+            <a href="./shelter_single_pet">
+                <img src="../static/img/{{ pet.image }}" alt="{{ pet.name }}">
+            </a>
+            <p><strong>Name:</strong> {{ pet.name }}</p>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Animal Type:</strong> {{ pet.animal_type }}</p>
+            <p><strong>Gender:</strong> {{ pet.gender }}</p>
+            <p><strong>Fixed/Not Fixed:</strong> {{ pet.fixed_status }}</p>
+            <p><strong>Availability:</strong> {{ pet.availability }}</p>
+            <p><strong>Disposition:</strong> {{ pet.disposition }}</p>
+            <p><strong>View:</strong> {{ pet.view_status }}</p>
         </div>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
-            </div>
-            <div class="match-info">
-                <div class="pet-name">Jane Smith</div>
-                <div class="pet-info">A dog</div>
-            </div>
-            <button>Message Shelter</button>
-        </div>
-        <!-- More matches can be added here -->
-    </div>
+        {% endfor %}
+        
+        
+    </section>
 
 </body>
 </html>
