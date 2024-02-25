@@ -1,3 +1,4 @@
+/* login page */
 .login-page {
     width: 360px;
     padding: 8% 0 0;
@@ -123,7 +124,7 @@ header.masthead {
     }
 }
 
-/* for featured pets carousel*/
+/* featured pets carousel*/
 .carousel-inner {
     padding-top: 10.5rem; 
     height: 1000px; 
@@ -140,13 +141,13 @@ img {
     height: 50%;
 }
 
-/* for about section on welcome page */
+/* about section on welcome page */
 section {
     padding-top: 10.5rem;
     padding-bottom: 6rem;
 }
 
-/* for news carousel */
+/* news carousel */
 #news-carousel-inner {
     padding: 10.5rem;
   }

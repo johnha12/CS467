@@ -1,92 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        section {
-            margin-top: 20px;
-        }
-        .pet {
-            margin-bottom: 20px;
-            border: 1px solid #333;
-            padding: 10px;
-            overflow: hidden;
-        }
-        .pet img {
-            /* width: 100%; */
-            max-height: 200px;
-            object-fit: cover; /* Make sure the whole image is visible without stretching */
-            margin-bottom: 10px;
-        }
-        .pet p {
-            margin: 0;
-        }
-    </style>
-</head>
+<style>
+    .pet-image {
+        max-height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+</style>
+{% extends "shelter.html" %}
+
 <body>
-    <header>
-        <h1>Shelter Name</h1>
-        <p>Welcome to Your Pet Adoption Page</p>
-    </header>
+    {% block nav_content %}
+    <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
+    <li class="nav-item"><a class="nav-link" href="./">Sign Out</a></li>
+    {% endblock nav_content %}
 
-    <nav>
-        <a href="./shelter">Dashboard</a>
-        <a href="./shelter_profile">Shelter Profile</a>
-        <a href="./shelter_add_pet">Add New Pet Profile</a>
-        <a href="./shelter_all_pets">All Pet Profiles</a> <!--  Need to make viewable or not-->
-        <a href="./shelter_all_adopters">Potential Adopters</a>
-        <a href="./">Sign Out</a>
-    </nav>
-
+    {% block content %}
     <section id="all_pets">
-        <h2>All Your Shelter Pets</h2>
+        <h2 class="text-center py-3">All Your Shelter Pets</h2>
         <!-- Add content for the dashboard overview -->
         <!-- need photo, name, breed, animal type, gender,fixed/notfixed availability -->
         <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
 
-         <!-- Probably make a for loop with Flask and Database -->
+        <!-- Probably make a for loop with Flask and Database -->
         <!-- Begin populating pets -->
-        
-        {% for pet in pets %}
-        <div class="pet">
-            <a href="./shelter_single_pet">
-                <img src="../static/img/{{ pet.image }}" alt="{{ pet.name }}">
-            </a>
-            <p><strong>Name:</strong> {{ pet.name }}</p>
-            <p><strong>Breed:</strong> {{ pet.breed }}</p>
-            <p><strong>Animal Type:</strong> {{ pet.animal_type }}</p>
-            <p><strong>Gender:</strong> {{ pet.gender }}</p>
-            <p><strong>Fixed/Not Fixed:</strong> {{ pet.fixed_status }}</p>
-            <p><strong>Availability:</strong> {{ pet.availability }}</p>
-            <p><strong>Disposition:</strong> {{ pet.disposition }}</p>
-            <p><strong>View:</strong> {{ pet.view_status }}</p>
+
+        <div class="container-sm">
+            <div class="row row-cols-2 gy-5">
+                {% for pet in pets %}
+                <div class="col">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <a href="./shelter_single_pet"><img src="../static/img/{{ pet.image }}"
+                                        class="pet-image" alt="{{ pet.name }}"></a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><strong>Name:</strong> {{ pet.name }}</h5>
+                                    <p class="card-text">
+                                        <strong>Breed:</strong> {{ pet.breed }}<br>
+                                        <strong>Animal Type:</strong> {{ pet.animal_type }}<br>
+                                        <strong>Gender:</strong> {{ pet.gender }}<br>
+                                        <strong>Fixed/Not Fixed:</strong> {{ pet.fixed_status }}<br>
+                                        <strong>Availability:</strong> {{ pet.availability }}<br>
+                                        <strong>Disposition:</strong> {{ pet.disposition }}<br>
+                                        <strong>View:</strong> {{ pet.view_status }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
-        
-        
     </section>
+    {% endblock content %}
 
 </body>
+
 </html>

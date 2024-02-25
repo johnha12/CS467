@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
         section {
             margin-top: 20px;
         }
@@ -63,24 +37,21 @@
             width: auto;
         }
     </style>
-</head>
+
+{% extends "shelter.html" %}
 <body>
-    <header>
-        <h1>Shelter Name</h1>
-        <p>Welcome to Your Pet Adoption Page</p>
-    </header>
+    {% block nav_content %}
+    <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
+    <li class="nav-item"><a class="nav-link" href="./">Sign Out</a></li>
+    {% endblock nav_content %}
 
-    <nav>
-        <a href="./shelter">Dashboard</a>
-        <a href="./shelter_profile">Shelter Profile</a>
-        <a href="./shelter_add_pet">Add New Pet Profile</a>
-        <a href="./shelter_all_pets">All Pet Profiles</a> <!--  Need to make viewable or not-->
-        <a href="./shelter_all_adopters">Potential Adopters</a>
-        <a href="./">Sign Out</a>
-    </nav>
-
+    {% block content %}
     <section id="new_pet">
-        <h2>Add New Pet</h2>
+        <div class="text-center"><h2>Add New Pet</h2></div>
+        
         <form action="add_pet" method="post" onsubmit="return showConfirmation()">
             <label for="petName">Pet Name:</label>
             <input type="text" id="petName" name="petName" required>
@@ -153,6 +124,7 @@
         </script>
         
     </section>
+    {% endblock content %}
 
 </body>
 </html>
