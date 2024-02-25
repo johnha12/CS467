@@ -70,6 +70,15 @@ pets = [
         'image': 'Belle3.jpg'  # Assuming this is the filename of the pet image
     }
 ]
+
+# Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
+shelter_info = {
+    'name': 'Oregon Humane Society',
+    'description': 'Description of your shelter',
+    # Need to figure out how to add photos
+    'address': '1067 NE Columbia Blvd, Portland, OR 97211',
+    'link': 'https://www.oregonhumane.org',
+}
 ###########################################
 
 ###########################################
@@ -185,15 +194,6 @@ def shelter_all_pets():
     if 'email' in session:
         return render_template('shelter_all_pets.html', pets=pets)
     return render_template('home.html' )
-
-# Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
-shelter_info = {
-    'name': 'Oregon Humane Society',
-    'description': 'Description of your shelter',
-    # Need to figure out how to add photos
-    'address': '1067 NE Columbia Blvd, Portland, OR 97211',
-    'link': 'https://www.oregonhumane.org',
-}
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
