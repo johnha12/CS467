@@ -127,8 +127,10 @@ def login():
         if user['email'] == email and user['password'] == password:
             # Redirect based on the account type
             if user['account_type'] == 'user':
+                session["account_type"] = 'user' # Set all needed session information
                 json_file =  jsonify({'redirect_url': '/welcome'})  # Redirect to user dashboard
             elif user['account_type'] == 'shelter':
+                session["account_type"] = 'shelter'# Set all needed session information
                 json_file =  jsonify({'redirect_url': '/shelter'})  # Redirect to shelter dashboard
             
             session['email'] = email
@@ -150,17 +152,18 @@ def is_logged_in():
 @app.route('/sign_out')
 def sign_out():
     session.pop('email', None)
+    session.pop("account_type", None)
     return redirect(url_for('home'))
 
 @app.route('/welcome')
 def welcome():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "user":
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
 @app.route('/shelter_add_pet')
 def shelter_add_pet():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter_add_pet.html')
     return render_template('home.html' )
 
@@ -185,19 +188,19 @@ def add_pet():
 
 @app.route('/shelter_all_adopters')
 def shelter_all_adopters():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter_all_adopters.html')
     return render_template('home.html' )
 
 @app.route('/shelter_all_pets')
 def shelter_all_pets():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter_all_pets.html', pets=pets)
     return render_template('home.html' )
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         # remove spaces from address to insert into google maps api
         def remove_spaces(addr):
             return addr.replace(' ','')
@@ -208,7 +211,7 @@ def shelter_profile():
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
 def shelter_profile_edit():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         # Only accessible from shelter profile button
         if request.method == 'GET':
             return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
@@ -240,21 +243,21 @@ def shelter_signup():
 
 @app.route('/shelter_single_adopter')
 def shelter_single_adopter():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter_single_adopter.html')
     return render_template('home.html' )
     
 
 @app.route('/shelter_single_pet')
 def shelter_single_pet():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter_single_pet.html')
     return render_template('home.html' )
     
 
 @app.route('/shelter')
 def shelter():
-    if 'email' in session:
+    if 'email' in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     return render_template('home.html' )
     
@@ -375,17 +378,23 @@ def new_shelter_form():
 # route for user to view matches
 @app.route('/user_matches')
 def userMatch():
-    return render_template('user_matches.html')
+    if "email" in session and session["account_type"] == "user":
+        return render_template('user_matches.html')
+    return render_template('home.html' )
 
 # route for user to view matches
 @app.route('/user_profile')
 def user_profile():
-    return render_template('user_profile.html')
+    if "email" in session and session["account_type"] == "user":
+        return render_template('user_profile.html')
+    return render_template('home.html' )
 
 # route for user to view matches
 @app.route('/user_liked_pets')
 def user_liked_pets():
-    return render_template('user_liked_pets.html')
+    if "email" in session and session["account_type"] == "user":
+        return render_template('user_liked_pets.html')
+    return render_template('home.html' )
     
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
