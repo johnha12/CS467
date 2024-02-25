@@ -24,6 +24,54 @@ pet_info = database.get_all_pets(connection)
 
 user_id = None
 
+#   Secret key is needed for flask
+app.config["SECRET_KEY"]='why_a_dog?'
+###########################################
+# Hardcoded variables for now
+
+# Define an empty list to store user information WILL be replaced by database
+users = []
+users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
+users.append({'email': 'user@oregonstate.edu', 'password': '111111', 'account_type': 'user'})
+
+# Hardcoded variables for now
+pets = [
+    {
+        'name': 'Sparky',
+        'breed': 'Labrador Retriever',
+        'animal_type': 'Dog',
+        'gender': 'Male',
+        'fixed_status': 'Fixed',
+        'availability': 'Available',
+        'disposition': 'Good with other animals, Good with children',
+        'view_status': 'Public',
+        'image': 'Belle1.jpg'  # Assuming this is the filename of the pet image
+    },
+    {
+        'name': 'Whiskers',
+        'breed': 'Siamese',
+        'animal_type': 'Cat',
+        'gender': 'Female',
+        'fixed_status': 'Not Fixed',
+        'availability': 'Pending',
+        'disposition': 'Good with children',
+        'view_status': 'Private',
+        'image': 'Belle2.jpg'  # Assuming this is the filename of the pet image
+    },
+    {
+        'name': 'Rocky',
+        'breed': 'Mixed Breed',
+        'animal_type': 'Dog',
+        'gender': 'Male',
+        'fixed_status': 'Fixed',
+        'availability': 'Adopted',
+        'disposition': 'Animal must be leashed at all times',
+        'view_status': 'Public',
+        'image': 'Belle3.jpg'  # Assuming this is the filename of the pet image
+    }
+]
+###########################################
+
 ###########################################
 # news scraper
 
@@ -131,43 +179,6 @@ def shelter_all_adopters():
     if 'email' in session:
         return render_template('shelter_all_adopters.html')
     return render_template('home.html' )
-
-# Hardcoded variables for now
-pets = [
-    {
-        'name': 'Sparky',
-        'breed': 'Labrador Retriever',
-        'animal_type': 'Dog',
-        'gender': 'Male',
-        'fixed_status': 'Fixed',
-        'availability': 'Available',
-        'disposition': 'Good with other animals, Good with children',
-        'view_status': 'Public',
-        'image': 'Belle1.jpg'  # Assuming this is the filename of the pet image
-    },
-    {
-        'name': 'Whiskers',
-        'breed': 'Siamese',
-        'animal_type': 'Cat',
-        'gender': 'Female',
-        'fixed_status': 'Not Fixed',
-        'availability': 'Pending',
-        'disposition': 'Good with children',
-        'view_status': 'Private',
-        'image': 'Belle2.jpg'  # Assuming this is the filename of the pet image
-    },
-    {
-        'name': 'Rocky',
-        'breed': 'Mixed Breed',
-        'animal_type': 'Dog',
-        'gender': 'Male',
-        'fixed_status': 'Fixed',
-        'availability': 'Adopted',
-        'disposition': 'Animal must be leashed at all times',
-        'view_status': 'Public',
-        'image': 'Belle3.jpg'  # Assuming this is the filename of the pet image
-    }
-]
 
 @app.route('/shelter_all_pets')
 def shelter_all_pets():
@@ -322,10 +333,6 @@ def filter():
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
 
-
-
-    
-
 @app.route('/likeDislike_profile')
 def likeDislike_profile():
     if 'email' in session:
@@ -333,16 +340,6 @@ def likeDislike_profile():
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
-
-
-    
-
-#   Secret key is needed for flask
-app.config["SECRET_KEY"]='why_a_dog?'
-# Define an empty list to store user information
-users = []
-users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
-users.append({'email': 'user@oregonstate.edu', 'password': '111111', 'account_type': 'user'})
 
 @app.route('/new_user_form', methods=['POST', 'GET'])
 def new_user_form():
