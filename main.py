@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session
 import database, requests
 import boto3
 from bs4 import BeautifulSoup
@@ -11,16 +11,18 @@ from wtforms.validators import InputRequired
 
 app = Flask(__name__)
 
-# Pet Info list for current swipe functionality - Evan Riffle
-# Temporary for testing until database is set up
-connection = database.connect()
+# Database connection - check_same_thread set to false
+connection = database.sqlite3.connect('data.db', check_same_thread=False)
 database.create_tables(connection)
 
+# globals for swipe page
 pet_id = 0
 
 pet_type = 'all'
 
 pet_info = database.get_all_pets(connection)
+
+user_id = None
 
 ###########################################
 # news scraper
@@ -68,20 +70,42 @@ def login():
         if user['email'] == email and user['password'] == password:
             # Redirect based on the account type
             if user['account_type'] == 'user':
-                return jsonify({'redirect_url': '/welcome'})  # Redirect to user dashboard
+                json_file =  jsonify({'redirect_url': '/welcome'})  # Redirect to user dashboard
             elif user['account_type'] == 'shelter':
-                return jsonify({'redirect_url': '/shelter'})  # Redirect to shelter dashboard
+                json_file =  jsonify({'redirect_url': '/shelter'})  # Redirect to shelter dashboard
+            
+            session['email'] = email
+            # get user_id for current session to track user likes
+            global user_id
+
+            # get user_id from database after login is validated
+            user_id = database.get_userid_email(connection, email)
+            user_id = user_id[0]
+            return json_file
 
     # If login fails, return an error message and the home page URL
     return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
 
+def is_logged_in():
+    if 'email' not in session:
+        return render_template('home')
+    
+@app.route('/sign_out')
+def sign_out():
+    session.pop('email', None)
+    return redirect(url_for('home'))
+
 @app.route('/welcome')
 def welcome():
-    return render_template('welcome.html', article_list=articles)
+    if 'email' in session:
+        return render_template('welcome.html', article_list=articles)
+    return render_template('home.html' )
 
 @app.route('/shelter_add_pet')
 def shelter_add_pet():
-    return render_template('shelter_add_pet.html')
+    if 'email' in session:
+        return render_template('shelter_add_pet.html')
+    return render_template('home.html' )
 
 # Adding pet function
 @app.route('/add_pet', methods=['POST'])
@@ -104,7 +128,9 @@ def add_pet():
 
 @app.route('/shelter_all_adopters')
 def shelter_all_adopters():
-    return render_template('shelter_all_adopters.html')
+    if 'email' in session:
+        return render_template('shelter_all_adopters.html')
+    return render_template('home.html' )
 
 # Hardcoded variables for now
 pets = [
@@ -145,7 +171,9 @@ pets = [
 
 @app.route('/shelter_all_pets')
 def shelter_all_pets():
-    return render_template('shelter_all_pets.html', pets=pets)
+    if 'email' in session:
+        return render_template('shelter_all_pets.html', pets=pets)
+    return render_template('home.html' )
 
 # Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
 shelter_info = {
@@ -158,37 +186,42 @@ shelter_info = {
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
-    # remove spaces from address to insert into google maps api
-    def remove_spaces(addr):
-        return addr.replace(' ','')
-    stripped_addr = remove_spaces(shelter_info['address'])
+    if 'email' in session:
+        # remove spaces from address to insert into google maps api
+        def remove_spaces(addr):
+            return addr.replace(' ','')
+        stripped_addr = remove_spaces(shelter_info['address'])
 
-    return render_template('shelter_profile.html', shelter_info=shelter_info, maps_api_address=stripped_addr) 
+        return render_template('shelter_profile.html', shelter_info=shelter_info, maps_api_address=stripped_addr)
+    return render_template('home.html' )
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
 def shelter_profile_edit():
-    # Only accessible from shelter profile button
-    if request.method == 'GET':
-        return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
-    elif request.method == 'POST':
-        new_name = request.form['new_name']
-        new_description = request.form['new_description']
-        new_address = request.form['new_address']
-        new_link = request.form['new_link']
+    if 'email' in session:
+        # Only accessible from shelter profile button
+        if request.method == 'GET':
+            return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
+        elif request.method == 'POST':
+            new_name = request.form['new_name']
+            new_description = request.form['new_description']
+            new_address = request.form['new_address']
+            new_link = request.form['new_link']
 
-        # Check if the form fields are not empty before updating shelter_info
-        if new_name:
-            shelter_info['name'] = new_name
-        if new_description:
-            shelter_info['description'] = new_description
-        if new_address:
-            shelter_info['address'] = new_address
-        if new_link:
-            shelter_info['link'] = new_link
-        
-        # Now need to process data and redirect
+            # Check if the form fields are not empty before updating shelter_info
+            if new_name:
+                shelter_info['name'] = new_name
+            if new_description:
+                shelter_info['description'] = new_description
+            if new_address:
+                shelter_info['address'] = new_address
+            if new_link:
+                shelter_info['link'] = new_link
+            
+            # Now need to process data and redirect
 
-        return redirect('shelter_profile')
+            return redirect('shelter_profile')
+
+    return render_template('home.html' )    
 
 @app.route('/shelter_signup')
 def shelter_signup():
@@ -196,81 +229,120 @@ def shelter_signup():
 
 @app.route('/shelter_single_adopter')
 def shelter_single_adopter():
-    return render_template('shelter_single_adopter.html')
+    if 'email' in session:
+        return render_template('shelter_single_adopter.html')
+    return render_template('home.html' )
+    
 
 @app.route('/shelter_single_pet')
 def shelter_single_pet():
-    return render_template('shelter_single_pet.html')
+    if 'email' in session:
+        return render_template('shelter_single_pet.html')
+    return render_template('home.html' )
+    
 
 @app.route('/shelter')
 def shelter():
-    return render_template('shelter.html')
+    if 'email' in session:
+        return render_template('shelter.html')
+    return render_template('home.html' )
+    
 
 @app.route('/likeDislike')
 def swipe():
-    s3 = boto3.client('s3')
-    global pet_id
-    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    if 'email' in session:
+        s3 = boto3.client('s3')
+        global pet_id
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    return render_template('home.html' )
+    
 
 # Love Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/lovePet', methods=['POST'])
 def lovePet():
 
-    s3 = boto3.client('s3')
-    global pet_type
-    global pet_id
+    if 'email' in session:
+        s3 = boto3.client('s3')
+        global pet_type
+        global pet_id
+        global user_id
 
-    if pet_type != 'all':
-        while True:
+        if pet_type != 'all':
+            while True:
+                pet_id = (pet_id + 1) % len(pet_info)
+                if pet_info[pet_id][3] == pet_type:
+                    break
+        else:
             pet_id = (pet_id + 1) % len(pet_info)
-            if pet_info[pet_id][3] == pet_type:
-                break
-    else:
-        pet_id = (pet_id + 1) % len(pet_info)
+            
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
-    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+        # Track liked pets in database like table. Tracks via user_id and pet_id
+        database.add_like(connection,int(user_id),pet_id,)
+        connection.commit()
+        
+        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    return render_template('home.html' )
+
+    
 
 # Pass Pet Function for Swipe Functionality - Evan Riffle
 @app.route('/passPet', methods=['POST'])
 def passPet():
-    s3 = boto3.client('s3')
-    global pet_type
-    global pet_id
-    if pet_type != 'all':
-        while True:
-            pet_id = (pet_id + 1) % len(pet_info)
-            if pet_info[pet_id][3] == pet_type:
-                break
-    else:
-        pet_id = (pet_id + 1) % len(pet_info)
 
-    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    if 'email' in session:
+        s3 = boto3.client('s3')
+        global pet_type
+        global pet_id
+        if pet_type != 'all':
+            while True:
+                pet_id = (pet_id + 1) % len(pet_info)
+                if pet_info[pet_id][3] == pet_type:
+                    break
+        else:
+            pet_id = (pet_id + 1) % len(pet_info)
+
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    return render_template('home.html' )
+
+    
 
 #Still having issues getting filter to work currently. Needs more work this next week.
 @app.route('/filter', methods=['POST'])
 def filter():
-    s3 = boto3.client('s3')
-    selected_pet_type = request.form['pet_type']
-    global pet_type
-    pet_type = selected_pet_type
+    if 'email' in session:
+        s3 = boto3.client('s3')
+        selected_pet_type = request.form['pet_type']
+        global pet_type
+        pet_type = selected_pet_type
 
-    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    return render_template('home.html' )
+
+
+
+    
 
 @app.route('/likeDislike_profile')
 def likeDislike_profile():
-    s3 = boto3.client('s3')
-    signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-    return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    if 'email' in session:
+        s3 = boto3.client('s3')
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+    return render_template('home.html' )
+
+
+    
 
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'
 # Define an empty list to store user information
 users = []
 users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
+users.append({'email': 'user@oregonstate.edu', 'password': '111111', 'account_type': 'user'})
 
 @app.route('/new_user_form', methods=['POST', 'GET'])
 def new_user_form():
