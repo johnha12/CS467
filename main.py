@@ -354,11 +354,24 @@ def new_user_form():
         # Can add that only take unquie email
 
         # Extract email and password from the form submission
+        profile_id = 0 # Hard codeded
+        first_name = request.form['first_name']
+        last_name= request.form['last_name']
         email = request.form['email']
+        phone = request.form['phone']
+        house_type = request.form['house_type']
+        seeking = request.form['seeking']
+        matches_id = 0
         password = request.form['password']
+        current_pets = request.form['current_pets']
+        kids_under_ten = request.form['kids_under_10']
+        pet_insurance = request.form['pet_insurance']
+        account_type = 'user'
         
-        # Append the email and password to the users list
-        users.append({'email': email, 'password': password, 'account_type': 'user'})
+
+        connection = database.connect()
+
+        database.add_user(connection, profile_id, first_name, last_name, password, email, phone, house_type, current_pets, kids_under_ten, pet_insurance, seeking, account_type, matches_id)
         
         # Redirect to a success page or display a success message
         result = request.form
