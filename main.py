@@ -371,7 +371,7 @@ def new_user_form():
 
         connection = database.connect()
 
-        database.add_user(connection, profile_id, first_name, last_name, password, email, phone, house_type, current_pets, kids_under_ten, pet_insurance, seeking, account_type, matches_id)
+        database.add_user(connection, profile_id, first_name, last_name, email, password, phone, house_type, current_pets, kids_under_ten, pet_insurance, seeking, account_type, matches_id)
         
         # Redirect to a success page or display a success message
         result = request.form
