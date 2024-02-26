@@ -122,32 +122,26 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # Check if the user exists and the password is correct
-    for user in users:
-        if user['email'] == email and user['password'] == password:
-            # Redirect based on the account type
-            if user['account_type'] == 'user':
-                session["account_type"] = 'user' # Set all needed session information
-                json_file =  jsonify({'redirect_url': '/welcome'})  # Redirect to user dashboard
-            elif user['account_type'] == 'shelter':
-                session["account_type"] = 'shelter'# Set all needed session information
-                json_file =  jsonify({'redirect_url': '/shelter'})  # Redirect to shelter dashboard
-            
-            session['email'] = email
-            # get user_id for current session to track user likes
-            global user_id
+    conn = database.connect()
+    cursor = conn.cursor()
 
-            # get user_id from database after login is validated
-            user_id = database.get_userid_email(connection, email)
-            user_id = user_id[0]
-            return json_file
+    cursor.execute("SELECT password FROM users WHERE email = ?", (email,))
+    result = cursor.fetchone()
 
-    # If login fails, return an error message and the home page URL
+    print(email)
+    print(password)
+
+    if result and result[0] == password:
+        print("User authenticated successfully!")
+        # You can do further actions here like setting session variables for logged-in users
+        session['email'] = email
+        return jsonify({'redirect_url': '/welcome'})
+    else:
+        print("Invalid email or password. Please try again.")
+
+    conn.close()
+
     return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
-
-def is_logged_in():
-    if 'email' not in session:
-        return render_template('home')
     
 @app.route('/sign_out')
 def sign_out():
