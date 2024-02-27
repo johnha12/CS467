@@ -12,22 +12,10 @@
 
     <!-- Temporary styling for webpage -->
     <style>
-        head {
-            background-color: #333;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #c7c7c4;
-            color: #fff;
-        }
-
         body {
             background-image: url(/static/img/cool_dog_bg.jpg);
             background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
+            background-position: center;
             background-color: #c7c4c4;
             text-align: center;
             align-items: center;
@@ -58,6 +46,7 @@
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
             box-shadow: 0 2px 6px 0 rgba(112, 125, 134, 0.14);
+            margin: 0 100px;
         }
 
         .action:hover {
@@ -112,8 +101,28 @@
         .swipe-header {
             padding: 2.5rem;
         }
+
+        /* filter menu */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <div class="container">
@@ -143,7 +152,6 @@
                 <option value="cat">Cats</option>
                 <option value="other">Other</option>
             </select>
-            <input type="submit" value="Submit">
         </form>
     </h5>
 
@@ -180,4 +188,12 @@
         </div>
     </div>
 </body>
+<script>
+    // Submit the form when the selection changes
+    const filterInput = document.getElementById("filterInput");
+  
+    filterInput.addEventListener("change", function() {
+      this.form.submit(); 
+    });
+  </script>
 </html>

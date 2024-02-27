@@ -290,7 +290,7 @@ def lovePet():
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
         # Track liked pets in database like table. Tracks via user_id and pet_id
-        database.add_like(connection,int(user_id),pet_id,)
+        database.add_like(connection,user_id,pet_id)
         connection.commit()
         
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)

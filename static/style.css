@@ -143,7 +143,7 @@ img {
 
 /* about section on welcome page */
 section {
-    padding-top: 10.5rem;
+    padding-top: 5rem;
     padding-bottom: 6rem;
 }
 
@@ -156,14 +156,18 @@ section {
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
     border: none;
     min-height: 20rem;
+    background-color: #fde3c1;
+    color: black; 
+    width: 400px;
+    font-size: larger;
 }
 #news-control-prev,
 #news-control-next {
-    background-color: #e1e1e1;
+    background-color: #c5c5c5;
     width: 6vh;
     height: 6vh;
     border-radius: 50%;
-    top: 50%;
+    top: 43%;
     transform: translateY(-50%);
 }
 @media (min-width: 768px) {
@@ -175,4 +179,16 @@ section {
     #news-carousel-inner {
       display: flex;
     }
+}
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #391bbd; /* Change this to your desired color */
+  color: white; /* Set text color to white for better contrast */
+}
+
+
+/* welcome page body */
+.welcome-body{
+    background-image: url(/static/img/paw_print_bg.jpg);
+    background-size: cover;
 }
