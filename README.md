@@ -10,5 +10,6 @@ To get started with the project, you'll need to install the necessary dependenci
 ### 3. pip install flask_sqlalchemy
 ### 4. pip install boto3
 ### 5. pip install Flask-WTF
+### 6. pip3 install beautifulsoup4
 
 
