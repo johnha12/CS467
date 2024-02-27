@@ -9,5 +9,6 @@ To get started with the project, you'll need to install the necessary dependenci
 ### 2. pip install email_validator
 ### 3. pip install flask_sqlalchemy
 ### 4. pip install boto3
+### 5. pip install Flask-WTF
 
 
