@@ -121,6 +121,8 @@ def home():
 def login():
     email = request.form.get('email')
     password = request.form.get('password')
+    account_type = request.form.get('account_type')
+
 
     conn = database.connect()
     cursor = conn.cursor()
@@ -135,6 +137,7 @@ def login():
         print("User authenticated successfully!")
         # You can do further actions here like setting session variables for logged-in users
         session['email'] = email
+        session["account_type"] = account_type
         return jsonify({'redirect_url': '/welcome'})
     else:
         print("Invalid email or password. Please try again.")
