@@ -2,10 +2,16 @@
     .pet-image {
         max-height: 100%;
         width: 100%;
+        height: 100%;
         object-fit: cover;
     }
 </style>
+
 {% extends "shelter.html" %}
+
+{% block title_content %}
+All Pets at Shelter
+{% endblock title_content %}
 
 <body>
     {% block nav_content %}

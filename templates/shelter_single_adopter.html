@@ -1,68 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        section {
-            margin-top: 20px;
-        }
-        .person img {
-            width: auto;
-            height: 50vh;
-        }
-        .person button {
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .message-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .not-interested-button {
-            background-color: #FF0000;
-            color: white;
-        }
-    </style>
-</head>
+<style>
+    .message-button {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .not-interested-button {
+        background-color: #FF0000;
+        color: white;
+    }
+</style>
+
+{% extends "shelter.html" %}
+
+{% block title_content %}
+Potential Adopter
+{% endblock title_content %}
+
 <body>
-    <header>
-        <h1>Shelter Name</h1>
-        <p>Welcome to Your Pet Adoption Page</p>
-    </header>
 
-    <nav>
-        <a href="./shelter">Dashboard</a>
-        <a href="./shelter_profile">Shelter Profile</a>
-        <a href="./shelter_add_pet">Add New Pet Profile</a>
-        <a href="./shelter_all_pets">All Pet Profiles</a> <!--  Need to make viewable or not-->
-        <a href="./shelter_all_adopters">Potential Adopters</a>
-        <a href="/sign_out">Sign Out</a>
-    </nav>
+    {% block nav_content %}
+    <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sign_out">Sign Out</a></li>
+    {% endblock nav_content %}
 
+    {% block content %}
     <section id="adopter">
         <h2>[Name of Adopter]</h2>
         <div class="person">
@@ -77,17 +41,18 @@
             <button class="not-interested-button" onclick="notInterested()">Not Interested</button>
         </div>
     </section>
-
-    <script>
-        function sendMessage() {
-            // Add logic for sending a message
-            alert("Sending a message!");
-        }
-
-        function notInterested() {
-            // Add logic for marking as not interested
-            alert("Marked as Not Interested");
-        }
-    </script>
+    {% endblock content %}
 </body>
+<script>
+    function sendMessage() {
+        // Add logic for sending a message
+        alert("Sending a message!");
+    }
+
+    function notInterested() {
+        // Add logic for marking as not interested
+        alert("Marked as Not Interested");
+    }
+</script>
+
 </html>

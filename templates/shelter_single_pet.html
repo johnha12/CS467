@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,28 +11,34 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         header {
             text-align: center;
             padding: 20px;
             background-color: #333;
             color: #fff;
         }
+
         nav {
             margin-top: 20px;
         }
+
         nav a {
             margin-right: 15px;
             text-decoration: none;
             color: #333;
             font-weight: bold;
         }
+
         section {
             margin-top: 20px;
         }
+
         .pet img {
             width: auto;
             height: 50vh;
         }
+
         .pet input,
         .pet select {
             width: 50%;
@@ -40,6 +47,7 @@
             box-sizing: border-box;
             /* display: inline-block; */
         }
+
         .pet button {
             background-color: #4CAF50;
             color: white;
@@ -49,28 +57,33 @@
             width: 100%;
             /* display: inline-block; */
         }
+
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
         }
+
         .checkbox-group label {
-            flex: 0 0 50%; /* 50% width for each checkbox */
+            flex: 0 0 50%;
+            /* 50% width for each checkbox */
             margin-bottom: 8px;
             /* display: inline-block; */
             width: 50vh;
         }
+
         .checkbox-group {
             margin-bottom: 16px;
             width: 50vh;
         }
+
         .checkbox-group input {
             vertical-align: middle;
             display: inline-block;
             width: auto;
         }
-
     </style>
 </head>
+
 <body>
     <header>
         <h1>Shelter Name</h1>
@@ -93,7 +106,7 @@
         <div class="pet">
             <img src="../static/img/Belle1.jpg" alt="Pet 1">
             <br>
-            
+
             <label for="petName">Name:</label>
             <br>
             <input type="text" id="petName" name="petName" value="Sparky">
@@ -141,10 +154,28 @@
             <br>
             <label>Disposition:</label>
             <div class="checkbox-group">
-                <label><input type="checkbox" name="goodWithOtherAnimals" value="Good with other animals">Good with other animals</label>
-                <label><input type="checkbox" name="goodWithChildren" value="Good with children">Good with children</label>
-                <label><input type="checkbox" name="leashedAtAllTimes" value="Animal must be leashed at all times">Animal must be leashed at all times</label>
+                <label><input type="checkbox" name="goodWithOtherAnimals" value="Good with other animals">Good with
+                    other animals</label>
+                <label><input type="checkbox" name="goodWithChildren" value="Good with children">Good with
+                    children</label>
+                <label><input type="checkbox" name="leashedAtAllTimes"
+                        value="Animal must be leashed at all times">Animal must be leashed at all times</label>
             </div>
+
+
+            <br>
+            <label>Location:</label><br>
+            <iframe 
+                width="600" 
+                height="450" 
+                style="border:0" 
+                loading="lazy" 
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade" 
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA7nPxo7gjd4TZYSRfNRrpY36i0R526u1w
+                    &q={{ maps_api_address }}">
+            </iframe>
+            <br>
 
             <label for="view">View:</label>
             <br>
@@ -157,4 +188,5 @@
         </div>
     </section>
 </body>
+
 </html>

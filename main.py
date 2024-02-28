@@ -190,10 +190,25 @@ def welcome():
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
+# function to pull shelter name from database
+def get_shelter_name():
+    conn = database.connect()
+    cursor = conn.cursor()
+
+    # username=shelter_name for now since we don't have email and password columns for shelters yet
+    # change WHERE shelter_name to WHERE email once those columns added
+    cursor.execute("SELECT shelter_name FROM shelters WHERE shelter_name = ?", (session.get('username'),))
+   
+    shelter_name = cursor.fetchone()[0]
+    conn.close()
+
+    return shelter_name
+
 @app.route('/shelter_add_pet')
 def shelter_add_pet():
     if 'email' in session and session["account_type"] == "shelter":
-        return render_template('shelter_add_pet.html')
+        shelter_name = get_shelter_name()
+        return render_template('shelter_add_pet.html', shelter_name=shelter_name)
     return render_template('home.html' )
 
 # Adding pet function
@@ -218,24 +233,28 @@ def add_pet():
 @app.route('/shelter_all_adopters')
 def shelter_all_adopters():
     if 'email' in session and session["account_type"] == "shelter":
-        return render_template('shelter_all_adopters.html')
+        shelter_name = get_shelter_name()
+        return render_template('shelter_all_adopters.html', shelter_name=shelter_name)
     return render_template('home.html' )
 
 @app.route('/shelter_all_pets')
 def shelter_all_pets():
     if 'email' in session and session["account_type"] == "shelter":
-        return render_template('shelter_all_pets.html', pets=pets)
+        shelter_name = get_shelter_name()
+        return render_template('shelter_all_pets.html', shelter_name=shelter_name, pets=pets)
     return render_template('home.html' )
+
+@app.route('/shelter_single_pet')
+def map_addr():
+    # remove spaces from address to insert into google maps api
+    stripped_addr=shelter_info['address'].replace(' ','')
+    return render_template('shelter_single_pet.html', maps_api_address=stripped_addr)
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
 def shelter_profile():
     if 'email' in session and session["account_type"] == "shelter":
-        # remove spaces from address to insert into google maps api
-        def remove_spaces(addr):
-            return addr.replace(' ','')
-        stripped_addr = remove_spaces(shelter_info['address'])
-
-        return render_template('shelter_profile.html', shelter_info=shelter_info, maps_api_address=stripped_addr)
+        shelter_name = get_shelter_name()
+        return render_template('shelter_profile.html', shelter_name=shelter_name, shelter_info=shelter_info)
     return render_template('home.html' )
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
@@ -273,7 +292,8 @@ def shelter_signup():
 @app.route('/shelter_single_adopter')
 def shelter_single_adopter():
     if 'email' in session and session["account_type"] == "shelter":
-        return render_template('shelter_single_adopter.html')
+        shelter_name = get_shelter_name()
+        return render_template('shelter_single_adopter.html', shelter_name=shelter_name)
     return render_template('home.html' )
     
 
@@ -287,7 +307,8 @@ def shelter_single_pet():
 @app.route('/shelter')
 def shelter():
     if 'email' in session and session["account_type"] == "shelter":
-        return render_template('shelter.html')
+        shelter_name = get_shelter_name()
+        return render_template('shelter.html', shelter_name = shelter_name)
     return render_template('home.html' )
     
 
