@@ -1,106 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    section {
+        margin-top: 20px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+    .pet img {
+        width: auto;
+        height: 50vh;
+    }
 
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
+    .pet input,
+    .pet select {
+        width: 50%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        /* display: inline-block; */
+    }
 
-        nav {
-            margin-top: 20px;
-        }
+    .pet button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        /* display: inline-block; */
+    }
 
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-        section {
-            margin-top: 20px;
-        }
+    .checkbox-group label {
+        flex: 0 0 50%;
+        /* 50% width for each checkbox */
+        margin-bottom: 8px;
+        /* display: inline-block; */
+        width: 50vh;
+    }
 
-        .pet img {
-            width: auto;
-            height: 50vh;
-        }
+    .checkbox-group {
+        margin-bottom: 16px;
+        width: 50vh;
+    }
 
-        .pet input,
-        .pet select {
-            width: 50%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            /* display: inline-block; */
-        }
+    .checkbox-group input {
+        vertical-align: middle;
+        display: inline-block;
+        width: auto;
+    }
+</style>
 
-        .pet button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            /* display: inline-block; */
-        }
+{% extends "shelter.html" %}
 
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .checkbox-group label {
-            flex: 0 0 50%;
-            /* 50% width for each checkbox */
-            margin-bottom: 8px;
-            /* display: inline-block; */
-            width: 50vh;
-        }
-
-        .checkbox-group {
-            margin-bottom: 16px;
-            width: 50vh;
-        }
-
-        .checkbox-group input {
-            vertical-align: middle;
-            display: inline-block;
-            width: auto;
-        }
-    </style>
-</head>
+{% block title_content %}
+Pet Profile
+{% endblock title_content %}
 
 <body>
-    <header>
-        <h1>Shelter Name</h1>
-        <p>Welcome to Your Pet Adoption Page</p>
-    </header>
 
-    <nav>
-        <a href="./shelter">Dashboard</a>
-        <a href="./shelter_profile">Shelter Profile</a>
-        <a href="./shelter_add_pet">Add New Pet Profile</a>
-        <a href="./shelter_all_pets">All Pet Profiles</a>
-        <a href="./shelter_all_adopters">Potential Adopters</a>
-        <a href="/sign_out">Sign Out</a>
-    </nav>
+    {% block nav_content %}
+    <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_profile">Shelter Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sign_out">Sign Out</a></li>
+    {% endblock nav_content %}
 
-    <!-- I don't remember if using <br>'s is good practice' -->
-
+    {% block content %}
     <section id="pet_profile">
         <h2>[Name of Pet]'s Profile!</h2>
         <div class="pet">
@@ -187,6 +156,7 @@
             <button type="submit">Save Changes</button>
         </div>
     </section>
+    {% endblock content %}
 </body>
 
 </html>

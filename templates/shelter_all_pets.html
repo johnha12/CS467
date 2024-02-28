@@ -1,9 +1,11 @@
 <style>
     .pet-image {
         max-height: 100%;
-        width: 100%;
-        height: 100%;
+        width: 200px;
+        height: 275px;
         object-fit: cover;
+        overflow: hidden;
+        padding-right: 25px;
     }
 </style>
 
@@ -16,6 +18,7 @@ All Pets at Shelter
 <body>
     {% block nav_content %}
     <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./shelter_profile">Shelter Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
