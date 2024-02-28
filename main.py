@@ -153,7 +153,8 @@ def login():
     conn.close()
     if user and account_type == "user":
         session['logged_in'] = True
-        session['username'] = user[2]  # Assuming username is the 3rd column in the table
+        session['first_name'] = user[2]  # Assuming username is the 3rd column in the table
+        session['last_Name'] = user[3] 
         #session['email'] = user[4]  # Assuming email is the 5th column in the table
         session['email'] = email    # Or just take the entered email from user and fill in the session info
         session['account_type'] = user[12]  # Assuming account type is the 13 column in the table 
