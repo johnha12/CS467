@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, session
+from dotenv import load_dotenv
+import os
 import database, requests
 import boto3
 from bs4 import BeautifulSoup
@@ -9,6 +11,17 @@ from flask_wtf import Form
 #from wtforms.fields.html5 import URLField
 from wtforms.validators import InputRequired
 
+load_dotenv()
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id= os.getenv('AWS_ACCESS_KEY'),
+    aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY'),
+    region_name=os.getenv('AWS_REGION')
+)
+
+bucket_name = os.getenv('AWS_BUCKET_NAME')
+print(bucket_name)
 app = Flask(__name__)
 
 # Database connection - check_same_thread set to false
@@ -23,6 +36,8 @@ pet_type = 'all'
 pet_info = database.get_all_pets(connection)
 
 user_id = None
+
+shelter_id = None
 
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'
@@ -119,31 +134,49 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
+    # Getting the info from the user
     email = request.form.get('email')
     password = request.form.get('password')
-    account_type = request.form.get('account_type')
+    account_type = "user" #user by default unless flipped
 
-
+    #   connecting to the databse
     conn = database.connect()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT password FROM users WHERE email = ?", (email,))
-    result = cursor.fetchone()
-
-    print(email)
-    print(password)
-
-    if result and result[0] == password:
-        print("User authenticated successfully!")
-        # You can do further actions here like setting session variables for logged-in users
-        session['email'] = email
-        session["account_type"] = account_type
-        return jsonify({'redirect_url': '/welcome'})
-    else:
-        print("Invalid email or password. Please try again.")
-
+    cursor.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+    user = cursor.fetchone()
+    if not user:
+        # Check shelter  table
+        cursor.execute("SELECT * FROM shelters WHERE shelter_name=? AND shelter_address=?", (email, password))
+        user = cursor.fetchone()
+        account_type = "shelter"
     conn.close()
+    if user and account_type == "user":
+        session['logged_in'] = True
+        session['username'] = user[2]  # Assuming username is the 3rd column in the table
+        #session['email'] = user[4]  # Assuming email is the 5th column in the table
+        session['email'] = email    # Or just take the entered email from user and fill in the session info
+        session['account_type'] = user[12]  # Assuming account type is the 13 column in the table 
+        global user_id
 
+        # grab user id from database
+        user_id = database.get_userid_email(connection, email)
+        user_id = user_id[0]
+        return jsonify({'redirect_url': '/welcome'})
+    if user and account_type == "shelter": # Note, shelter table does not have password or email field atm 
+        session['logged_in'] = True
+        session['username'] = user[2]  # Assuming shelter_name is the 3rd column in the table
+        #session['email'] = user[4]  # Assuming email is the 5th column in the table
+        session['email'] = email    # Or just take the entered email from user and fill in the session info
+        session['account_type'] = account_type  #hard coding this for now
+
+        # grab shelter_id from database
+        global shelter_id
+        shelter_id = database.get_shelterid_email(connection, email)
+        shelter_id = user_id[0]
+        return jsonify({'redirect_url': '/shelter_profile'})
+    else:
+        print("Invalid username or password")
     return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
     
 @app.route('/sign_out')
@@ -262,9 +295,8 @@ def shelter():
 @app.route('/likeDislike')
 def swipe():
     if 'email' in session:
-        s3 = boto3.client('s3')
         global pet_id
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
     
@@ -274,7 +306,6 @@ def swipe():
 def lovePet():
 
     if 'email' in session:
-        s3 = boto3.client('s3')
         global pet_type
         global pet_id
         global user_id
@@ -287,7 +318,7 @@ def lovePet():
         else:
             pet_id = (pet_id + 1) % len(pet_info)
             
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
         # Track liked pets in database like table. Tracks via user_id and pet_id
         database.add_like(connection,user_id,pet_id)
@@ -303,7 +334,6 @@ def lovePet():
 def passPet():
 
     if 'email' in session:
-        s3 = boto3.client('s3')
         global pet_type
         global pet_id
         if pet_type != 'all':
@@ -314,7 +344,7 @@ def passPet():
         else:
             pet_id = (pet_id + 1) % len(pet_info)
 
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
 
@@ -324,20 +354,18 @@ def passPet():
 @app.route('/filter', methods=['POST'])
 def filter():
     if 'email' in session:
-        s3 = boto3.client('s3')
         selected_pet_type = request.form['pet_type']
         global pet_type
         pet_type = selected_pet_type
 
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
 
 @app.route('/likeDislike_profile')
 def likeDislike_profile():
     if 'email' in session:
-        s3 = boto3.client('s3')
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': '467petphotos', 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
 

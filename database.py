@@ -15,8 +15,8 @@ matches(matches_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, pet_id IN
 match_time INTERGER, FOREIGN KEY(user_id) REFERENCES users(user_id),FOREIGN KEY(pet_id) REFERENCES pets(pet_id), FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id))"""
 
 CREATE_SHELTERS_TABLE = """CREATE TABLE IF NOT EXISTS
-shelters(shelter_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, shelter_name TEXT, shelter_address TEXT, shelter_rating INTEGER,account_type TEXT, pet_id INTEGER,
-FOREIGN KEY(profile_id) REFERENCES profiles(profile_id), FOREIGN KEY(pet_id) REFERENCES pets(pet_id))"""
+shelters(shelter_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, shelter_name TEXT,shelter_email TEXT, shelter_password TEXT, shelter_address TEXT,account_type TEXT,
+FOREIGN KEY(profile_id) REFERENCES profiles(profile_id))"""
 
 CREATE_ADMIN_TABLE = """CREATE TABLE IF NOT EXISTS
 admin(admin_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, FOREIGN KEY(profile_id) REFERENCES profiles(profile_id))"""
@@ -48,7 +48,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
 ADD_NEW_MATCH = "INSERT INTO matches (user_id, pet_id, shelter_id, match_time) VALUES (?,?,?,?);"
 
-ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name, shelter_address, shelter_rating, account_type, pet_id) VALUES (?,?,?,?,?,?);"
+ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name,shelter_email, shelter_password, shelter_address, account_type) VALUES (?,?,?,?,?,?);"
 
 ADD_NEW_ADMIN = "INSERT INTO admin (profile_id) VALUES (?);"
 
@@ -74,6 +74,8 @@ REMOVE_PET = "DELETE FROM pets WHERE pet_id = (?)"
 ADD_NEW_LIKE = "INSERT INTO likes (user_id, pet_id) VALUES (?,?);"
 
 GET_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email = (?)"
+
+GET_SHELTER_ID_BY_EMAIL = "SELECT shelter_id FROM shelters WHERE email = (?)"
 
 GET_ALL_LIKES = "SELECT * FROM likes"
 
@@ -127,8 +129,8 @@ def remove_user(connection, user_id):
 
 #----------------------------------------------------------------------------------------#
 # insert new shelter into table
-def add_shelter(connection,profile_id,shelter_name, shelter_address, shelter_rating, account_type, pet_id):
-    return connection.execute(ADD_NEW_SHELTER, (profile_id,shelter_name, shelter_address, shelter_rating, account_type, pet_id))
+def add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type):
+    return connection.execute(ADD_NEW_SHELTER, (profile_id,shelter_name,shelter_email, shelter_password,  shelter_address, account_type))
 
 
 def get_all_shelters(connection):
@@ -183,6 +185,10 @@ def add_like(connection, user_id, pet_id):
 def get_userid_email(connection, email):
     with connection:
         return connection.execute(GET_USER_ID_BY_EMAIL,(email,)).fetchone()
+
+def get_shelterid_email(connection, email):
+    with connection:
+        return connection.execute(GET_SHELTER_ID_BY_EMAIL,(email,)).fetchone()
 
 def get_all_likes(connection):
     with connection:
