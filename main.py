@@ -119,32 +119,42 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
+    # Getting the info from the user
     email = request.form.get('email')
     password = request.form.get('password')
-    account_type = request.form.get('account_type')
+    account_type = "user" #user by default unless flipped
 
-
+    #   connecting to the databse
     conn = database.connect()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT password FROM users WHERE email = ?", (email,))
-    result = cursor.fetchone()
-
-    print(email)
-    print(password)
-
-    if result and result[0] == password:
-        print("User authenticated successfully!")
-        # You can do further actions here like setting session variables for logged-in users
-        session['email'] = email
-        session["account_type"] = account_type
-        return jsonify({'redirect_url': '/welcome'})
-    else:
-        print("Invalid email or password. Please try again.")
-
+    cursor.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+    user = cursor.fetchone()
+    if not user:
+        # Check shelter  table
+        cursor.execute("SELECT * FROM shelters WHERE shelter_name=? AND shelter_address=?", (email, password))
+        user = cursor.fetchone()
+        account_type = "shelter"
     conn.close()
+    if user and account_type == "user":
+        session['logged_in'] = True
+        session['username'] = user[2]  # Assuming username is the 3rd column in the table
+        #session['email'] = user[4]  # Assuming email is the 5th column in the table
+        session['email'] = email    # Or just take the entered email from user and fill in the session info
+        session['account_type'] = user[12]  # Assuming account type is the 13 column in the table 
 
+        return jsonify({'redirect_url': '/welcome'})
+    if user and account_type == "shelter": # Note, shelter table does not have password or email field atm 
+        session['logged_in'] = True
+        session['username'] = user[2]  # Assuming shelter_name is the 3rd column in the table
+        session['email'] = email    # Or just take the entered email from user and fill in the session info
+        session['account_type'] = account_type  #hard coding this for now
+
+        return jsonify({'redirect_url': '/shelter_profile'})
+    else:
+        print("Invalid username or password")
     return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
+
     
 @app.route('/sign_out')
 def sign_out():
