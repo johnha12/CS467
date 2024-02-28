@@ -44,7 +44,11 @@
 </head>
 <body>
     <header>
-        <h1>User Name</h1>
+        {% if session.first_name %}
+        {{ session.first_name }} {{ session.last_Name }} 
+        {% else %}
+        user 
+        {% endif %}
         <p>Welcome to Your Pet Adoption Page</p>
     </header>
 
