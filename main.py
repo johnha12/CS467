@@ -157,11 +157,13 @@ def login():
         #session['email'] = user[4]  # Assuming email is the 5th column in the table
         session['email'] = email    # Or just take the entered email from user and fill in the session info
         session['account_type'] = user[12]  # Assuming account type is the 13 column in the table 
+
         global user_id
 
-        # grab user id from database
+        # get user_id from database after login is validated
         user_id = database.get_userid_email(connection, email)
         user_id = user_id[0]
+
         return jsonify({'redirect_url': '/welcome'})
     if user and account_type == "shelter": # Note, shelter table does not have password or email field atm 
         session['logged_in'] = True
@@ -170,10 +172,6 @@ def login():
         session['email'] = email    # Or just take the entered email from user and fill in the session info
         session['account_type'] = account_type  #hard coding this for now
 
-        # grab shelter_id from database
-        global shelter_id
-        shelter_id = database.get_shelterid_email(connection, email)
-        shelter_id = user_id[0]
         return jsonify({'redirect_url': '/shelter_profile'})
     else:
         print("Invalid username or password")
