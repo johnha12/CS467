@@ -443,21 +443,30 @@ def new_shelter_form():
 def userMatch():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_matches.html')
-    return render_template('home.html' )
+    elif "email" in session and session["account_type"] == "shelter":
+        return render_template('shelter.html', article_list=articles)
+    else:
+        return render_template('home.html' )
 
 # route for user to view matches
 @app.route('/user_profile')
 def user_profile():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_profile.html')
-    return render_template('home.html' )
+    elif "email" in session and session["account_type"] == "shelter":
+        return render_template('shelter.html', article_list=articles)
+    else:
+        return render_template('home.html' )
 
 # route for user to view matches
 @app.route('/user_liked_pets')
 def user_liked_pets():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_liked_pets.html')
-    return render_template('home.html' )
+    elif "email" in session and session["account_type"] == "shelter":
+        return render_template('shelter.html', article_list=articles)
+    else:
+        return render_template('home.html' )
     
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
