@@ -194,6 +194,8 @@ def sign_out():
 def welcome():
     if 'email' in session and session["account_type"] == "user":
         return render_template('welcome.html', article_list=articles)
+    elif 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('shelter.html', article_list=articles)
     return render_template('home.html' )
 
 # function to pull shelter name from database
