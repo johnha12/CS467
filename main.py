@@ -42,12 +42,6 @@ shelter_id = None
 #   Secret key is needed for flask
 app.config["SECRET_KEY"]='why_a_dog?'
 ###########################################
-# Hardcoded variables for now
-
-# Define an empty list to store user information WILL be replaced by database
-users = []
-users.append({'email': 'shelter@oregonstate.edu', 'password': '111111', 'account_type': 'shelter'})
-users.append({'email': 'user@oregonstate.edu', 'password': '111111', 'account_type': 'user'})
 
 # Hardcoded variables for now
 pets = [
