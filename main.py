@@ -180,10 +180,14 @@ def login():
         print("Invalid username or password")
     return jsonify({'error': 'Invalid email or password. Please try again.', 'redirect_url': '/'})
     
-@app.route('/sign_out')
+@app.route('/sign_out') #   Clear ALL session info
 def sign_out():
     session.pop('email', None)
     session.pop("account_type", None)
+    session.pop("username", None)
+    session.pop("first_name", None)
+    session.pop("last_name", None)
+    session.pop("logged_in", None)
     return redirect(url_for('home'))
 
 @app.route('/welcome')
