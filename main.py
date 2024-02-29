@@ -243,6 +243,8 @@ def shelter_all_adopters():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_name()
         return render_template('shelter_all_adopters.html', shelter_name=shelter_name)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
 @app.route('/shelter_all_pets')
@@ -250,6 +252,8 @@ def shelter_all_pets():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_name()
         return render_template('shelter_all_pets.html', shelter_name=shelter_name, pets=pets)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
 @app.route('/shelter_profile', methods=['GET', 'POST'])
@@ -257,6 +261,8 @@ def shelter_profile():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_name()
         return render_template('shelter_profile.html', shelter_name=shelter_name, shelter_info=shelter_info)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
@@ -296,6 +302,8 @@ def shelter_single_adopter():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_name()
         return render_template('shelter_single_adopter.html', shelter_name=shelter_name)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
     
 
@@ -309,6 +317,8 @@ def shelter_single_pet():
         shelter_name = get_shelter_name()
 
         return render_template('shelter_single_pet.html', shelter_name=shelter_name, maps_api_address=stripped_addr)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
 
 @app.route('/shelter')
@@ -316,6 +326,8 @@ def shelter():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_name()
         return render_template('shelter.html', shelter_name = shelter_name)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
     
 
