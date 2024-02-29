@@ -147,7 +147,7 @@ def login():
     user = cursor.fetchone()
     if not user:
         # Check shelter  table
-        cursor.execute("SELECT * FROM shelters WHERE shelter_name=? AND shelter_address=?", (email, password))
+        cursor.execute("SELECT * FROM shelters WHERE shelter_email=? AND shelter_password=?", (email, password))
         user = cursor.fetchone()
         account_type = "shelter"
     conn.close()
