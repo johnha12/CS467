@@ -439,6 +439,8 @@ def new_shelter_form():
 def userMatch():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_matches.html')
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('shelter.html', article_list=articles)
     return render_template('home.html' )
 
 # route for user to view matches
@@ -446,6 +448,8 @@ def userMatch():
 def user_profile():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_profile.html')
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('shelter.html', article_list=articles)
     return render_template('home.html' )
 
 # route for user to view matches
@@ -453,6 +457,8 @@ def user_profile():
 def user_liked_pets():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_liked_pets.html')
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('shelter.html', article_list=articles)
     return render_template('home.html' )
     
 if __name__ == "__main__":
