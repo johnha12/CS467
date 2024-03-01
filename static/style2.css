@@ -38,7 +38,7 @@ form {
     background-color: #d18420;
 }
 
-/* animal profiles */
+/* animal and adopter/user profiles */
 .profile-container {
     display: flex;
     flex-wrap: wrap;
@@ -55,7 +55,7 @@ form {
     margin-top: 5rem;
 }
 
-/* adopter profiles */
+/* adopter/user profiles */
 .adopter-profile-image img {
     width: 550px;
     height: 550px;
