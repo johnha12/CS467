@@ -46,7 +46,9 @@
     </div>
     {% endblock content %}
 </body>
+{% block js %}
 <script>
+    
     function redirectToProfile() {
         window.location.href = "./shelter_profile";
     }
@@ -60,5 +62,5 @@
         window.location.href = "./shelter_all_adopters";
     }
 </script>
-
+{% endblock js %}
 </html>

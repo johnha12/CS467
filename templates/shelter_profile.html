@@ -15,23 +15,35 @@ Shelter Profile
     {% endblock nav_content %}
 
     {% block content %}
-    <section id="shelter_profile">
-        <h2>Your profile</h2>
-        <!-- Content of page -->
-        <h3>Name</h3>
-        <p>{{ shelter_info.name }}</p>
-        <h3>About</h3>
-        <p>{{ shelter_info.description }}</p>
-        <h3>Pictures</h3>
-        <p>Current photos (NOT IMPLEMENTED YET)</p>
-        <h3>Address</h3>
-        <p>{{ shelter_info.address }}</p>
+    <div class="profile-info py-3">
+        <form action="#" method="post">
+            <!-- Content of page -->
+            <h3>Name</h3>
+            <p>{{ shelter_info.name }}</p>
+            <h3>About</h3>
+            <p>{{ shelter_info.description }}</p>
+            <h3>Pictures</h3>
+            <p>Current photos (NOT IMPLEMENTED YET)</p>
+            <h3>Address</h3>
+            <p>{{ shelter_info.address }}</p>
 
-        <h3>Other/Website link</h3>
-        <p><a href="{{ shelter_info.link }}">{{ shelter_info.link }}</a></p>
-        <button class="edit_btn"><a class="edit_link" href="/shelter_profile_edit">Edit Profile Information</a></button>
-    </section>
+            <h3>Other/Website link</h3>
+            <p><a href="{{ shelter_info.link }}">{{ shelter_info.link }}</a></p>
+
+            <div class="text-center">
+                <button type="button" class="edit_btn save-changes-btn" onclick="redirectToShelterEdit()">Edit Profile
+                    Information</button>
+            </div>
+        </form>
+
+    </div>
     {% endblock content %}
 </body>
-
+{% block js %}
+<script>
+    function redirectToShelterEdit() {
+        window.location.href = "./shelter_profile_edit";
+    }
+</script>
+{% endblock js %}
 </html>

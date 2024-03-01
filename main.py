@@ -10,6 +10,7 @@ from form_new_user  import newUserForm
 from flask_wtf import Form
 #from wtforms.fields.html5 import URLField
 from wtforms.validators import InputRequired
+from get_shelter_info import get_shelter_name
 
 load_dotenv()
 
@@ -192,19 +193,7 @@ def welcome():
         return render_template('shelter.html', article_list=articles)
     return render_template('home.html' )
 
-# function to pull shelter name from database
-def get_shelter_name():
-    conn = database.connect()
-    cursor = conn.cursor()
 
-    # username=shelter_name for now since we don't have email and password columns for shelters yet
-    # change WHERE shelter_name to WHERE email once those columns added
-    cursor.execute("SELECT shelter_name FROM shelters WHERE shelter_name = ?", (session.get('username'),))
-   
-    shelter_name = cursor.fetchone()[0]
-    conn.close()
-
-    return shelter_name
 
 @app.route('/shelter_add_pet')
 def shelter_add_pet():
@@ -304,13 +293,8 @@ def shelter_single_adopter():
 @app.route('/shelter_single_pet')
 def shelter_single_pet():
     if 'email' in session and session["account_type"] == "shelter":
-
-        # remove spaces from address to insert into google maps api
-        stripped_addr=shelter_info['address'].replace(' ','')
-
         shelter_name = get_shelter_name()
-
-        return render_template('shelter_single_pet.html', shelter_name=shelter_name, maps_api_address=stripped_addr)
+        return render_template('shelter_single_pet.html', shelter_name=shelter_name)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
@@ -399,7 +383,11 @@ def filter():
 def likeDislike_profile():
     if 'email' in session:
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
-        return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
+        
+        # remove spaces from address to insert into google maps api
+        stripped_addr=shelter_info['address'].replace(' ','')
+        
+        return render_template('likeDislike_profile.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type, maps_api_address=stripped_addr)
     return render_template('home.html' )
 
 @app.route('/new_user_form', methods=['POST', 'GET'])

@@ -1,8 +1,20 @@
-<style>            
-.card-img-top {
-    width: 100%;
-    height: 20vw;
-    object-fit: cover;
+<style>
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .card{
+        width: 20rem;
+    }
+
+    .card-body {
+        height: 200px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
     }
 </style>
 
@@ -33,51 +45,55 @@ All Potential Adopters
         <div class="container">
             <div class="row row-cols-3 gy-5">
                 <div class="col">
-                    <div class="card" style="width: 20rem;">
-                        <a href="./shelter_single_adopter"><img src="/static/img/mr_beast.jpeg" class="card-img-top"
-                                alt="..."></a>
-                        <div class="card-body">
-                            <h5 class="card-title">Mr Beast</h5>
-                            <p class="card-text"><strong>Interested In:</strong> None</p>
-                            <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
-                            <p class="card-text"><strong>Disposition:</strong> Good with other animals, Good with
-                                children</p>
+                    <div class="card-container">
+                        <div class="card">
+                            <a href="./shelter_single_adopter"><img src="/static/img/mr_beast.jpeg" class="card-img-top"
+                                    alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title">Mr Beast</h5>
+                                <p class="card-text"><strong>Interested In:</strong> None</p>
+                                <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+
+                <div class="col">
+                    <div class="card-container">
+                        <div class="card" style="width: 20rem;">
+                            <a href="./shelter_single_adopter"><img src="/static/img/taylor_swift.jpg"
+                                    class="card-img-top" alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title">Taylor Swift</h5>
+                                <p class="card-text"><strong>Interested In:</strong> Rocky</p>
+                                <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
+                                <p class="card-text"><strong>Disposition:</strong> Animal must be leashed at all times
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="col">
-                    <div class="card" style="width: 20rem;">
-                        <a href="./shelter_single_adopter"><img src="/static/img/taylor_swift.jpg"
-                                class="card-img-top" alt="..."></a>
-                        <div class="card-body">
-                            <h5 class="card-title">Taylor Swift</h5>
-                            <p class="card-text"><strong>Interested In:</strong> Rocky</p>
-                            <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
-                            <p class="card-text"><strong>Disposition:</strong> Animal must be leashed at all times
-                            </p>
+                    <div class="card-container">
+                        <div class="card" style="width: 20rem;">
+                            <a href="./shelter_single_adopter"><img src="/static/img/donald_trump.jpg"
+                                    class="card-img-top" alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title">Donald Trump</h5>
+                                <p class="card-text"><strong>Interested In:</strong> Whiskers</p>
+                                <p class="card-text"><strong>Preference:</strong> Not Fixed</p>
+                                <p class="card-text"><strong>Disposition:</strong> Good with children</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col">
-                    <div class="card" style="width: 20rem;">
-                        <a href="./shelter_single_adopter"><img src="/static/img/donald_trump.jpg"
-                                class="card-img-top" alt="..."></a>
-                        <div class="card-body">
-                            <h5 class="card-title">Donald Trump</h5>
-                            <p class="card-text"><strong>Interested In:</strong> Whiskers</p>
-                            <p class="card-text"><strong>Preference:</strong> Not Fixed</p>
-                            <p class="card-text"><strong>Disposition:</strong> Good with children</p>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
     {% endblock content %}
-
 </body>
-
 </html>

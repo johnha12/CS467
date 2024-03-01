@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ pet_info.name }} Profile</title>
+    <title>{{ pet_info[pet_id][2] }}'s Profile</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
 </head>
 
@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <h1>{{ pet_info.name }} Profile</h1>
+        <h1>{{ pet_info[pet_id][2] }}'s Profile</h1>
     </header>
     <div class="pet-container">
         <img id="image"
@@ -27,6 +27,16 @@
             <p>Age: {{ pet_info[pet_id][8] }}</p>
             <p>Color: {{ pet_info[pet_id][5] }}</p>
             <p>Personality: {{ pet_info[pet_id][6] }}</p>
+            <iframe 
+            width="600" 
+            height="450" 
+            style="border:0" 
+            loading="lazy" 
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade" 
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA7nPxo7gjd4TZYSRfNRrpY36i0R526u1w
+                &q={{ maps_api_address }}">
+            </iframe>
 
         </div>
     </div>

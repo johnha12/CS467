@@ -1,57 +1,3 @@
-<style>
-    section {
-        margin-top: 20px;
-    }
-
-    .pet img {
-        width: auto;
-        height: 50vh;
-    }
-
-    .pet input,
-    .pet select {
-        width: 50%;
-        padding: 8px;
-        margin-bottom: 16px;
-        box-sizing: border-box;
-        /* display: inline-block; */
-    }
-
-    .pet button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        /* display: inline-block; */
-    }
-
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .checkbox-group label {
-        flex: 0 0 50%;
-        /* 50% width for each checkbox */
-        margin-bottom: 8px;
-        /* display: inline-block; */
-        width: 50vh;
-    }
-
-    .checkbox-group {
-        margin-bottom: 16px;
-        width: 50vh;
-    }
-
-    .checkbox-group input {
-        vertical-align: middle;
-        display: inline-block;
-        width: auto;
-    }
-</style>
-
 {% extends "shelter.html" %}
 
 {% block title_content %}
@@ -70,92 +16,87 @@ Pet Profile
     {% endblock nav_content %}
 
     {% block content %}
-    <section id="pet_profile">
-        <h2>[Name of Pet]'s Profile!</h2>
-        <div class="pet">
-            <img src="../static/img/Belle1.jpg" alt="Pet 1">
-            <br>
-
-            <label for="petName">Name:</label>
-            <br>
-            <input type="text" id="petName" name="petName" value="Sparky">
-
-            <br>
-            <label for="breed">Breed:</label>
-            <br>
-            <input type="text" id="breed" name="breed" value="Labrador Retriever">
-
-            <br>
-            <label for="animalType">Animal Type:</label>
-            <br>
-            <select id="animalType" name="animalType">
-                <option value="dog" selected>Dog</option>
-                <option value="cat">Cat</option>
-                <option value="other">Other</option>
-            </select>
-
-            <br>
-            <label for="gender">Gender:</label>
-            <br>
-            <select id="gender" name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-
-            <br>
-            <label for="fixed">Fixed/Not Fixed:</label>
-            <br>
-            <select id="fixed" name="fixed">
-                <option value="fixed">Fixed</option>
-                <option value="not_fixed">Not Fixed</option>
-            </select>
-
-            <br>
-            <label for="availability">Availability:</label>
-            <br>
-            <select id="availability" name="availability">
-                <option value="not_available">Not Available</option>
-                <option value="available">Available</option>
-                <option value="pending">Pending</option>
-                <option value="adopted">Adopted</option>
-            </select>
-
-            <br>
-            <label>Disposition:</label>
-            <div class="checkbox-group">
-                <label><input type="checkbox" name="goodWithOtherAnimals" value="Good with other animals">Good with
-                    other animals</label>
-                <label><input type="checkbox" name="goodWithChildren" value="Good with children">Good with
-                    children</label>
-                <label><input type="checkbox" name="leashedAtAllTimes"
-                        value="Animal must be leashed at all times">Animal must be leashed at all times</label>
-            </div>
-
-
-            <br>
-            <label>Location:</label><br>
-            <iframe 
-                width="600" 
-                height="450" 
-                style="border:0" 
-                loading="lazy" 
-                allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade" 
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA7nPxo7gjd4TZYSRfNRrpY36i0R526u1w
-                    &q={{ maps_api_address }}">
-            </iframe>
-            <br>
-
-            <label for="view">View:</label>
-            <br>
-            <select id="view" name="view">
-                <option value="public">Public</option>
-                <option value="private">Private</option>
-            </select>
-
-            <button type="submit">Save Changes</button>
+    <div class="profile-container">
+        <div class="pet-profile-image">
+            <img src="../static/img/Belle1.jpg" alt="Profile Picture">
         </div>
-    </section>
+
+        <div class="profile-info py-3">
+            <form action="#" method="post">
+                <h2 class="text-center">Edit Pet Profile</h2>
+
+                <div class="mx-5">
+                    <label for="petName">Name:</label>
+                    <br>
+                    <input type="text" id="petName" name="petName" value="Sparky">
+
+                    <br></br>
+                    <label for="breed">Breed:</label>
+                    <br>
+                    <input type="text" id="breed" name="breed" value="Labrador Retriever">
+
+                    <br></br>
+                    <label for="animalType">Animal Type:</label>
+                    <br>
+                    <select id="animalType" name="animalType">
+                        <option value="dog" selected>Dog</option>
+                        <option value="cat">Cat</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <br></br>
+                    <label for="gender">Gender:</label>
+                    <br>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <br></br>
+                    <label for="fixed">Fixed/Not Fixed:</label>
+                    <br>
+                    <select id="fixed" name="fixed">
+                        <option value="fixed">Fixed</option>
+                        <option value="not_fixed">Not Fixed</option>
+                    </select>
+
+                    <br></br>
+                    <label for="availability">Availability:</label>
+                    <br>
+                    <select id="availability" name="availability">
+                        <option value="not_available">Not Available</option>
+                        <option value="available">Available</option>
+                        <option value="pending">Pending</option>
+                        <option value="adopted">Adopted</option>
+                    </select>
+
+                    <br></br>
+                    <label>Disposition:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="goodWithOtherAnimals" value="Good with other animals">Good
+                            with
+                            other animals</label><br>
+                        <label><input type="checkbox" name="goodWithChildren" value="Good with children">Good with
+                            children</label><br>
+                        <label><input type="checkbox" name="leashedAtAllTimes"
+                                value="Animal must be leashed at all times">Animal must be leashed at all times</label>
+                    </div>
+                    
+                    <br>
+                    <label for="view">View:</label>
+                    <br>
+                    <select id="view" name="view">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                    <br></br>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="save-changes-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
     {% endblock content %}
 </body>
 

@@ -156,10 +156,10 @@ section {
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
     border: none;
     min-height: 20rem;
-    background-color: #fde3c1;
     color: black; 
     width: 400px;
     font-size: larger;
+    background-color: rgba(253, 227, 193, 0.7);
 }
 #news-control-prev,
 #news-control-next {

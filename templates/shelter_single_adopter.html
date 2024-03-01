@@ -1,13 +1,5 @@
 <style>
-    .message-button {
-        background-color: #4CAF50;
-        color: white;
-    }
 
-    .not-interested-button {
-        background-color: #FF0000;
-        color: white;
-    }
 </style>
 
 {% extends "shelter.html" %}
@@ -28,22 +20,29 @@ Potential Adopter
     {% endblock nav_content %}
 
     {% block content %}
-    <section id="adopter">
-        <h2>[Name of Adopter]</h2>
-        <div class="person">
-            <a href="./shelter_single_adopter">
-                <img src="../static/img/mr_beast.jpeg" alt="person 1">
-            </a>
-            <p><strong>Name:</strong> Mr. Beast</p>
-            <p><strong>Interested In:</strong> None</p>
-            <p><strong>Preference:</strong> Dog, Male, Fixed</p>
-            <p><strong>Disposition:</strong> Good with other animals, Good with children</p>
-            <button class="message-button" onclick="sendMessage()">Message</button>
-            <button class="not-interested-button" onclick="notInterested()">Not Interested</button>
+    <div class="profile-container">
+        <div class="adopter-profile-image">
+            <img src="../static/img/mr_beast.jpeg" alt="person 1">
         </div>
-    </section>
+
+        <div class="adopter-profile-info py-3">
+            <form action="#" method="post">
+                <p><strong>Name:</strong> Mr. Beast</p>
+                <p><strong>Interested In:</strong> None</p>
+                <p><strong>Preference:</strong> Dog, Male, Fixed</p>
+                <p><strong>Email:</strong> JonDoe@email,com </p>
+                <p><strong>Phone:</strong> 5343543354 </p>
+
+                <div class="text-center">
+                    <button class="message-button" onclick="sendMessage()">Message</button>
+                    <button class="not-interested-button" onclick="notInterested()">Not Interested</button>
+                </div>
+            </form>
+        </div>
+    </div>
     {% endblock content %}
 </body>
+{% block js %}
 <script>
     function sendMessage() {
         // Add logic for sending a message
@@ -55,5 +54,6 @@ Potential Adopter
         alert("Marked as Not Interested");
     }
 </script>
+{% endblock js %}
 
 </html>
