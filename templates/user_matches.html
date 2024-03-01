@@ -1,95 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        section {
-            margin-top: 20px;
-        }
-        .edit_btn {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .edit_link {
-            color: white;
-            text-decoration: none;
-        }
-        .match-photo { 
-            width: 25%;
-            height: 25%;
-        }
-    </style>
-</head>
+{% extends "user_profile.html" %}
+
+{% block title_content %}
+Matched Pets
+{% endblock title_content %}
+
+<!-- Hard coded matches will need to be updated -->
+
 <body>
-    <header>
-        {% if session.first_name %}
-        {{ session.first_name }} {{ session.last_Name }} 
-        {% else %}
-        user 
-        {% endif %}
-        <p>Welcome to Your Match Page</p>
-    </header>
+    {% block content %}
+    <h1 class="text-center py-4">My Matches</h1>
 
-    <nav>
-        <a href="./welcome">Dashboard</a>
-        <a href="./user_profile">User Profile</a>
-        <a href="./user_liked_pets">Liked Pets</a> <!--  Need to make viewable or not-->
-        <a href="./user_matches">Matched Pets</a>
-        <a href="./sign_out">Sign Out</a>
-    </nav>
+    <div class="match-container">
+        <div class="row row-cols-3 gy-3">
+            <div class="col">
+                <div class="match">
+                    <div class="match-card">
+                        <div class="match-photo">
+                            <!-- make image into link to pet profile? -->
+                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
+                            <div class="message-bar">Message Shelter</div>
+                        </div>
+                        <div class="match-info">
+                            <div class="pet-name mx-auto">Bark Johnson</div>
+                            <div class="pet-info mx-auto">a Bird</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
- <!-- Hard coded matches will need to be updated -->
- <body>
-    <div class="container">
-        <h1>My Matches</h1>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
+            <div class="col">
+                <div class="match">
+                    <div class="match-card">
+                        <div class="match-photo">
+                            <!-- make image into link to pet profile? -->
+                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
+                            <div class="message-bar">Message Shelter</div>
+                        </div>
+                        <div class="match-info">
+                            <div class="pet-name mx-auto">Gary</div>
+                            <div class="pet-info mx-auto">a Bird</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="match-info">
-                <div class="pet-name">John Doe</div>
-                <div class="pet-info">a Bird</div>
+
+            <div class="col">
+                <div class="match">
+                    <div class="match-card">
+                        <div class="match-photo">
+                            <!-- make image into link to pet profile? -->
+                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
+                            <div class="message-bar">Message Shelter</div>
+                        </div>
+                        <div class="match-info">
+                            <div class="pet-name mx-auto">Susan</div>
+                            <div class="pet-info mx-auto">a Bird</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button>Message Shelter</button> <!-- how do we want to do this? -->
+
+            <div class="col">
+                <div class="match">
+                    <div class="match-card">
+                        <div class="match-photo">
+                            <!-- make image into link to pet profile? -->
+                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
+                            <div class="message-bar">Message Shelter</div>
+                        </div>
+                        <div class="match-info">
+                            <div class="pet-name mx-auto">Susan</div>
+                            <div class="pet-info mx-auto">a Bird</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="match">
-            <div class="match-photo"> 
-                <img src="/static/blank-profile.png" alt="Pet Picture">
-            </div>
-            <div class="match-info">
-                <div class="pet-name">Jane Smith</div>
-                <div class="pet-info">A dog</div>
-            </div>
-            <button>Message Shelter</button>
-        </div>
-        <!-- More matches can be added here -->
     </div>
 
+    {% endblock content %}
 </body>
+
 </html>

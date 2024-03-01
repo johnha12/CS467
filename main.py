@@ -11,6 +11,7 @@ from flask_wtf import Form
 #from wtforms.fields.html5 import URLField
 from wtforms.validators import InputRequired
 from get_shelter_info import get_shelter_name
+from get_user_info import get_user_phone
 
 load_dotenv()
 
@@ -440,7 +441,7 @@ def userMatch():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_matches.html')
     elif "email" in session and session["account_type"] == "shelter":
-        return render_template('shelter.html', article_list=articles)
+        return render_template('shelter.html')
     else:
         return render_template('home.html' )
 
@@ -448,9 +449,10 @@ def userMatch():
 @app.route('/user_profile')
 def user_profile():
     if "email" in session and session["account_type"] == "user":
-        return render_template('user_profile.html')
+        user_phone = get_user_phone()
+        return render_template('user_profile.html', phone=user_phone)
     elif "email" in session and session["account_type"] == "shelter":
-        return render_template('shelter.html', article_list=articles)
+        return render_template('shelter.html')
     else:
         return render_template('home.html' )
 
@@ -460,7 +462,7 @@ def user_liked_pets():
     if "email" in session and session["account_type"] == "user":
         return render_template('user_liked_pets.html')
     elif "email" in session and session["account_type"] == "shelter":
-        return render_template('shelter.html', article_list=articles)
+        return render_template('shelter.html')
     else:
         return render_template('home.html' )
     

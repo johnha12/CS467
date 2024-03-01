@@ -1,65 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelter Homepage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        section {
-            margin-top: 20px;
-        }
-        .edit_btn {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .edit_link {
-        color: white;
-        text-decoration: none;
-        }
-    </style>
-</head>
+{% extends "user_profile.html" %}
+
+{% block title_content %}
+Liked Pets
+{% endblock title_content %}
+
 <body>
-    <header>
-        {% if session.first_name %}
-        {{ session.first_name }} {{ session.last_Name }} 
-        {% else %}
-        user 
-        {% endif %}
-        <p>Welcome to Your Liked Pet Page</p>
-    </header>
 
-    <nav>
-        <a href="./welcome">Dashboard</a>
-        <a href="./user_profile">User Profile</a>
-        <a href="./user_liked_pets">Liked Pets</a> <!--  Need to make viewable or not-->
-        <a href="./user_matches">Matched Pets</a>
-        <a href="./sign_out">Sign Out</a>
-    </nav>
-
+    {% block content %}
     <section id="liked_pets">
         <h2>Liked Pets</h2>
         <!-- Add content for the dashboard overview -->
@@ -87,6 +34,6 @@
         
         
     </section>
-
+    {% endblock content %}
 </body>
 </html>

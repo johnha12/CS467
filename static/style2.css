@@ -21,77 +21,9 @@ form {
     border: 2px solid #fde3c1; /* Add border */
 }
 
-/* edit and save buttons */
-.save-changes-btn {
-    background-color: #ff9914;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    /* add hover effect */
-    margin: 0 auto;
-}
-
-.save-changes-btn:hover {
-    background-color: #d18420;
-}
-
-/* animal and adopter/user profiles */
-.profile-container {
-    display: flex;
-    flex-wrap: wrap;
-    /* allow wrapping if content overflows */
-    justify-content: center;
-    padding-top: 2.5rem;
-}
-
-.pet-profile-image img {
-    width: 550px;
-    height: 550px;
-    border-radius: 15%;
-    margin-right: 10rem;
-    margin-top: 5rem;
-}
-
-/* adopter/user profiles */
-.adopter-profile-image img {
-    width: 550px;
-    height: 550px;
-    border-radius: 15%;
-    margin-right: 10rem;
-    margin-top: 5rem;
-    object-fit: cover;
-}
-
-.adopter-profile-info {
-    margin-top: 10rem;
-}
-
-/* message buttons for shelter to contact adopter */
-.message-button {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.not-interested-button {
-    background-color: #FF0000;
-    color: white;
-}
-
-
-yes_button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-}
-#image:hover {
-    border: 2px solid black;
-}
-
+/********************************************************************/
+/* shelter */
+/********************************************************************/
 .btn-square-xl {
     width: 200px !important;
     max-width: 100% !important;
@@ -111,3 +43,148 @@ yes_button {
     font-size: 25px;
     font-weight: bold;
   }
+
+/********************************************************************/
+/* user_profile, shelter_profile, shelter_single_pet */
+/********************************************************************/
+.save-changes-btn {
+    background-color: #ff9914;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    /* add hover effect */
+    margin: 0 auto;
+}
+
+.save-changes-btn:hover {
+    background-color: #d18420;
+}
+
+/********************************************************************/
+/* shelter_single_pet, shelter_profile,  shelter_single_adopter, 
+/* user_profile */
+/********************************************************************/
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* allow wrapping if content overflows */
+    justify-content: center;
+    padding-top: 2.5rem;
+}
+
+.pet-profile-image img {
+    width: 550px;
+    height: 550px;
+    border-radius: 15%;
+    margin-right: 10rem;
+    margin-top: 5rem;
+}
+
+
+/********************************************************************/
+/* user_profile, shelter_single_adopter */
+/********************************************************************/
+.adopter-profile-image img {
+    width: 550px;
+    height: 550px;
+    border-radius: 15%;
+    margin-right: 10rem;
+    margin-top: 5rem;
+    object-fit: cover;
+}
+
+.adopter-profile-info {
+    margin-top: 10rem;
+}
+
+/********************************************************************/
+/* shelter_single_adopter */
+/********************************************************************/
+.message-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.not-interested-button {
+    background-color: #FF0000;
+    color: white;
+}
+
+/********************************************************************/
+/* user_matches */
+/********************************************************************/
+.match-container {
+    display: flex;
+    justify-content: center;
+}
+
+.match-card {
+    width: 20rem;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+}
+
+.match-photo {
+    position: relative;
+}
+
+.match-photo img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.match-info {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.match-photo:hover .message-bar {
+    opacity: 1;
+}
+
+/********************************************************************/
+/* user_profile */
+/********************************************************************/
+.user-body {
+    background-image: url(/static/img/pets_1_bg.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.user-header {
+    padding-top: 60px;
+}
+
+
+/* 
+yes_button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+#image:hover {
+    border: 2px solid black;
+} */
