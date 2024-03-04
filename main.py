@@ -251,7 +251,7 @@ def shelter_profile():
 
 @app.route('/shelter_profile_edit', methods=['GET', 'POST'])
 def shelter_profile_edit():
-    if 'email' in session and session["account_type"] == "shelter":
+    if 'email' in session:
         # Only accessible from shelter profile button
         if request.method == 'GET':
             return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
@@ -264,14 +264,34 @@ def shelter_profile_edit():
             # Check if the form fields are not empty before updating shelter_info
             if new_name:
                 shelter_info['name'] = new_name
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE shelters SET shelter_name = ? WHERE shelter_email = ?", (new_name, session['email']))
+                conn.commit()
+                conn.close()
+
+                conn = database.connect()
+                cursor = conn.cursor()
+                cursor.execute("SELECT shelter_name FROM shelters WHERE shelter_email=?", (session['email'],))
+                session['username'] = cursor.fetchone()
+                conn.close()
+
             if new_description:
                 shelter_info['description'] = new_description
             if new_address:
                 shelter_info['address'] = new_address
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE shelters SET shelter_address = ? WHERE shelter_email = ?", (new_address, session['email']))
+                conn.commit()
+                conn.close()
             if new_link:
                 shelter_info['link'] = new_link
             
             # Now need to process data and redirect
+            
 
             return redirect('shelter_profile')
 
