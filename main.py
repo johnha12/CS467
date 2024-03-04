@@ -391,6 +391,23 @@ def likeDislike_profile():
         return render_template('likeDislike_profile.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type, maps_api_address=stripped_addr)
     return render_template('home.html' )
 
+def is_email_available(email):
+    conn = database.connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT shelter_name FROM shelters WHERE shelter_email=?", (email,))
+    taken = cursor.fetchone()  # Fetch one row
+    conn.close()
+    # if taken is None, need to check user table.
+    if (taken is None):
+        conn = database.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT first_name FROM users WHERE email=?", (email,))
+        taken = cursor.fetchone()  # Fetch one row
+        conn.close()
+    # if is_email_avaiable is false, then the email is taken
+    # if is_email_avaiable is true, then email is available
+    return (taken is None)
+
 @app.route('/new_user_form', methods=['POST', 'GET'])
 def new_user_form():
 
@@ -418,6 +435,11 @@ def new_user_form():
 
         connection = database.connect()
 
+        # need to check if email is taken
+        if (not is_email_available(email)):
+            print("Email is already taken. Try again")
+            return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
+
         database.add_user(connection, profile_id, first_name, last_name, email, password, phone, house_type, current_pets, kids_under_ten, pet_insurance, seeking, account_type, matches_id)
         
         # Redirect to a success page or display a success message
@@ -425,13 +447,27 @@ def new_user_form():
         return render_template('new_user_form_handler.html', title="New User Form Handler", header="New User Form Handler", result=result)
     return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
 
-
 # testing route for new shelter form
 @app.route('/new_shelter_form', methods=['POST', 'GET'])
 def new_shelter_form():
     form = newShelterForm()
     if  form.validate_on_submit():
         result = request.form
+
+        connection = database.connect()
+        profile_id = 0
+        shelter_name = request.form['shelter_name']
+        shelter_email = request.form['shelter_email']
+        shelter_password = request.form['checkPassword']
+        shelter_address = request.form['shelter_address']
+        account_type = 'shelter'
+
+        if (not is_email_available(shelter_email)):
+            print("Email is already taken. Try again")
+            return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
+
+        database.add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type)
+
         return render_template('new_shelter_handler.html', title="New Shelter Form Handler", header="New Shelter Form Handler", result=result)
     return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
