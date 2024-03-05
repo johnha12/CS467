@@ -127,7 +127,7 @@ header.masthead {
 /* featured pets carousel*/
 .carousel-inner {
     padding-top: 10.5rem; 
-    height: 1000px; 
+    height: 750px; 
 }
 .carousel {
     width: 60%;
@@ -140,6 +140,7 @@ img {
     width: 55%;
     height: 50%;
 }
+
 
 /* about section on welcome page */
 section {
