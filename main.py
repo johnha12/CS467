@@ -384,7 +384,7 @@ def lovePet():
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
         # Track liked pets in database like table. Tracks via user_id and pet_id
-        like_check = database.check_match_exists(connection,user_id,pet_id)
+        like_check = database.check_match_exists(connection,user_id,pet_id,shelter_id)
         if like_check[0] == 0:
             database.add_like(connection,user_id,pet_id)
             connection.commit()

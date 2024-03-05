@@ -166,15 +166,30 @@ form {
 /* user_profile */
 /********************************************************************/
 .user-body {
+    height:max-content;
     background-image: url(/static/img/pets_1_bg.jpg);
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
 .user-header {
     padding-top: 60px;
 }
+
+/********************************************************************/
+/* likeDislike_profile */
+/********************************************************************/
+.pet-header {
+    padding-top: 60px;
+}
+.likeDislikeProfile {
+    height: 50vh;
+    background-image: url(/static/img/corgi_bg.png);
+    background-size: cover;
+    background-position: center;
+}
+
+
 
 
 /* 
