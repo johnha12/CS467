@@ -4,12 +4,8 @@ import os
 import database, requests
 import boto3
 from bs4 import BeautifulSoup
-from form_flask_select import simpleForm
 from form_new_shelter import newShelterForm
 from form_new_user  import newUserForm
-from flask_wtf import Form
-#from wtforms.fields.html5 import URLField
-from wtforms.validators import InputRequired
 from get_db_info import get_user_info, get_shelter_info
 
 load_dotenv()
@@ -281,7 +277,9 @@ def shelter_profile_edit():
     if 'email' in session:
         # Only accessible from shelter profile button
         if request.method == 'GET':
-            return render_template('shelter_profile_edit.html', shelter_info=shelter_info)
+            shelter_name = get_shelter_info("shelter_name")
+            addr = get_shelter_info("shelter_address")
+            return render_template('shelter_profile_edit.html', shelter_name=shelter_name, shelter_addr=addr, shelter_info=shelter_info)
         elif request.method == 'POST':
             new_name = request.form['new_name']
             new_description = request.form['new_description']

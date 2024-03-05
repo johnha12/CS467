@@ -1,7 +1,7 @@
 from flask import session
 import database
 
-# pull user phone number from database
+# pull user info from database
 def get_user_info(col):
     conn = database.connect()
     cursor = conn.cursor()
@@ -14,7 +14,7 @@ def get_user_info(col):
     return user_info
 
 
-# function to pull shelter name from database
+# pull shelter info from database
 def get_shelter_info(col):
     conn = database.connect()
     cursor = conn.cursor()
