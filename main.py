@@ -22,7 +22,8 @@ s3 = boto3.client(
 )
 
 bucket_name = os.getenv('AWS_BUCKET_NAME')
-print(bucket_name)
+folder_name = os.getenv('FOLDER_NAME')
+
 app = Flask(__name__)
 
 # Database connection - check_same_thread set to false
@@ -142,9 +143,9 @@ def login():
     user = cursor.fetchone()
     if not user:
         # Check shelter table **place holder for shelter table that does not have email/password uses name of shelter and address instead**
-        cursor.execute("SELECT * FROM shelters WHERE shelter_name=? AND shelter_address=?", (email, password))
+        #cursor.execute("SELECT * FROM shelters WHERE shelter_name=? AND shelter_address=?", (email, password))
         # Check shelter table 
-        #cursor.execute("SELECT * FROM shelters WHERE shelter_email=? AND shelter_password=?", (email, password))
+        cursor.execute("SELECT * FROM shelters WHERE shelter_email=? AND shelter_password=?", (email, password))
         user = cursor.fetchone()
         account_type = "shelter"
     conn.close()
@@ -169,6 +170,10 @@ def login():
         #session['email'] = user[4]  # Assuming email is the 5th column in the table
         session['email'] = email    # Or just take the entered email from user and fill in the session info
         session['account_type'] = account_type  #hard coding this for now
+        
+        global shelter_id
+        shelter_id = database.get_shelterid_email(connection, email)
+        shelter_id = shelter_id[0]
 
         return jsonify({'redirect_url': '/shelter'})
     else:
@@ -206,18 +211,37 @@ def shelter_add_pet():
 @app.route('/add_pet', methods=['POST'])
 def add_pet():
     if request.method == 'POST':
+        global shelter_id
         # Retrieve form data
         pet_name = request.form['petName']
         breed = request.form['breed']
         animal_type = request.form['animalType']
+        color = request.form['color']
+        likes = request.form['likes']
+        dislikes = request.form['dislikes']
+        age = request.form['size']
+        size = request.form['age']
         gender = request.form['gender']
         fixed = request.form['fixed']
         availability = request.form['availability']
         good_with_other_animals = request.form.get('goodWithOtherAnimals', False)
         good_with_children = request.form.get('goodWithChildren', False)
         animal_must_be_leashed = request.form.get('animalMustBeLeashedAtAllTimes', False)
-        # Process the form data (you can perform database operations here)
 
+        # Grab image and setup for bucket upload and key creation
+        picture = request.files['picture1']
+        filename = picture.filename
+        key = f"{folder_name}/{filename}"
+
+        # Upload image to amazon s3 bucket
+        s3.upload_fileobj(picture,bucket_name,f"{folder_name}/{filename}")
+
+        # Process the form data (you can perform database operations here)
+        database.add_pet(connection,shelter_id,pet_name,animal_type,breed,color,likes,dislikes,age,gender,fixed,key,good_with_other_animals,good_with_children,size,availability,0)
+        connection.commit()
+
+        global pet_info
+        pet_info = database.get_all_pets(connection)
         # Redirect to a different page after processing the form data
         return redirect('/shelter_add_pet')
 
@@ -225,7 +249,10 @@ def add_pet():
 def shelter_all_adopters():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_info("shelter_name")
-        return render_template('shelter_all_adopters.html', shelter_name=shelter_name)
+        global shelter_id
+        print(shelter_id)
+        users = database.like_join(connection,shelter_id)
+        return render_template('shelter_all_adopters.html', shelter_name=shelter_name, users=users)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
@@ -359,8 +386,10 @@ def lovePet():
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
         # Track liked pets in database like table. Tracks via user_id and pet_id
-        database.add_like(connection,user_id,pet_id)
-        connection.commit()
+        like_check = database.check_match_exists(connection,user_id,pet_id)
+        if like_check[0] == 0:
+            database.add_like(connection,user_id,pet_id)
+            connection.commit()
         
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
@@ -522,6 +551,28 @@ def user_liked_pets():
         return render_template('shelter.html')
     else:
         return render_template('home.html' )
-    
+
+# route to update pet status to pending and contact adopter
+@app.route('/contact', methods=['POST'])
+def contact():
+    if request.method == 'POST':
+        global shelter_id
+        userid = request.form['user_info']
+
+        match_check = database.check_match_exists(connection,int(userid[0]),int(userid[3]),shelter_id)
+        
+        
+        # update pet_status to pending
+        database.update_adoption_status_pending(connection,'pending',int(userid[3]))
+        connection.commit()
+
+        # add pet and user to matches table
+        if match_check[0] == 0:
+            database.add_new_match(connection,int(userid[0]),int(userid[3]),shelter_id,0)
+            connection.commit()
+
+        return redirect('/shelter_profile')
+
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)

@@ -1,33 +1,16 @@
-<style>
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .card{
-        width: 20rem;
-    }
-
-    .card-body {
-        height: 200px;
-    }
-
-    .card-img-top {
-        width: 100%;
-        height: 350px;
-        object-fit: cover;
+<style>            
+.card-img-top {
+    width: 100%;
+    height: 20vw;
+    object-fit: cover;
     }
 </style>
 
 {% extends "shelter.html" %}
 
-{% block title_content %}
-All Potential Adopters
-{% endblock title_content %}
-
 <body>
     {% block nav_content %}
     <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
-    <li class="nav-item"><a class="nav-link" href="./shelter_profile">Shelter Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
@@ -42,56 +25,30 @@ All Potential Adopters
         <!-- Disposition are checkboxes that include "Good with other animals", "Good with children", "Animal must be leashed at all times". -->
 
         <!-- Probably make a for loop with Flask and Database -->
-        <div class="container">
-            <div class="row row-cols-3 gy-5">
-                <div class="col">
-                    <div class="card-container">
-                        <div class="card">
-                            <a href="./shelter_single_adopter"><img src="/static/img/mr_beast.jpeg" class="card-img-top"
-                                    alt="..."></a>
-                            <div class="card-body">
-                                <h5 class="card-title">Mr Beast</h5>
-                                <p class="card-text"><strong>Interested In:</strong> None</p>
-                                <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="row">
 
-                <div class="col">
-                    <div class="card-container">
-                        <div class="card" style="width: 20rem;">
-                            <a href="./shelter_single_adopter"><img src="/static/img/taylor_swift.jpg"
-                                    class="card-img-top" alt="..."></a>
-                            <div class="card-body">
-                                <h5 class="card-title">Taylor Swift</h5>
-                                <p class="card-text"><strong>Interested In:</strong> Rocky</p>
-                                <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
-                                <p class="card-text"><strong>Disposition:</strong> Animal must be leashed at all times
-                                </p>
-                            </div>
+            {% for user in users %}
+            <div class="col">
+                <form method="post" action="/contact">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user[0] }}</h5>
+                            <p class="card-text"><strong>Interested In:</strong> {{ user[2] }}</p>
+                            <p class="card-text"><strong>Preference:</strong> Dog, Male, Fixed</p>
+                            <p class="card-text"><strong>Disposition:</strong> Good with other animals, Good with
+                                children</p> 
+                            <input type= "hidden" name ="user_info" value="{{ user[3] }}, {{ user[4] }}">
+                            <button type = "submit">Contact</button> 
                         </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card-container">
-                        <div class="card" style="width: 20rem;">
-                            <a href="./shelter_single_adopter"><img src="/static/img/donald_trump.jpg"
-                                    class="card-img-top" alt="..."></a>
-                            <div class="card-body">
-                                <h5 class="card-title">Donald Trump</h5>
-                                <p class="card-text"><strong>Interested In:</strong> Whiskers</p>
-                                <p class="card-text"><strong>Preference:</strong> Not Fixed</p>
-                                <p class="card-text"><strong>Disposition:</strong> Good with children</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                    </div>  
+                </form>
             </div>
+            {% endfor %}
         </div>
+
     </section>
     {% endblock content %}
+
 </body>
+
 </html>

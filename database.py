@@ -23,11 +23,12 @@ admin(admin_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, FOREIGN KE
 
 CREATE_PETS_TABLE = """CREATE TABLE IF NOT EXISTS
 pets(pet_id INTEGER PRIMARY KEY AUTOINCREMENT, shelter_id INTEGER, pet_name TEXT, pet_species TEXT, pet_breed TEXT,
-pet_color TEXT, pet_likes TEXT, pet_dislikes TEXT, pet_age integer, pet_facts TEXT, pet_health TEXT, pet_photo TEXT, pet_good_with TEXT,
-pet_bad_with TEXT, pet_size TEXT,adoption_status TEXT, matches_id INTEGER, FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id), FOREIGN KEY(matches_id) REFERENCES matches(matches_id))"""
+pet_color TEXT, pet_likes TEXT, pet_dislikes TEXT, pet_age integer, pet_gender TEXT, pet_health TEXT, pet_photo TEXT, pet_good_with_other_animals TEXT,
+pet_good_with_children TEXT, pet_size TEXT,adoption_status TEXT, matches_id INTEGER, FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id), FOREIGN KEY(matches_id) REFERENCES matches(matches_id))"""
 
 CREATE_LIKES_TABLE = """CREATE TABLE IF NOT EXISTS
 likes(likes_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, pet_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(user_id), FOREIGN KEY(pet_id) REFERENCES pets(pet_id))"""
+
 
 GET_ALL_PROFILES = "SELECT * FROM profiles"
 
@@ -52,7 +53,7 @@ ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name,shelter_email,
 
 ADD_NEW_ADMIN = "INSERT INTO admin (profile_id) VALUES (?);"
 
-ADD_NEW_PET = """INSERT INTO pets (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, adoption_status, matches_id) 
+ADD_NEW_PET = """INSERT INTO pets (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_gender, pet_health, pet_photo, pet_good_with_other_animals, pet_good_with_children, pet_size, adoption_status, matches_id) 
 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
 GET_PET_IMAGE = """SELECT pet_photo FROM pets WHERE pet_id = (?)"""
@@ -75,9 +76,29 @@ ADD_NEW_LIKE = "INSERT INTO likes (user_id, pet_id) VALUES (?,?);"
 
 GET_USER_ID_BY_EMAIL = "SELECT user_id FROM users WHERE email = (?)"
 
-GET_SHELTER_ID_BY_EMAIL = "SELECT shelter_id FROM shelters WHERE email = (?)"
+GET_SHELTER_ID_BY_EMAIL = "SELECT shelter_id FROM shelters WHERE shelter_email = (?)"
 
 GET_ALL_LIKES = "SELECT * FROM likes"
+
+GET_LIKES_WITH_PET_ID = "SELECT * FROM likes WHERE pet_id = (?)"
+
+GET_PETID_WITH_SHELTERID = "SELECT pet_if FROM pets WHERE shelter_id = (?)"
+
+LIKE_TABLE_JOIN = """SELECT u.first_name, u.last_name, p.pet_name, u.user_id, p.pet_id
+FROM likes l
+JOIN pets p ON l.pet_id = p.pet_id
+JOIN users u ON l.user_id = u.user_id
+WHERE p.shelter_id = (?)"""
+
+UPDATE_PET_STATUS_PENDING = """
+UPDATE pets
+SET adoption_status = ?
+WHERE pet_id = ?
+"""
+
+CHECK_MATCH_EXISTS = """SELECT COUNT(*) FROM matches WHERE user_id = ? AND pet_id = ? and shelter_id = ?"""
+
+CHECK_LIKE_EXISTS = """SELECT COUNT(*) FROM likes WHERE user_id = ? AND pet_id = ?"""
 
 
 # Define connection function
@@ -158,9 +179,9 @@ def remove_admin(connection, admin_id):
 
 #----------------------------------------------------------------------------------------#
 # insert new pet into table
-def add_pet(connection, shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes,pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size, adoption_status, matches_id):
+def add_pet(connection, shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes,pet_age, pet_gender, pet_health, pet_photo, pet_good_with_other_animals, pet_good_with_children, pet_size, adoption_status, matches_id):
     with connection:
-        return connection.execute(ADD_NEW_PET, (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_facts, pet_health, pet_photo, pet_good_with, pet_bad_with, pet_size,adoption_status, matches_id))
+        return connection.execute(ADD_NEW_PET, (shelter_id, pet_name, pet_species, pet_breed, pet_color, pet_likes, pet_dislikes, pet_age, pet_gender, pet_health, pet_photo, pet_good_with_other_animals, pet_good_with_children, pet_size,adoption_status, matches_id))
 
 
 def get_all_pets(connection):
@@ -193,3 +214,38 @@ def get_shelterid_email(connection, email):
 def get_all_likes(connection):
     with connection:
         return connection.execute(GET_ALL_LIKES).fetchall()
+
+def get_likes_with_petid(connection, pet_id):
+    with connection:
+        return connection.execute(GET_LIKES_WITH_PET_ID,(pet_id,)).fetchall()
+
+
+def get_petid_with_shelterid(connection, shelter_id):
+    with connection:
+        return connection.execute(GET_PETID_WITH_SHELTERID,(shelter_id,)).fetchall()
+    
+def like_join(connection, shelter_id):
+    with connection:
+        return connection.execute(LIKE_TABLE_JOIN,(shelter_id,)).fetchall()
+    
+def update_adoption_status_pending(connection, status, pet_id):
+    with connection:
+        return connection.execute(UPDATE_PET_STATUS_PENDING,(status,pet_id))
+
+
+def add_new_match(connection, user_id, pet_id, shelter_id, match_time):
+    with connection:
+        return connection.execute(ADD_NEW_MATCH,(user_id,pet_id,shelter_id,match_time))
+    
+def get_all_matches(connection):
+    with connection:
+        return connection.execute(GET_ALL_MATCHES).fetchall()
+    
+
+def check_match_exists(connection, user_id, pet_id, shelter_id):
+    with connection:
+        return connection.execute(CHECK_MATCH_EXISTS,(user_id,pet_id,shelter_id)).fetchone()
+
+def check_like_exists(connection, user_id, pet_id):
+    with connection:
+        return connection.execute(CHECK_LIKE_EXISTS,(user_id,pet_id)).fetchone()

@@ -39,15 +39,9 @@
     </style>
 
 {% extends "shelter.html" %}
-
-{% block title_content %}
-Add New Pet
-{% endblock title_content %}
-
 <body>
     {% block nav_content %}
     <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
-    <li class="nav-item"><a class="nav-link" href="./shelter_profile">Shelter Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_add_pet">Add New Pet Profile</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_pets">All Pet Profiles</a></li>
     <li class="nav-item"><a class="nav-link" href="./shelter_all_adopters">Potential Adopters</a></li>
@@ -58,7 +52,7 @@ Add New Pet
     <section id="new_pet">
         <div class="text-center"><h2>Add New Pet</h2></div>
         
-        <form action="add_pet" method="post" onsubmit="return showConfirmation()">
+        <form action="add_pet" method="post" onsubmit="return showConfirmation()" enctype="multipart/form-data">
             <label for="petName">Pet Name:</label>
             <input type="text" id="petName" name="petName" required>
 
@@ -71,6 +65,21 @@ Add New Pet
                 <option value="cat">Cat</option>
                 <option value="other">Other</option>
             </select>
+
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" required>
+
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" required>
+
+            <label for="likes">Likes:</label>
+            <input type="text" id="likes" name="likes" required>
+
+            <label for="dislikes">Dislikes:</label>
+            <input type="text" id="dislikes" name="dislikes" required>
+
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" required>
 
             <label for="gender">Gender:</label>
             <select id="gender" name="gender">
@@ -107,13 +116,16 @@ Add New Pet
             </div>
 
             <!-- Picture Upload Section -->
-            <label for="pictures">Upload Pictures (up to 6):</label>
+            <label for="pictures">Upload Picture:</label>
             <input type="file" id="picture1" name="picture1" accept="image/*">
+            <!-- 
             <input type="file" id="picture2" name="picture2" accept="image/*">
             <input type="file" id="picture3" name="picture3" accept="image/*">
             <input type="file" id="picture4" name="picture4" accept="image/*">
             <input type="file" id="picture5" name="picture5" accept="image/*">
             <input type="file" id="picture6" name="picture6" accept="image/*">
+            -->
+            
 
             <button type="submit">Add Pet</button>
         </form>
