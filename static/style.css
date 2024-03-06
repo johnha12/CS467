@@ -95,6 +95,9 @@ body {
 }
 
 /* welcome page masthead */
+.masthead-container{
+    padding-bottom: 15rem;
+}
 header.masthead {
     background-image: url(/static/img/welcome_bg.jpg);
     padding-top: 10.5rem;
@@ -126,12 +129,14 @@ header.masthead {
 
 /* featured pets carousel*/
 .carousel-inner {
-    padding-top: 10.5rem; 
-    height: 750px; 
+    padding-top: 2.5rem; 
+    height: 800px; 
 }
-.carousel {
+#carousel-1 {
     width: 60%;
     margin: auto;
+    padding-top: 0;
+    margin-bottom: 20rem;
 }
 img {
     object-fit: cover;
@@ -139,24 +144,36 @@ img {
     left: 0;
     width: 55%;
     height: 50%;
+    border-radius: 25px;
+}
+#img-ctrl-prev,
+#img-ctrl-next {
+    filter: invert(100%) hue-rotate(180deg);
+    top: 40%;
+    transform: translateY(-50%);
 }
 
 
 /* about section on welcome page */
 section {
-    padding-top: 5rem;
+    padding-top: 15rem;
     padding-bottom: 6rem;
+}
+.about-container {
+    width: 600px;
+    margin: 0 auto;
 }
 
 /* news carousel */
 #news-carousel-inner {
-    padding: 10.5rem;
+    padding-top: 25px;
+    padding-bottom: 10.5rem;
   }
 .news-card {
     margin: 0 0.5em;
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
     border: none;
-    min-height: 20rem;
+    min-height: 35rem;
     color: black; 
     width: 400px;
     font-size: larger;
@@ -168,7 +185,7 @@ section {
     width: 6vh;
     height: 6vh;
     border-radius: 50%;
-    top: 43%;
+    top: 45%;
     transform: translateY(-50%);
 }
 @media (min-width: 768px) {

@@ -55,7 +55,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
         <li class="nav-item"><a class="nav-link" href="#carousel-1">Featured Pet</a></li>
-        <li class="nav-item"><a class="nav-link" href="#carousel-2">News</a></li>
+        <li class="nav-item"><a class="nav-link" href="#news-container">News</a></li>
         <li class="nav-item"><a class="nav-link" href="/user_profile">User Profile</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="/sign_out">Sign Out</a></li>
@@ -64,47 +64,56 @@
   </nav>
 
   <!-- Masthead-->
-  <header class="masthead">
-    <div class="container">
-      <div class="masthead-subheading">Welcome!</div>
-      <div class="masthead-heading text-uppercase">This is a Dating App for Pet Adoption</div>
-      <a class="btn btn-primary btn-xl text-uppercase" href="/likeDislike">Get Started</a>
-    </div>
-  </header>
+  <div class="masthead-container">
+    <header class="masthead">
+      <div class="container">
+        <div class="masthead-subheading">Welcome!</div>
+        <div class="masthead-heading text-uppercase">This is a Dating App for Pet Adoption</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="/likeDislike">Get Started</a>
+      </div>
+    </header>
+  </div>
+  
 
   <!-- Carousel-->
-  <div id="carousel-1" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel" data-bs-interval="3000">
-    <ol class="carousel-indicators">
+  <div class="container d-flex flex-column h-100" id="img-carousel-container">
+    <h1 class="text-uppercase text-center mb-4">featured pets</h1>
+    <div id="carousel-1" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel"
+      data-bs-interval="3000">
+      <ol class="carousel-indicators">
         <li type="button" data-bs-target="#carousel-1" data-bs-slide-to="0" class="active" aria-label="Slide 1"></li>
         <li type="button" data-bs-target="#carousel-1" data-bs-slide-to="1" aria-label="Slide 2"></li>
         <li type="button" data-bs-target="#carousel-1" data-bs-slide-to="2" aria-label="Slide 3"></li>
-    </ol>
+      </ol>
 
-    <div class="carousel-inner">
-        {% for url in image_urls %}
+      <div class="carousel-inner">
+        {% for pet in image_urls %}
         <div class="carousel-item {% if loop.first %}active{% endif %}">
-          <a href="/likeDislike_profile">
-            <img src="{{ url }}" class="d-block mx-auto img-fluid" style="height: 500px;" alt="Slide Image">
+          <a href="/likeDislike_profile/{{ pet['pet_id'] }}">
+            <img src="{{ pet['img_url'] }}" class="d-block mx-auto img-fluid" style="height: 650px; width: 750px"
+              alt="Slide Image">
           </a>
         </div>
         {% endfor %}
+      </div>
     </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-1" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+    <button class="carousel-control-prev" id="img-ctrl-prev" type="button" data-bs-target="#carousel-1"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
     </button>
 
-    <button class="carousel-control-next" type="button" data-bs-target="#carousel-1" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+    <button class="carousel-control-next" id="img-ctrl-next" type="button" data-bs-target="#carousel-1"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
     </button>
-</div>
-
+  </div>
 
   <!-- News Carousel-->
-  <div class="container mt-5 d-flex flex-column h-100">
-    <div id="carousel-2" class="news-carousel carousel-dark w-100">
+  <div class="container d-flex flex-column h-100" id="news-container">
+    <h1 class="text-uppercase text-center mb-4">News</h1>
+    <div id="carousel-2" class="news-carousel carousel-dark w-100 d-flex flex-column">
       <div class="carousel-inner" id="news-carousel-inner">
         {% for article in article_list %}
         <div class="news-carousel-item {% if loop.index == 1 %}active{% endif %}">
@@ -133,7 +142,7 @@
 
   <!-- About-->
   <section class="page-section" id="about">
-    <div class="container">
+    <div class="about-container">
       <div>
         <h1 class="section-heading text-uppercase text-center">About</h1>
         <h3 class="section-subheading text-left">

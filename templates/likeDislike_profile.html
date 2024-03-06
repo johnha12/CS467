@@ -14,7 +14,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin: 20px auto;
+        margin: 0 auto;
         max-width: 900px;
     }
 
@@ -35,7 +35,9 @@
 
     #petProfile {
         width: 50%;
-        padding: 100px;
+        padding-left: 125px;
+        padding-top: 50px;
+        padding-bottom: 50px;
         box-sizing: border-box;
         flex: 1 1 60%;
     }
@@ -47,7 +49,7 @@
 
     .button {
         padding: 10px 20px;
-        background-color: #4CAF50;
+        background-color: #ff9914;
         color: white;
         border: none;
         border-radius: 5px;
@@ -55,7 +57,7 @@
     }
 
     .button:hover {
-        background-color: #3e8e41;
+        background-color: #d18420;
     }
 
     /* Specific elements */
@@ -74,10 +76,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5 fixed-top" id="mainNav">
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                <li class="nav-item"><a class="nav-link" href="./welcome">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="./user_profile">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="./user_liked_pets">Liked Pets</a></li>
-                <li class="nav-item"><a class="nav-link" href="./user_matches">View Matches</a></li>
+                <li class="nav-item"><a class="nav-link" href="/welcome">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/user_profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="/user_liked_pets">Liked Pets</a></li>
+                <li class="nav-item"><a class="nav-link" href="/user_matches">View Matches</a></li>
                 <li class="nav-item"><a class="nav-link" href="/sign_out">Sign Out</a></li>
             </ul>
         </div>
@@ -97,11 +99,11 @@
             <p>Age: {{ pet_info[pet_id][8] }}</p>
             <p>Color: {{ pet_info[pet_id][5] }}</p>
             <p>Personality: {{ pet_info[pet_id][6] }}</p>
+            <p>Location: 
             <iframe width="400" height="250" style="border:0" loading="lazy" allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA7nPxo7gjd4TZYSRfNRrpY36i0R526u1w
                 &q={{ maps_api_address }}">
-            </iframe>
-
+            </iframe></p>
         </div>
     </div>
 

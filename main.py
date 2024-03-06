@@ -192,12 +192,12 @@ def welcome():
         poss_pet_ids = list(range(1, len(pet_info)))
         rand_pet_id_list = random.sample(poss_pet_ids, 3)
 
-        img_url_list = []
+        pet_url_list = []
         for id in rand_pet_id_list:
             signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[id][11]}, ExpiresIn=3600)
-            img_url_list.append(signed_url)
+            pet_url_list.append({'pet_id': id, 'img_url': signed_url})
 
-        return render_template('welcome.html', article_list=articles, image_urls=img_url_list)
+        return render_template('welcome.html', article_list=articles, image_urls=pet_url_list)
     elif 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('shelter.html')
     return render_template('home.html' )
@@ -435,8 +435,8 @@ def filter():
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
 
-@app.route('/likeDislike_profile')
-def likeDislike_profile():
+@app.route('/likeDislike_profile/<int:pet_id>')
+def likeDislike_profile(pet_id):
     if 'email' in session:
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
