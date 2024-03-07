@@ -190,16 +190,12 @@ def sign_out():
 def welcome():
     if 'email' in session and session["account_type"] == "user":
         pet_url_list = []
-        
+
         if len(pet_info) == 0:
             pet_url_list.append({'pet_id': None, 'img_url': '/static/img/blank-profile.png'})
-        if len(pet_info) > 0 and len(pet_info) < 3:
-            for id in range(1, len(pet_info)+1):
-                signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[id][11]}, ExpiresIn=3600)
-                pet_url_list.append({'pet_id': id, 'img_url': signed_url})
         else:   
-            poss_pet_ids = list(range(1, len(pet_info)+1))
-            rand_pet_id_list = random.sample(poss_pet_ids, 3)
+            poss_pet_ids = list(range(1, min(len(pet_info), 3) + 1))
+            rand_pet_id_list = random.sample(poss_pet_ids, min(len(pet_info), 3))
 
             for id in rand_pet_id_list:
                 signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[id][11]}, ExpiresIn=3600)
