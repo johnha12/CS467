@@ -344,11 +344,39 @@ def shelter_single_adopter():
     return render_template('home.html' )
     
 
-@app.route('/shelter_single_pet')
+@app.route('/shelter_single_pet', methods=['GET','POST'])
 def shelter_single_pet():
     if 'email' in session and session["account_type"] == "shelter":
-        shelter_name = get_shelter_info("shelter_name")
-        return render_template('shelter_single_pet.html', shelter_name=shelter_name)
+
+        if request.method == 'GET':
+            shelter_name = get_shelter_info("shelter_name")
+            return render_template('shelter_single_pet.html', shelter_name=shelter_name)
+        elif request.method == 'POST':
+            # now need to pull from form
+            # need to know where the reference is
+            # pet_id
+            pet_name = request.form['petName']
+            pet_species = request.form['animalType']
+            pet_breed = request.form['breed']
+            # pet_color
+            # pet_likes
+            # pet_dislikes
+            # pet_age
+            # pet_facts
+            # pet_health
+            pet_good_with = ""
+            if 'goodWithOtherAnimals' in request.form:
+                pet_good_with += request.form['goodWithOtherAnimals']
+            if 'goodWithChildren' in request.form:
+                pet_good_with += request.form['goodWithChildren']
+            # pet_bad_with = request.form['']
+            # pet_size
+            adoption_status = request.form['availability']
+
+            # Now able to use data to update table record
+
+            return redirect('shelter_single_pet')
+        
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
