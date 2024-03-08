@@ -1,25 +1,13 @@
 {% extends "simple_layout.html" %}
 
-{% block title %} {{title}} {% endblock title %}
-{% block header %} {{header}} {% endblock header %}
-
 {% block content %}
 <div class="container">
-    <h1>User Profile</h1>
-    <div class="profile-img">
-        <img src="/static/blank-profile.png" alt="User Avatar"> <!--  Default user img? If we want users to have profile pics -->
-    </div>
+    <h1>User Registration Successful! </h1>
     <div class="profile-info">
-        <p><strong>First Name:</strong> {{result["first_name"]}} </p>
-        <p><strong>Last Name:</strong> {{result["last_name"]}} </p>
-        <p><strong>Email:</strong> {{result["email"]}} </p>
-        <p><strong>Phone:</strong> {{result["phone"]}} </p>
-        <p><strong>You are looking for: </strong> {{result["seeking"]}} </p>
+        <p><strong>Welcome to the app {{result["first_name"]}} </strong> 
+        <p><strong>When you are ready go log into the app and start matching with pets! </strong> 
+
+        <p><a href="/">Go Back and login! </a></p>
     </div>
-    <button class="edit_btn"><a class="edit_link" href="">Edit Profile Information</a></button><!--  not functional yet -->
 </div>
-
-<p><a href="/">Go Back and login! </a></p>
-
-
 {% endblock content %}
