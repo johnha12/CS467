@@ -15,10 +15,10 @@ header {
 form {
     width: 450px;
     margin: auto;
-    background-color: #fff7eb;
-    padding: 20px; /* Add padding */
-    border-radius: 50px; /* Add rounded edges */
-    border: 2px solid #fde3c1; /* Add border */
+    background-color: rgba(255, 247, 235, 0.8);
+    padding: 20px;
+    border-radius: 50px; 
+    border: 2px solid #fde3c1;
 }
 
 /********************************************************************/
@@ -188,18 +188,3 @@ form {
     background-size: cover;
     background-position: center;
 }
-
-
-
-
-/* 
-yes_button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-}
-#image:hover {
-    border: 2px solid black;
-} */
