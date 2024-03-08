@@ -262,7 +262,6 @@ def shelter_all_adopters():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_info("shelter_name")
         global shelter_id
-        print(shelter_id)
         users = database.like_join(connection,shelter_id)
         return render_template('shelter_all_adopters.html', shelter_name=shelter_name, users=users)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
@@ -273,7 +272,16 @@ def shelter_all_adopters():
 def shelter_all_pets():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_info("shelter_name")
-        return render_template('shelter_all_pets.html', shelter_name=shelter_name, pets=pets)
+        global shelter_id
+        # get pets
+        pets = database.get_pets_by_shelter(connection,shelter_id)
+        # create signed urls
+        images = []
+        for pet in pets:
+            url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
+            images.append(url)
+
+        return render_template('shelter_all_pets.html', shelter_name=shelter_name, images = images, pets = pets)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
@@ -403,6 +411,10 @@ def shelter():
 def swipe():
     if 'email' in session:
         global pet_id
+
+        if pet_info[pet_id][15] == 'adopted':
+            pet_id = (pet_id + 1) % len(pet_info)
+
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         return render_template('likeDislike.html', image_url = signed_url, pet_info = pet_info, pet_id = pet_id, pet_type = pet_type)
     return render_template('home.html' )
@@ -416,6 +428,9 @@ def lovePet():
         global pet_type
         global pet_id
         global user_id
+        global pet_info
+
+        pet_info = database.get_all_pets(connection)
 
         if pet_type != 'all':
             while True:
@@ -424,7 +439,10 @@ def lovePet():
                     break
         else:
             pet_id = (pet_id + 1) % len(pet_info)
-            
+
+        if pet_info[pet_id][15] == 'adopted':
+            pet_id = (pet_id + 1) % len(pet_info)
+
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
         
         # Track liked pets in database like table. Tracks via user_id and pet_id
@@ -445,12 +463,18 @@ def passPet():
     if 'email' in session:
         global pet_type
         global pet_id
+        global pet_info
+        pet_info = database.get_all_pets(connection)
+
         if pet_type != 'all':
             while True:
                 pet_id = (pet_id + 1) % len(pet_info)
                 if pet_info[pet_id][3] == pet_type:
                     break
         else:
+            pet_id = (pet_id + 1) % len(pet_info)
+
+        if pet_info[pet_id][15] == 'adopted':
             pet_id = (pet_id + 1) % len(pet_info)
 
         signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
@@ -567,7 +591,14 @@ def new_shelter_form():
 @app.route('/user_matches')
 def userMatch():
     if "email" in session and session["account_type"] == "user":
-        return render_template('user_matches.html')
+        global user_id
+        pets = database.user_match_join(connection,user_id)
+
+        images = []
+        for pet in pets:
+            url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
+            images.append(url)
+        return render_template('user_matches.html', pets = pets, images = images)
     elif "email" in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     else:
@@ -634,7 +665,15 @@ def user_profile():
 @app.route('/user_liked_pets')
 def user_liked_pets():
     if "email" in session and session["account_type"] == "user":
-        return render_template('user_liked_pets.html')
+        global user_id
+        pets = database.user_like_join(connection,user_id)
+
+        images = []
+        for pet in pets:
+            url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
+            images.append(url)
+
+        return render_template('user_liked_pets.html', pets = pets, images = images)
     elif "email" in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     else:
@@ -646,6 +685,12 @@ def contact():
     if request.method == 'POST':
         global shelter_id
         userid = request.form['user_info']
+
+        global temp_petid
+        global temp_userid
+
+        temp_petid = int(userid[3])
+        temp_userid = int(userid[0])
 
         match_check = database.check_match_exists(connection,int(userid[0]),int(userid[3]),shelter_id)
         
@@ -659,8 +704,54 @@ def contact():
             database.add_new_match(connection,int(userid[0]),int(userid[3]),shelter_id,0)
             connection.commit()
 
-        return redirect('/shelter_profile')
+        return redirect('/adoption')
 
+@app.route('/adoption')
+def adoption():
+    if 'email' in session and session["account_type"] == "shelter":
+        shelter_name = get_shelter_info("shelter_name")
+        return render_template('adoption.html', shelter_name = shelter_name)
+    if 'email' in session: #user is logged in on differnet account type redirect to home page
+        return render_template('welcome.html', article_list=articles)
+    return render_template('home.html')
+
+@app.route('/approve', methods=['POST'])
+def approve():
+    if request.method == 'POST':
+        global temp_petid
+        global temp_userid
+        global shelter_id
+
+        # Update pet to adopted
+        database.update_adoption_status_available(connection,'adopted',temp_petid)
+        connection.commit()
+
+        # remove pet from liked list
+        database.remove_likes_petid(connection,temp_petid)
+        connection.commit()
+        return redirect('/shelter')
+
+
+@app.route('/deny', methods=['POST'])
+def deny():
+    if request.method == 'POST':
+        global temp_petid
+        global temp_userid
+        global shelter_id
+
+        # remove match from matches table
+        match_id = database.get_matchid(connection,temp_petid,shelter_id,temp_userid)
+        match_id = match_id[0]
+        database.remove_match(connection,match_id)
+        connection.commit()
+        # check count of current matches for pet
+        match_count = database.pet_matches(connection,temp_petid)
+        # Update status if no other matches exist for pet
+        if match_count[0] == 0:
+            database.update_adoption_status_available(connection,'available',temp_petid)
+            connection.commit()
+
+        return redirect('/shelter')
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)

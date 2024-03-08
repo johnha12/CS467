@@ -35,6 +35,7 @@ All Pets at Shelter
         <!-- Probably make a for loop with Flask and Database -->
         <!-- Begin populating pets -->
 
+        
         <div class="container-sm">
             <div class="row row-cols-2 gy-5">
                 {% for pet in pets %}
@@ -42,20 +43,18 @@ All Pets at Shelter
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <a href="./shelter_single_pet"><img src="../static/img/{{ pet.image }}"
+                                <a href="./shelter_single_pet"><img src="{{ images[0] }}"
                                         class="pet-image" alt="{{ pet.name }}"></a>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title"><strong>Name:</strong> {{ pet.name }}</h5>
+                                    <h5 class="card-title"><strong>Name:</strong> {{ pet[2] }} </h5>
                                     <p class="card-text">
-                                        <strong>Breed:</strong> {{ pet.breed }}<br>
-                                        <strong>Animal Type:</strong> {{ pet.animal_type }}<br>
-                                        <strong>Gender:</strong> {{ pet.gender }}<br>
-                                        <strong>Fixed/Not Fixed:</strong> {{ pet.fixed_status }}<br>
-                                        <strong>Availability:</strong> {{ pet.availability }}<br>
-                                        <strong>Disposition:</strong> {{ pet.disposition }}<br>
-                                        <strong>View:</strong> {{ pet.view_status }}
+                                        <strong>Breed:</strong> {{ pet[4] }} <br>
+                                        <strong>Animal Type:</strong> {{ pet[3] }} <br>
+                                        <strong>Gender:</strong> {{ pet[9] }} <br>
+                                        <strong>Fixed/Not Fixed:</strong> {{ pet[10] }} <br>
+                                        <strong>Availability:</strong> {{ pet[15] }} <br
                                     </p>
                                 </div>
                             </div>

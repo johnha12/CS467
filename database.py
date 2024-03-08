@@ -82,7 +82,9 @@ GET_ALL_LIKES = "SELECT * FROM likes"
 
 GET_LIKES_WITH_PET_ID = "SELECT * FROM likes WHERE pet_id = (?)"
 
-GET_PETID_WITH_SHELTERID = "SELECT pet_if FROM pets WHERE shelter_id = (?)"
+GET_PETID_WITH_SHELTERID = "SELECT pet_id FROM pets WHERE shelter_id = (?)"
+
+GET_LIKES_WITH_USER_ID = "SELECT * FROM likes WHERE user_id = (?)"
 
 LIKE_TABLE_JOIN = """SELECT u.first_name, u.last_name, p.pet_name, u.user_id, p.pet_id
 FROM likes l
@@ -90,7 +92,23 @@ JOIN pets p ON l.pet_id = p.pet_id
 JOIN users u ON l.user_id = u.user_id
 WHERE p.shelter_id = (?)"""
 
-UPDATE_PET_STATUS_PENDING = """
+USER_UNIQUE_LIKES_JOIN = """
+SELECT p.*
+FROM likes l
+JOIN pets p ON l.pet_id = p.pet_id
+WHERE l.user_id = ?
+"""
+
+USER_UNIQUE_MATCHES_JOIN = """
+SELECT p.*
+FROM matches m
+JOIN pets p ON m.pet_id = p.pet_id
+WHERE m.user_id = ?
+"""
+
+SHELTER_PETS = """SELECT * from pets WHERE shelter_id = ?"""
+
+UPDATE_PET_STATUS = """
 UPDATE pets
 SET adoption_status = ?
 WHERE pet_id = ?
@@ -99,6 +117,14 @@ WHERE pet_id = ?
 CHECK_MATCH_EXISTS = """SELECT COUNT(*) FROM matches WHERE user_id = ? AND pet_id = ? and shelter_id = ?"""
 
 CHECK_LIKE_EXISTS = """SELECT COUNT(*) FROM likes WHERE user_id = ? AND pet_id = ?"""
+
+GET_MATCHID = """SELECT matches_id FROM matches WHERE pet_id = ? AND shelter_id = ? AND user_id = ?"""
+
+CHECK_PET_MATCHES = """SELECT COUNT(*) FROM matches WHERE pet_id = ?"""
+
+DELETE_LIKES_AT_PETID = """DELETE FROM likes WHERE pet_id = ?"""
+
+PET_FROM_LIKES = """SELECT pet_id FROM likes where user_id = ?"""
 
 
 # Define connection function
@@ -220,6 +246,9 @@ def get_likes_with_petid(connection, pet_id):
     with connection:
         return connection.execute(GET_LIKES_WITH_PET_ID,(pet_id,)).fetchall()
 
+def get_likes_with_userid(connection, user_id):
+    with connection:
+        return connection.execute(GET_LIKES_WITH_USER_ID,(user_id,)).fetchall()
 
 def get_petid_with_shelterid(connection, shelter_id):
     with connection:
@@ -231,7 +260,7 @@ def like_join(connection, shelter_id):
     
 def update_adoption_status_pending(connection, status, pet_id):
     with connection:
-        return connection.execute(UPDATE_PET_STATUS_PENDING,(status,pet_id))
+        return connection.execute(UPDATE_PET_STATUS,(status,pet_id))
 
 
 def add_new_match(connection, user_id, pet_id, shelter_id, match_time):
@@ -250,3 +279,39 @@ def check_match_exists(connection, user_id, pet_id, shelter_id):
 def check_like_exists(connection, user_id, pet_id):
     with connection:
         return connection.execute(CHECK_LIKE_EXISTS,(user_id,pet_id)).fetchone()
+    
+def update_adoption_status_available(connection, status, pet_id):
+    with connection:
+        return connection.execute(UPDATE_PET_STATUS,(status,pet_id))
+    
+def remove_match(connection, match_id):
+    with connection:
+        return connection.execute(REMOVE_MATCH,(match_id,))
+    
+def get_matchid(connection, pet_id,shelter_id,user_id):
+    with connection:
+        return connection.execute(GET_MATCHID,(pet_id,shelter_id,user_id)).fetchone()
+    
+def pet_matches(connection, pet_id):
+    with connection:
+        return connection.execute(CHECK_PET_MATCHES,(pet_id,)).fetchone()
+    
+def remove_likes_petid(connection,pet_id):
+    with connection:
+        return connection.execute(DELETE_LIKES_AT_PETID,(pet_id,))
+    
+def get_unique_likes_with_userid(connection, user_id):
+    with connection:
+        return connection.execute(PET_FROM_LIKES,(user_id,)).fetchall()
+    
+def user_like_join(connection, user_id):
+    with connection:
+        return connection.execute(USER_UNIQUE_LIKES_JOIN,(user_id,)).fetchall()
+
+def user_match_join(connection, user_id):
+    with connection:
+        return connection.execute(USER_UNIQUE_MATCHES_JOIN,(user_id,)).fetchall()
+    
+def get_pets_by_shelter(connection, shelter_id):
+    with connection:
+        return connection.execute(SHELTER_PETS,(shelter_id,)).fetchall()

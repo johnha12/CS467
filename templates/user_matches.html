@@ -10,75 +10,37 @@ Matched Pets
     {% block content %}
     <h1 class="text-center py-4">My Matches</h1>
 
-    <div class="match-container">
-        <div class="row row-cols-3 gy-3">
+    <div class="container-sm">
+        <div class="row row-cols-2 gy-5">
+            {% for pet in pets %}
             <div class="col">
-                <div class="match">
-                    <div class="match-card">
-                        <div class="match-photo">
-                            <!-- make image into link to pet profile? -->
-                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
-                            <div class="message-bar">Message Shelter</div>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <a href="./shelter_single_pet"><img src="{{ images[pet] }}"
+                                    class="pet-image" alt="{{ pet.name }}"></a>
                         </div>
-                        <div class="match-info">
-                            <div class="pet-name mx-auto">Bark Johnson</div>
-                            <div class="pet-info mx-auto">a Bird</div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><strong>Name:</strong> {{ pet[2] }} </h5>
+                                <p class="card-text">
+                                    <strong>Breed:</strong> {{ pet[4] }} <br>
+                                    <strong>Animal Type:</strong> {{ pet[3] }} <br>
+                                    <strong>Gender:</strong> {{ pet[9] }} <br>
+                                    <strong>Fixed/Not Fixed:</strong> {{ pet[10] }} <br>
+                                    <strong>Availability:</strong> {{ pet[15] }} <br
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="match">
-                    <div class="match-card">
-                        <div class="match-photo">
-                            <!-- make image into link to pet profile? -->
-                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
-                            <div class="message-bar">Message Shelter</div>
-                        </div>
-                        <div class="match-info">
-                            <div class="pet-name mx-auto">Gary</div>
-                            <div class="pet-info mx-auto">a Bird</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="match">
-                    <div class="match-card">
-                        <div class="match-photo">
-                            <!-- make image into link to pet profile? -->
-                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
-                            <div class="message-bar">Message Shelter</div>
-                        </div>
-                        <div class="match-info">
-                            <div class="pet-name mx-auto">Susan</div>
-                            <div class="pet-info mx-auto">a Bird</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="match">
-                    <div class="match-card">
-                        <div class="match-photo">
-                            <!-- make image into link to pet profile? -->
-                            <img src="/static/img/blank-profile.png" alt="Pet Picture">
-                            <div class="message-bar">Message Shelter</div>
-                        </div>
-                        <div class="match-info">
-                            <div class="pet-name mx-auto">Susan</div>
-                            <div class="pet-info mx-auto">a Bird</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
+</section>
+{% endblock content %}
 
-    {% endblock content %}
 </body>
 
 </html>
