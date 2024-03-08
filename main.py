@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, session
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session, flash
 from dotenv import load_dotenv
 import os
 import database, requests, random
@@ -553,6 +553,7 @@ def new_user_form():
         # need to check if email is taken
         if (not is_email_available(email)):
             print("Email is already taken. Try again")
+            flash('Email already in use. Please choose another email.')
             return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
 
         database.add_user(connection, profile_id, first_name, last_name, email, password, phone, house_type, current_pets, kids_under_ten, pet_insurance, seeking, account_type, matches_id)
@@ -579,6 +580,7 @@ def new_shelter_form():
 
         if (not is_email_available(shelter_email)):
             print("Email is already taken. Try again")
+            flash('Email already in use. Please choose another email.')
             return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
         database.add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type)
