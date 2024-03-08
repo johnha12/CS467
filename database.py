@@ -151,7 +151,8 @@ def remove_user(connection, user_id):
 #----------------------------------------------------------------------------------------#
 # insert new shelter into table
 def add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type):
-    return connection.execute(ADD_NEW_SHELTER, (profile_id,shelter_name,shelter_email, shelter_password,  shelter_address, account_type))
+    with connection:
+        return connection.execute(ADD_NEW_SHELTER, (profile_id,shelter_name,shelter_email, shelter_password,  shelter_address, account_type))
 
 
 def get_all_shelters(connection):

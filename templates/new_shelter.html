@@ -36,7 +36,7 @@
                 <span>You must enter an email address (@)</span>
             {%endfor%}
             {% else %}
-            {{form.shelter_name(class="form-control form-control-lg")}}
+            {{form.shelter_email(class="form-control form-control-lg")}}
         {%endif%}
     </div>
     <div> 
@@ -47,7 +47,7 @@
                 <span>You must enter a phone number</span>
             {%endfor%}
             {% else %}
-            {{form.shelter_name(class="form-control form-control-lg")}}
+            {{form.shelter_phone(class="form-control form-control-lg")}}
         {%endif%}
     </div>
      <div> 
@@ -63,7 +63,7 @@
                 <span>password check must match password</span>
             {%endfor%}
             {% else %}
-            {{form.shelter_name(class="form-control form-control-lg")}}
+            {{form.checkPassword(class="form-control form-control-lg")}}
         {%endif%}
     </div>
     </div>

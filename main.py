@@ -538,10 +538,8 @@ def new_user_form():
 @app.route('/new_shelter_form', methods=['POST', 'GET'])
 def new_shelter_form():
     form = newShelterForm()
-    if  form.validate_on_submit():
-        result = request.form
-
-        connection = database.connect()
+    if  form.validate_on_submit() and request.method == 'POST':
+        
         profile_id = 0
         shelter_name = request.form['shelter_name']
         shelter_email = request.form['shelter_email']
@@ -549,12 +547,15 @@ def new_shelter_form():
         shelter_address = request.form['shelter_address']
         account_type = 'shelter'
 
+        connection = database.connect()
+
         if (not is_email_available(shelter_email)):
             print("Email is already taken. Try again")
-            return render_template('new_user_form.html', title = "New User", header="Simple New User Form", form=form)
+            return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
         database.add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type)
 
+        result = request.form
         return render_template('new_shelter_handler.html', title="New Shelter Form Handler", header="New Shelter Form Handler", result=result)
     return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
