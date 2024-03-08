@@ -1,15 +1,13 @@
 {% extends "simple_layout.html" %}
 
-{% block title %} {{title}} {% endblock title %}
-{% block header %} {{header}} {% endblock header %}
-
 {% block content %}
-<p> Welcome to the animal dating app  
-    {{result["shelter_name"]}}
-</p>
+<div class="container">
+    <h1>Shelter Registration Successful! </h1>
+    <div class="profile-info">
+        <p><strong>Welcome to the app {{result["shelter_name"]}} </strong> 
+        <p><strong>Please log into the app and begin making pet profiles for the animals looking for their forever home.</strong> 
 
-
-<p><a href="/">Go Login</a></p>
-
-
+        <p><a href="/">Go Back and login! </a></p>
+    </div>
+</div>
 {% endblock content %}
