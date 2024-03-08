@@ -574,12 +574,57 @@ def userMatch():
         return render_template('home.html' )
 
 # route for user to view matches
-@app.route('/user_profile')
+@app.route('/user_profile', methods=['POST', 'GET'])
 def user_profile():
     if "email" in session and session["account_type"] == "user":
-        user_phone = get_user_info("phone")
-        pref = get_user_info("seeking")
-        return render_template('user_profile.html', phone=user_phone, pet_pref=pref)
+        if request.method == 'GET':
+            user_phone = get_user_info("phone")
+            pref = get_user_info("seeking")
+            return render_template('user_profile.html', phone=user_phone, pet_pref=pref)
+        elif request.method =='POST':
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            phone = request.form['phone']
+            pet_type = request.form['pet_type']
+            if first_name:
+                print(first_name)
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE users SET first_name = ? WHERE email = ?", (first_name, session['email']))
+                conn.commit()
+                conn.close()
+                session['first_name'] = first_name
+
+            if last_name:
+                print(last_name)
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE users SET last_name = ? WHERE email = ?", (last_name, session['email']))
+                conn.commit()
+                conn.close()
+                session['last_Name'] = last_name
+            if phone:
+                print(phone)
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE users SET phone = ? WHERE email = ?", (phone, session['email']))
+                conn.commit()
+                conn.close()
+            if pet_type:
+                print(pet_type)
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE users SET seeking = ? WHERE email = ?", (pet_type, session['email']))
+                conn.commit()
+                conn.close()
+            user_phone = get_user_info("phone")
+            pref = get_user_info("seeking")
+            return render_template('user_profile.html', phone=user_phone, pet_pref=pref)
+    
     elif "email" in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     else:

@@ -53,16 +53,28 @@
         </div>
 
         <div class="adopter-profile-info">
-            <form action="#" method="post">
+            <form action="#" method="POST">
                 <p><strong>First Name:</strong> {{ session.first_name }}</p>
+                <input type="text" placeholder="New First Name" id="first_name" name="first_name">
                 <p><strong>Last Name:</strong> {{ session.last_Name }}</p>
+                <input type="text" placeholder="New Last Name" id="last_name" name="last_name">
                 <p><strong>Email:</strong> {{ session.email }}</p>
+                <p>Unable to change for your security</p>
                 <p><strong>Phone:</strong> {{ phone }}</p>
+                <input type="text" placeholder="New Phone Number" id="phone" name="phone">
                 <p><strong>Looking for: </strong> {{ pet_pref }}</p>
+                <p>New Preference</p>
+                <select id="pet_type" name="pet_type">
+                    <option value="all">All Pets</option>
+                    <option value="dog">Dogs</option>
+                    <option value="cat">Cats</option>
+                    <option value="other">Other</option>
+                </select>
+                <br>
+                <br>
 
                 <div class="text-center">
-                    <button class="edit_btn save-changes-btn"><a class="edit_link" href="">Edit Profile
-                            Information</a></button><!--  not functional yet -->
+                    <button type="submit" class="edit_btn save-changes-btn">Edit Profile Information</button>
                 </div>
             </form>
         </div>
