@@ -38,6 +38,15 @@
             {% else %}
             {{form.shelter_email(class="form-control form-control-lg")}}
         {%endif%}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %} 
     </div>
     <div> 
         {{ form.shelter_phone.label }} <br />
