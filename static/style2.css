@@ -83,6 +83,7 @@ form {
     border-radius: 15%;
     margin-right: 10rem;
     margin-top: 5rem;
+    object-fit: cover;
 }
 
 

@@ -41,43 +41,6 @@ shelter_id = None
 app.config["SECRET_KEY"]='why_a_dog?'
 ###########################################
 
-# Hardcoded variables for now
-pets = [
-    {
-        'name': 'Sparky',
-        'breed': 'Labrador Retriever',
-        'animal_type': 'Dog',
-        'gender': 'Male',
-        'fixed_status': 'Fixed',
-        'availability': 'Available',
-        'disposition': 'Good with other animals, Good with children',
-        'view_status': 'Public',
-        'image': 'Belle1.jpg'  # Assuming this is the filename of the pet image
-    },
-    {
-        'name': 'Whiskers',
-        'breed': 'Siamese',
-        'animal_type': 'Cat',
-        'gender': 'Female',
-        'fixed_status': 'Not Fixed',
-        'availability': 'Pending',
-        'disposition': 'Good with children',
-        'view_status': 'Private',
-        'image': 'Belle2.jpg'  # Assuming this is the filename of the pet image
-    },
-    {
-        'name': 'Rocky',
-        'breed': 'Mixed Breed',
-        'animal_type': 'Dog',
-        'gender': 'Male',
-        'fixed_status': 'Fixed',
-        'availability': 'Adopted',
-        'disposition': 'Animal must be leashed at all times',
-        'view_status': 'Public',
-        'image': 'Belle3.jpg'  # Assuming this is the filename of the pet image
-    }
-]
-
 # Hardcoded shelter information, will replace later. (ex. name = request.args.get('name'))
 shelter_info = {
     'name': 'Oregon Humane Society',
@@ -273,15 +236,26 @@ def shelter_all_pets():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_info("shelter_name")
         global shelter_id
+        pets_info=[]
+
         # get pets
-        pets = database.get_pets_by_shelter(connection,shelter_id)
-        # create signed urls
-        images = []
+        pets = database.get_pets_by_shelter(connection,1)
+
         for pet in pets:
             url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
-            images.append(url)
+            id = get_pet_info('pet_id', pet[2]) - 1
+            pets_info.append({
+                'id': id,
+                'name': pet[2],
+                'type': pet[3],
+                'breed': pet[4],
+                'gender': pet[9],
+                'fixed': pet[10],
+                'image': url,
+                'available': pet[15],
+            })
 
-        return render_template('shelter_all_pets.html', shelter_name=shelter_name, images = images, pets = pets)
+        return render_template('shelter_all_pets.html', shelter_name=shelter_name, pets=pets_info)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
@@ -360,13 +334,18 @@ def shelter_single_adopter():
     return render_template('home.html' )
     
 
-@app.route('/shelter_single_pet', methods=['GET','POST'])
-def shelter_single_pet():
+@app.route('/shelter_single_pet/<int:pet_id>', methods=['GET','POST'])
+def shelter_single_pet(pet_id):
     if 'email' in session and session["account_type"] == "shelter":
 
         if request.method == 'GET':
             shelter_name = get_shelter_info("shelter_name")
-            return render_template('shelter_single_pet.html', shelter_name=shelter_name)
+            pets=database.get_all_pets(connection)
+
+            signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pets[pet_id][11]}, ExpiresIn=3600)
+
+            return render_template('shelter_single_pet.html', shelter_name=shelter_name, image_url=signed_url)
+        
         elif request.method == 'POST':
             # now need to pull from form
             # need to know where the reference is
@@ -599,7 +578,6 @@ def userMatch():
         pets_info = []
 
         pets = database.user_match_join(connection,user_id)
-
         
         for pet in pets:
             url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)

@@ -21,7 +21,7 @@ def get_shelter_info(col):
 
     # username=shelter_name for now since we don't have email and password columns for shelters yet
     # change WHERE shelter_name to WHERE email once those columns added
-    cursor.execute(f"SELECT {col} FROM shelters WHERE shelter_email = ?", (session.get('username'),))
+    cursor.execute(f"SELECT {col} FROM shelters WHERE shelter_email = ?", (session.get('email'),))
    
     shelter_info = cursor.fetchone()[0]
     conn.close()

@@ -63,7 +63,9 @@
      <div> 
         <label for="password">Password</label> <br />
         <input type="password" id="password" name="password" pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{6,}" title="Password must contain at least one uppercase letter, one number, one special character, and be at least 6 characters long" required>
+        <br>
         <small>Password must contain at least one uppercase letter, one number, one special character, and be at least 6 characters long.</small>
+        <br></br>
     </div>
     <div> 
         {{ form.checkPassword.label }} <br />
