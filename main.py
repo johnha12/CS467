@@ -279,7 +279,9 @@ def shelter_profile_edit():
         if request.method == 'GET':
             shelter_name = get_shelter_info("shelter_name")
             addr = get_shelter_info("shelter_address")
-            return render_template('shelter_profile_edit.html', shelter_name=shelter_name, shelter_addr=addr, shelter_info=shelter_info)
+            about = get_shelter_info("about")
+            link = get_shelter_info("link")
+            return render_template('shelter_profile_edit.html', shelter_name=shelter_name, shelter_addr=addr, shelter_info=shelter_info, about=about, link=link)
         elif request.method == 'POST':
             new_name = request.form['new_name']
             new_description = request.form['new_description']
@@ -304,6 +306,12 @@ def shelter_profile_edit():
 
             if new_description:
                 shelter_info['description'] = new_description
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE shelters SET about = ? WHERE shelter_email = ?", (new_description, session['email']))
+                conn.commit()
+                conn.close()
             if new_address:
                 shelter_info['address'] = new_address
                 conn = database.connect()
@@ -314,13 +322,16 @@ def shelter_profile_edit():
                 conn.close()
             if new_link:
                 shelter_info['link'] = new_link
-            
-            # Now need to process data and redirect
-            
+                conn = database.connect()
+                cursor = conn.cursor()
+                # Update the attribute in the database
+                cursor.execute("UPDATE shelters SET link = ? WHERE shelter_email = ?", (new_link, session['email']))
+                conn.commit()
+                conn.close()
 
             return redirect('shelter_profile')
 
-    return render_template('home.html' )    
+    return render_template('home.html' )
 
 @app.route('/shelter_signup')
 def shelter_signup():
