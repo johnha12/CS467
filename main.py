@@ -6,7 +6,7 @@ import boto3
 from bs4 import BeautifulSoup
 from form_new_shelter import newShelterForm
 from form_new_user  import newUserForm
-from get_db_info import get_user_info, get_shelter_info
+from get_db_info import get_user_info, get_shelter_info, get_pet_info
 
 load_dotenv()
 
@@ -498,7 +498,9 @@ def filter():
 @app.route('/likeDislike_profile/<int:pet_id>')
 def likeDislike_profile(pet_id):
     if 'email' in session:
-        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet_info[pet_id][11]}, ExpiresIn=3600)
+        pets=database.get_all_pets(connection)
+
+        signed_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pets[pet_id][11]}, ExpiresIn=3600)
         
         # remove spaces from address to insert into google maps api
         stripped_addr=shelter_info['address'].replace(' ','')
@@ -594,13 +596,25 @@ def new_shelter_form():
 def userMatch():
     if "email" in session and session["account_type"] == "user":
         global user_id
+        pets_info = []
+
         pets = database.user_match_join(connection,user_id)
 
-        images = []
+        
         for pet in pets:
             url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
-            images.append(url)
-        return render_template('user_matches.html', pets = pets, images = images)
+            id = get_pet_info('pet_id', pet[2]) - 1
+            pets_info.append({
+                'id': id,
+                'name': pet[2],
+                'type': pet[3],
+                'breed': pet[4],
+                'gender': pet[9],
+                'fixed': pet[10],
+                'image': url,
+                'available': pet[15],
+            })
+        return render_template('user_matches.html', pets=pets_info)
     elif "email" in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     else:

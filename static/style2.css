@@ -5,19 +5,21 @@ header {
     background-color: #333;
     color: #fff;
 }
+
 .shelter-body {
     background-image: url(/static/img/pets_bg.jpg);
     background-size: cover;
     background-color: #FFE5B4;
     font-family: Arial, sans-serif;
-    
+
 }
+
 form {
     width: 450px;
     margin: auto;
     background-color: rgba(255, 247, 235, 0.8);
     padding: 20px;
-    border-radius: 50px; 
+    border-radius: 50px;
     border: 2px solid #fde3c1;
 }
 
@@ -42,7 +44,7 @@ form {
 .btn.btn-light.btn-square-xl {
     font-size: 25px;
     font-weight: bold;
-  }
+}
 
 /********************************************************************/
 /* user_profile, shelter_profile, shelter_single_pet */
@@ -123,6 +125,7 @@ form {
 
 .match-card {
     width: 20rem;
+    height: 35rem;
     position: relative;
     overflow: hidden;
     margin: auto;
@@ -139,9 +142,12 @@ form {
 }
 
 .match-info {
-    height: 100px;
+    height: 10rem;
     display: flex;
     flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .message-bar {
@@ -166,7 +172,7 @@ form {
 /* user_profile */
 /********************************************************************/
 .user-body {
-    height:max-content;
+    height: max-content;
     background-image: url(/static/img/pets_1_bg.jpg);
     background-size: cover;
     background-position: center;
@@ -182,6 +188,7 @@ form {
 .pet-header {
     padding-top: 60px;
 }
+
 .likeDislikeProfile {
     height: 50vh;
     background-image: url(/static/img/corgi_bg.png);
