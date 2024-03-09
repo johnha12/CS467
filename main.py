@@ -265,7 +265,9 @@ def shelter_profile():
     if 'email' in session and session["account_type"] == "shelter":
         shelter_name = get_shelter_info("shelter_name")
         addr = get_shelter_info("shelter_address")
-        return render_template('shelter_profile.html', shelter_name=shelter_name, shelter_addr=addr, shelter_info=shelter_info)
+        about = get_shelter_info("about")
+        link = get_shelter_info("link")
+        return render_template('shelter_profile.html', shelter_name=shelter_name, shelter_addr=addr, shelter_info=shelter_info, about=about, link=link)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html' )
