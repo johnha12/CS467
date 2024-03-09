@@ -15,7 +15,7 @@ matches(matches_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, pet_id IN
 match_time INTERGER, FOREIGN KEY(user_id) REFERENCES users(user_id),FOREIGN KEY(pet_id) REFERENCES pets(pet_id), FOREIGN KEY(shelter_id) REFERENCES shelters(shelter_id))"""
 
 CREATE_SHELTERS_TABLE = """CREATE TABLE IF NOT EXISTS
-shelters(shelter_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, shelter_name TEXT,shelter_email TEXT, shelter_password TEXT, shelter_address TEXT,account_type TEXT,
+shelters(shelter_id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER, shelter_name TEXT,shelter_email TEXT, shelter_password TEXT, shelter_address TEXT,account_type TEXT, about TEXT, link TEXT,
 FOREIGN KEY(profile_id) REFERENCES profiles(profile_id))"""
 
 CREATE_ADMIN_TABLE = """CREATE TABLE IF NOT EXISTS
@@ -49,7 +49,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
 ADD_NEW_MATCH = "INSERT INTO matches (user_id, pet_id, shelter_id, match_time) VALUES (?,?,?,?);"
 
-ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name,shelter_email, shelter_password, shelter_address, account_type) VALUES (?,?,?,?,?,?);"
+ADD_NEW_SHELTER = "INSERT INTO shelters (profile_id, shelter_name,shelter_email, shelter_password, shelter_address, account_type, about, link) VALUES (?,?,?,?,?,?,?,?);"
 
 ADD_NEW_ADMIN = "INSERT INTO admin (profile_id) VALUES (?);"
 
