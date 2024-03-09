@@ -579,7 +579,7 @@ def new_shelter_form():
             flash('Email already in use. Please choose another email.')
             return render_template('new_shelter.html', title = "New Shelter", header="Simple New Shelter Form", form=form)
 
-        database.add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type about, link)
+        database.add_shelter(connection,profile_id,shelter_name,shelter_email,shelter_password, shelter_address, account_type, about, link)
 
         result = request.form
         return render_template('new_shelter_handler.html', title="New Shelter Form Handler", header="New Shelter Form Handler", result=result)
