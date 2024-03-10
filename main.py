@@ -718,8 +718,9 @@ def contact():
 @app.route('/adoption')
 def adoption():
     if 'email' in session and session["account_type"] == "shelter":
+        user_info = database.get_user_with_id(connection,temp_userid)
         shelter_name = get_shelter_info("shelter_name")
-        return render_template('adoption.html', shelter_name = shelter_name)
+        return render_template('adoption.html', shelter_name = shelter_name, user = user_info)
     if 'email' in session: #user is logged in on differnet account type redirect to home page
         return render_template('welcome.html', article_list=articles)
     return render_template('home.html')

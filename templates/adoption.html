@@ -7,7 +7,12 @@
 </style>
 
 {% extends "shelter.html" %}
-
+<style>
+    .center {
+        text-align: center;
+    }
+    
+</style>
 <body>
     {% block nav_content %}
     <li class="nav-item"><a class="nav-link" href="./shelter">Dashboard</a></li>
@@ -18,6 +23,13 @@
     {% endblock nav_content %}
 
     {% block content %}
+    <div style="text-align: center;">
+        <h2> {{user[2]}} {{ user[3] }}</h2>
+        <p>Email: {{ user[4] }}</p>
+        <p>Phone: {{ user[6] }}</p>
+    </div>
+    
+    
     <div class="button-container">
         <form method="post" action="/approve">
             <button id="approve">Approve Adoption!</button>

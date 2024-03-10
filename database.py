@@ -126,6 +126,8 @@ DELETE_LIKES_AT_PETID = """DELETE FROM likes WHERE pet_id = ?"""
 
 PET_FROM_LIKES = """SELECT pet_id FROM likes where user_id = ?"""
 
+USER_FROM_ID = """SELECT * FROM users where user_id = ?"""
+
 
 # Define connection function
 def connect():
@@ -315,3 +317,7 @@ def user_match_join(connection, user_id):
 def get_pets_by_shelter(connection, shelter_id):
     with connection:
         return connection.execute(SHELTER_PETS,(shelter_id,)).fetchall()
+
+def get_user_with_id(connection, user_id):
+    with connection:
+        return connection.execute(USER_FROM_ID,(user_id,)).fetchone()
