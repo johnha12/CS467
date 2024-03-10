@@ -675,14 +675,26 @@ def user_profile():
 def user_liked_pets():
     if "email" in session and session["account_type"] == "user":
         global user_id
+        pets_info = []
+
         pets = database.user_like_join(connection,user_id)
 
         images = []
         for pet in pets:
             url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key':pet[11]}, ExpiresIn=3600)
-            images.append(url)
+            id = get_pet_info('pet_id', pet[2]) - 1
+            pets_info.append({
+                'id': id,
+                'name': pet[2],
+                'type': pet[3],
+                'breed': pet[4],
+                'gender': pet[9],
+                'fixed': pet[10],
+                'image': url,
+                'available': pet[15],
+            })
 
-        return render_template('user_liked_pets.html', pets = pets, images = images)
+        return render_template('user_liked_pets.html', pets=pets_info)
     elif "email" in session and session["account_type"] == "shelter":
         return render_template('shelter.html')
     else:
