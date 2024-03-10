@@ -3,3 +3,4 @@ python-dotenv>=0.19.2
 requests>=2.27.1
 boto3>=1.26.38
 beautifulsoup4>=4.11.1
+Flask-WTF>=0.15.1
