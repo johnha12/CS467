@@ -13,5 +13,6 @@ To get started with the project, you'll need to install the necessary dependenci
 ### 6. pip install beautifulsoup4
 ### 7. pip install requests
 ### 8. pip install load_dotenv
+### 9. pip install gunicorn
 
 
